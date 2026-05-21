@@ -1,0 +1,48 @@
+.section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+  padding: 50px 0;
+}
+
+.sectionLeft {
+  width: 50%;
+}
+
+.sectionLeft h1 {
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #111;
+}
+
+.sectionLeft p {
+  margin-top: 15px;
+  font-size: 16px;
+  color: #444;
+}
+
+.sectionRight {
+  width: 50%;
+}
+
+.sectionRight img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .section {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .sectionLeft,
+  .sectionRight {
+    width: 50%;
+  }
+}

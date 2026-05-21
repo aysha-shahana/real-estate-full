@@ -1,0 +1,70 @@
+.heading {
+  font-size: 28px;
+  font-weight: 700;
+  color: #0d403c;
+}
+
+
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: none;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.imageWrapper {
+  height: 200px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.imageWrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: 0.4s ease;
+}
+
+.card:hover .imageWrapper img {
+  transform: scale(1.08);
+}
+
+/* TEXT */
+.title {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.price {
+  color: #e63946;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.bigImg {
+  height: 300px;
+  object-fit: cover;
+}
+
+
+.smallImg {
+  height: 90px;
+  object-fit: cover;
+}
+
+
+.page {
+  background-color: #e7f3f2;
+  border-radius: 6px;
+  margin: 0 5px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.page:hover {
+  background-color: #0f524a;
+  color: white;
+}

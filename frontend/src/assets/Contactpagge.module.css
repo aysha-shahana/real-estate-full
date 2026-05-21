@@ -1,0 +1,93 @@
+.contactsection {
+  padding: 60px 0;
+  background: #f8f9fa;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+/* LEFT FORM */
+.formcard {
+  flex: 1;
+  min-width: 320px;
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.formcard h3 {
+  margin-bottom: 10px;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.formcard p {
+  margin-bottom: 20px;
+  color: #777;
+}
+
+.formcard input,
+.formcard textarea {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  font-size: 1rem;
+}
+
+.formcard textarea {
+  min-height: 120px;
+  resize: none;
+}
+
+.formcard button {
+  width: 100%;
+  padding: 14px;
+  background: #000;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.formcard button:hover {
+  background: rgb(17, 43, 78);;
+}
+
+/* RIGHT INFO SECTION */
+.infowrapper {
+  flex: 1;
+  min-width: 320px;
+  padding: 30px;
+}
+
+.infowrapper h3 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.infowrapper p {
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.infowrapper ul {
+  list-style: none;
+  padding: 0;
+}
+
+.infowrapper ul li {
+  margin-bottom: 12px;
+  color: #222;
+  font-size: 1rem;
+}

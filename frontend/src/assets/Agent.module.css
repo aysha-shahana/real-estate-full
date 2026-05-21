@@ -1,0 +1,65 @@
+.agentGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 columns for 2 cards per row */
+  gap: 30px;
+  justify-items: center;
+}
+
+.agentCard {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  width: 100%;
+  max-width: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.agentImg {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 15px;
+}
+
+.title {
+  color: #555;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+.info {
+  text-align: left;
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.info p {
+  margin: 5px 0;
+  font-size: 0.9rem;
+}
+
+.contactBtn {
+  padding: 8px 20px;
+  border: none;
+  background-color: #0d2e44;
+  color: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.contactBtn:hover {
+  background-color: #0d2e44;
+}
+
+/* Responsive for smaller screens */
+@media (max-width: 768px) {
+  .agentGrid {
+    grid-template-columns: 1fr; /* single column on mobile */
+  }
+}

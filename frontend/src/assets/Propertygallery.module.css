@@ -1,0 +1,20 @@
+.formbox{
+    background-color: #011824;
+    border: 16px;
+    height: 500px;
+}
+.formbox {
+  animation: fadeSlideUp 1s ease forwards;
+  opacity: 0; /* start invisible */
+}
+
+@keyframes fadeSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

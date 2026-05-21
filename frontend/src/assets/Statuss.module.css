@@ -1,0 +1,17 @@
+.statussection {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  text-align: center;
+  background-color: #bcd1ed; 
+  padding: 40px 0;
+}
+
+.statussection h2 {
+  font-size: 30px;
+  margin: 0;
+}
+
+.statussection p {
+  margin-top: 5px;
+  color: gray;
+}

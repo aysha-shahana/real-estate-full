@@ -1,0 +1,84 @@
+.footerWrapper {
+  background: #a2bdd8;
+  color: #0f0e0e;
+  padding-top: 3rem;
+}
+
+.logo {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #0f0f0f;
+}
+
+.heading {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #090808;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.list li {
+  margin-bottom: 0.6rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.list li:hover {
+  color: #abb7b4;
+}
+
+.textSmall {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #121111;
+}
+
+.input {
+  border-radius: 8px 0 0 8px;
+}
+
+.sendBtn {
+  background:rgb(17, 43, 78);;
+  color: #111111;
+  border-radius: 0 8px 8px 0;
+}
+
+.sendBtn:hover {
+  background:rgb(17, 43, 78);;
+}
+
+.socialIcon {
+  font-size: 1.2rem;
+  color: #060606;
+  padding: 8px;
+  border-radius: 50%;
+  transition: 0.3s ease;
+}
+
+.socialIcon:hover {
+  color: #00c39a;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.copy {
+  font-size: 0.9rem;
+  color: #0d0d0d;
+}
+
+/* Mobile Optimization */
+@media (max-width: 768px) {
+  .logo {
+    text-align: center;
+  }
+
+  .socialIcon {
+    font-size: 1.4rem;
+  }
+}
+

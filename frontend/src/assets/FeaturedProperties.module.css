@@ -1,0 +1,109 @@
+.head {
+  font-size: 26px;
+  font-weight: 700;
+}
+
+/* CARD CONTAINER */
+.cardBox {
+  border-radius: 12px;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.14);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover Lift Animation */
+.cardBox:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.25);
+}
+
+/* Fade-in Animation */
+.animateCard {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.6s ease forwards;
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+/* IMAGE WRAPPER */
+.imageContainer {
+  position: relative;
+  height: 220px;
+}
+
+.cardImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* TAG BUTTONS */
+.tagButtons {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  gap: 8px;
+}
+
+.buyBtn {
+  background: #011824;
+  border: none;
+  color: #fff;
+  padding: 4px 10px;
+  font-size: 12px;
+  border-radius: 6px;
+}
+
+.featureBtn {
+  background: rgb(17, 43, 78);;
+  border: none;
+  padding: 4px 10px;
+  font-size: 12px;
+  border-radius: 6px;
+  color: #fff;
+}
+
+/* CARD BODY */
+.cardBody {
+  padding: 14px 16px;
+}
+
+.cardTitle {
+  font-size: 19px;
+  font-weight: 600;
+}
+
+.price {
+  font-weight: 700;
+  color: #2e8b57;
+}
+
+.location {
+  font-size: 14px;
+  color: #555;
+}
+
+.details {
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 5px;
+}
+
+/* RESPONSIVE FIXES */
+@media (max-width: 576px) {
+  .imageContainer {
+    height: 170px;
+  }
+
+  .cardBox {
+    border-radius: 10px;
+  }
+}

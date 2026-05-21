@@ -1,0 +1,69 @@
+.navlink a:hover {
+  color: #feffff; 
+  transform: scale(1.05);
+}
+
+
+.navBrand {
+  font-size: 26px;
+  font-weight: 700;
+  color:#fcfdfd; 
+
+}
+
+
+
+.navlink a:hover {
+  color:#093924; 
+}
+.navlink a {
+  text-decoration: none;
+  color: #093924; 
+  font-size: 16px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+.navbarCustom {
+  background-color: #011824;
+  box-shadow: 0 2px 8px rgba(23, 52, 48, 0.12);
+  z-index: 1000;
+}
+.button {
+  background-color: #5b7586;    
+  color: #fff;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .button {
+    width: auto;
+  }
+}
+.buttons{
+   background-color:#f9fafa; 
+  border: none;
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  width: 100%;
+}
+.button:hover{
+  background-color: #5b8d8a;
+}
+.buttons:hover{
+   background-color: #5b8d8a;
+}
+.navlink a {
+  color: white;       /* text white */
+  font-weight: bold;   /* bold text */
+  text-decoration: none;
+  margin: 0 15px; /* optional: remove underline */
+}
+
+.navlink li:hover {
+  color: #7791a6;     /* optional hover color */
+}

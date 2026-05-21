@@ -1,0 +1,26 @@
+.propertysection {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.propertyimg {
+    width:30%;
+    border-radius: 10px;
+}
+
+.propertytext {
+    width: 50%;
+}
+
+.propertytext h2 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.propertytext p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #555;
+}

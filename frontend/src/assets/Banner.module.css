@@ -1,0 +1,31 @@
+.banner {
+  background-color: #d8d7b1; 
+  padding: 200px 20px;
+  text-align: center;
+  color: #093924; 
+}
+
+.title {
+  font-size: 40px;
+  font-weight: bold;
+  margin-top: 10px;
+  text-align: left;
+  margin-left: 50px;
+}
+
+.subheader {
+  font-size: 20px;
+    margin-top: 10px;
+    text-align: left;
+    margin-left: 50px;
+
+}
+.bannerimage{
+  margin-top: 20px;
+  max-width: 450px;
+  width: 100%;
+  padding-left:60 px;
+  margin-top: auto;
+  right: 10px;
+}
+
