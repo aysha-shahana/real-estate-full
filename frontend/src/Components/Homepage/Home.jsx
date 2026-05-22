@@ -5,7 +5,7 @@ import FeaturedProperties from './FeaturedProperties'
 import Steps from './Steps'
 import Article from './Articles'
 import Turning from './Turning' 
-import WhyWork from './WhyWork'
+// import WhyWork from './WhyWork'
 import Categories from './Categories'
 
 const Home = () => {
@@ -15,9 +15,9 @@ const Home = () => {
       <CitiesRow/>
       <FeaturedProperties/>
       <Steps/>
-      <WhyWork/>
+      {/* <WhyWork/> */}
+       <Turning/>
       <Categories/>
-      <Turning/>
       <Article/>
       
     </div>
