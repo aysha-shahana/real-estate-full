@@ -1,5 +1,6 @@
 import React from 'react';
 import footer from '../assets/FooterComponent.module.css';
+import logo from "../../public/xen-logo.png";
 
 const FooterComponent = () => {
   return (
@@ -9,7 +10,7 @@ const FooterComponent = () => {
     {/* Top Branding + Social */}
     <div className="row mb-5 align-items-center">
       <div className="col-md-6 mb-3 mb-md-0">
-        <h3 className={footer.logo}>HomeRetro</h3>
+       <img src={logo} alt="company logo" style={{width: '100px'}} />
       </div>
 
       <div className="col-md-6 d-flex justify-content-md-end justify-content-start align-items-center flex-wrap gap-3">

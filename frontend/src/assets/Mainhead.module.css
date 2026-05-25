@@ -19,15 +19,16 @@
 /* -----------------------------------------
    GLASS SEARCH BOX
 ----------------------------------------- */
-.sBox {
-  background: rgba(255, 255, 255, 0.30);
+ .sBox {
+  background: rgba(255, 255, 255, 0.30); 
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border-radius: 18px;
   border: 1px solid rgba(255, 255, 255, 0.4);
   box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.07);
-  padding: 15px;
-}
+  padding: 15px; 
+  width: 490px;
+} 
 
 
 /* -----------------------------------------
@@ -41,9 +42,8 @@
   color: #020d0b !important;
   border-radius: 12px;
   padding: 10px;
+  width: 100%;
 }
-
-
 
 .slect option {
   color: #000;

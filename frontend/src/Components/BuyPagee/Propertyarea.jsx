@@ -1,166 +1,162 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Link } from "react-router-dom";
-import buying from '../../assets/buying.module.css';
+// import React, { useState, useEffect } from 'react';
+// import axios from 'axios';
+// import { Link } from "react-router-dom";
+// import buying from '../../assets/buying.module.css';
 
-const Propertyarea = () => {
+// const Propertyarea = () => {
+//   // State
+//   const [properties, setProperties] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
 
-  // State
-  const [properties, setProperties] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+//   // Django Base URL
+//   const DJANGO_BASE_URL = 'http://127.0.0.1:8000';
 
-  // Django Base URL
-  const DJANGO_BASE_URL = 'http://127.0.0.1:8000';
+//   // Fetch Buy Properties
+//   useEffect(() => {
 
-  // Fetch Buy Properties
-  useEffect(() => {
+//    axios.get(`${DJANGO_BASE_URL}/api/buy-properties/`)
+//       .then((response) => {
+//         setProperties(response.data);
+//         setLoading(false);
+//       })
+//       .catch((err) => {
+//         console.error(err);
+//         setError("Failed to load properties");
+//         setLoading(false);
+//       });
+//   }, []);
 
-   axios.get(`${DJANGO_BASE_URL}/api/buy-properties/`)
-      .then((response) => {
-        setProperties(response.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error(err);
-        setError("Failed to load properties");
-        setLoading(false);
-      });
+//   // Loading State
+//   if (loading) {
+//     return (
+//       <div className="text-center mt-5">
+//         <h3>Loading properties...</h3>
+//       </div>
+//     );
+//   }
 
-  }, []);
+//   // Error State
+//   if (error) {
+//     return (
+//       <div className="text-center mt-5 text-danger">
+//         <h3>{error}</h3>
+//       </div>
+//     );
+//   }
+//   return (
 
-  // Loading State
-  if (loading) {
-    return (
-      <div className="text-center mt-5">
-        <h3>Loading properties...</h3>
-      </div>
-    );
-  }
+//     <section className="mt-4">
+//       <div className="container">
 
-  // Error State
-  if (error) {
-    return (
-      <div className="text-center mt-5 text-danger">
-        <h3>{error}</h3>
-      </div>
-    );
-  }
+//         {/* Title */}
+//         <h2 className="mb-3 fw-bold mt-3 py-5 text-center">
+//           Premium Communities for Confident Home Buying
+//         </h2>
 
-  return (
+//         {/* Cards */}
+//         <div className="row g-4">
 
-    <section className="mt-4">
-      <div className="container">
+//           {properties.map((item) => {
 
-        {/* Title */}
-        <h2 className="mb-3 fw-bold mt-3 py-5 text-center">
-          Premium Communities for Confident Home Buying
-        </h2>
+//             // Full image URL
+//             const imageUrl = `${DJANGO_BASE_URL}${item.image}`;
 
-        {/* Cards */}
-        <div className="row g-4">
+//             return (
 
-          {properties.map((item) => {
+//               <div className="col-12 col-sm-6 col-md-4" key={item.id}>
 
-            // Full image URL
-            const imageUrl = `${DJANGO_BASE_URL}${item.image}`;
+//                 <div
+//                   className="card shadow-sm p-3"
+//                   style={{ borderRadius: "12px" }}
+//                 >
 
-            return (
+//                   {/* Image */}
+//                   <div style={{ position: "relative" }}>
 
-              <div className="col-12 col-sm-6 col-md-4" key={item.id}>
+//                     <img
+//                       src={imageUrl}
+//                       alt={item.title}
+//                       className="img-fluid rounded mb-3"
+//                       style={{
+//                         height: "200px",
+//                         width: "100%",
+//                         objectFit: "cover"
+//                       }}
+//                     />
 
-                <div
-                  className="card shadow-sm p-3"
-                  style={{ borderRadius: "12px" }}
-                >
+//                     {/* Buttons */}
+//                     <div
+//                       style={{
+//                         position: "absolute",
+//                         top: "10px",
+//                         left: "10px",
+//                         display: "flex",
+//                         gap: "6px",
+//                       }}
+//                     >
 
-                  {/* Image */}
-                  <div style={{ position: "relative" }}>
+//                       <div className={buying.sebut}>
+//                         <Link to="/singlepage">
+//                           <button className="btn btn-sm text-white">
+//                             For Buy
+//                           </button>
+//                         </Link>
+//                       </div>
 
-                    <img
-                      src={imageUrl}
-                      alt={item.title}
-                      className="img-fluid rounded mb-3"
-                      style={{
-                        height: "200px",
-                        width: "100%",
-                        objectFit: "cover"
-                      }}
-                    />
+//                       {item.is_featured && (
+//                         <div className={buying.febut}>
+//                           <button className="btn btn-sm text-dark">
+//                             Featured
+//                           </button>
+//                         </div>
+//                       )}
 
-                    {/* Buttons */}
-                    <div
-                      style={{
-                        position: "absolute",
-                        top: "10px",
-                        left: "10px",
-                        display: "flex",
-                        gap: "6px",
-                      }}
-                    >
+//                     </div>
+//                   </div>
 
-                      <div className={buying.sebut}>
-                        <Link to="/singlepage">
-                          <button className="btn btn-sm text-white">
-                            For Buy
-                          </button>
-                        </Link>
-                      </div>
+//                   {/* Content */}
+//                   <h5 className="fw-bold">{item.title}</h5>
+//                   <p className="text-primary fw-bold">
+//                     ₹{item.price}
+//                   </p>
 
-                      {item.is_featured && (
-                        <div className={buying.febut}>
-                          <button className="btn btn-sm text-dark">
-                            Featured
-                          </button>
-                        </div>
-                      )}
+//                   <p className="text-muted">
+//                     {item.address}
+//                   </p>
 
-                    </div>
-                  </div>
+//                   {/* Details */}
+//                   <div className="d-flex justify-content-between text-center mt-3">
 
-                  {/* Content */}
-                  <h5 className="fw-bold">{item.title}</h5>
+//                     <div>
+//                       <i className="bi bi-house-door"></i>
+//                       <p className="m-0">{item.beds} Beds</p>
+//                     </div>
 
-                  <p className="text-primary fw-bold">
-                    ₹{item.price}
-                  </p>
+//                     <div>
+//                       <i className="bi bi-droplet"></i>
+//                       <p className="m-0">{item.baths} Baths</p>
+//                     </div>
 
-                  <p className="text-muted">
-                    {item.address}
-                  </p>
+//                     <div>
+//                       <i className="bi bi-aspect-ratio"></i>
+//                       <p className="m-0">{item.sqft} Sqft</p>
+//                     </div>
 
-                  {/* Details */}
-                  <div className="d-flex justify-content-between text-center mt-3">
+//                   </div>
 
-                    <div>
-                      <i className="bi bi-house-door"></i>
-                      <p className="m-0">{item.beds} Beds</p>
-                    </div>
+//                 </div>
 
-                    <div>
-                      <i className="bi bi-droplet"></i>
-                      <p className="m-0">{item.baths} Baths</p>
-                    </div>
+//               </div>
 
-                    <div>
-                      <i className="bi bi-aspect-ratio"></i>
-                      <p className="m-0">{item.sqft} Sqft</p>
-                    </div>
+//             );
+//           })}
 
-                  </div>
+//         </div>
 
-                </div>
+//       </div>
+//     </section>
+//   );
+// };
 
-              </div>
-
-            );
-          })}
-
-        </div>
-
-      </div>
-    </section>
-  );
-};
-
-export default Propertyarea;
+// export default Propertyarea;

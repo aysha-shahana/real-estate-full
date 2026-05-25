@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import logo from "../../public/xen-logo.png";
 
 import styles from '../assets/Navbar.module.css';
 const Navbar = () => {
@@ -8,7 +9,7 @@ const Navbar = () => {
       <div className="container">
 
         <Link className={`navbar-brand text-light ${styles.navBrand}`} to="/">
-          HomeRetro
+         <img src={logo} alt="company logo" style={{width: '100px'}} />
         </Link>
 
         <button

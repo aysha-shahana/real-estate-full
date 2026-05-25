@@ -1,104 +1,225 @@
-from django.shortcuts import render , redirect
-from django.shortcuts import get_object_or_404
-from.models import Module, Child
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from my_app.models import PropertyListing
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
-from django.views.decorators.http import require_POST
 
-# Create your views here.
+# Model Imports
+from .models import Module, Child
+from my_app.models import PropertyListing
+
+# =========================================================================
+# 1. AUTHENTICATION VIEWS (LOGIN, SIGNUP, LOGOUT)
+# =========================================================================
 
 @csrf_protect
-def user_login(request):
+def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('index')
+        
     if request.method == "POST":
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
+        user_name = request.POST.get('username')
+        pass_word = request.POST.get('password')
+        
+        user = authenticate(request, username=user_name, password=pass_word)
+        
         if user is not None:
             auth_login(request, user)
-            messages.success(request, f"Welcome back {username}! 🎉", extra_tags="login")
-            return redirect('index')
+            messages.success(request, f"Welcome back {user_name}! 🎉")
+            return redirect('index') 
         else:
-            messages.error(request, "Invalid username or password" , extra_tags="logout")
+            messages.error(request, "Invalid username or password!")
+            return redirect('login') 
+
     return render(request, 'login.html')
 
-def user_logout(request):   
+
+def signup_view(request):
+    if request.method == "POST":
+        user_name = request.POST.get('username')
+        em_ail = request.POST.get('email')
+        pass_word = request.POST.get('password')
+
+        if User.objects.filter(username=user_name).exists():
+            messages.error(request, "Username already taken!")
+            return redirect('signup')
+        
+        user = User.objects.create_user(username=user_name, email=em_ail, password=pass_word)
+        user.save()
+        
+        messages.success(request, "Account created successfully! Please Sign In.")
+        return redirect('login')
+
+    return render(request, 'logout.html')
+
+def logout_view(request):
     auth_logout(request)
     messages.success(request, "Logged out successfully 👍")
     return redirect('login')
 
+
+# =========================================================================
+# 2. CORE DASHBOARD & LAYOUT ROUTING
+# =========================================================================
+
+@login_required(login_url='login') 
+def index(request):
+    # CRITICAL: Sidebar-il modules list cheyyaan database-il ninnu edukkunnu
+    all_modules = Module.objects.all()
+    return render(request, 'index.html', {'modules': all_modules})
+
+
+@login_required(login_url='login')
 def module_view(request, module_id):
     module = get_object_or_404(Module, id=module_id)
     template_name = f'{module.url_name}' if module.url_name else 'index.html'
-    return render(request,template_name, {'module': module})
+    return render(request, template_name, {'module': module})
 
+
+# @login_required(login_url='login')
+# def child_view(request, child_id):
+#     child = get_object_or_404(Child, id=child_id)
+#     all_modules = Module.objects.all() 
+    
+#     if child.url_name:
+#         template_path = child.url_name if child.url_name.endswith('.html') else f"{child.url_name}.html"
+#     else:
+#         template_path = "index.html"
+        
+#     context = {'child': child, 'modules': all_modules} 
+    
+#     if "property_list" in template_path or "propertylist" in template_path:
+#         context['listings'] = PropertyListing.objects.all()
+        
+#     return render(request, template_path, context)
+
+@login_required(login_url='login')
 def child_view(request, child_id):
     child = get_object_or_404(Child, id=child_id)
+    all_modules = Module.objects.all() # Keep sidebar alive
     
-    # Safe fallback handler for template files
     if child.url_name:
         template_path = child.url_name if child.url_name.endswith('.html') else f"{child.url_name}.html"
     else:
         template_path = "index.html"
         
     # CREATE CONTEXT DICTIONARY
-    context = {'child': child}
+    context = {
+        'child': child, 
+        'modules': all_modules
+    }
     
-    # CRITICAL FIX: If the requested dashboard page is the property list, attach the database listings!
+    # FIX 1: If the user requests the userlist page via child link, attach registered users!
+    if "userlist" in template_path or "user_list" in template_path:
+        context['users'] = User.objects.all()
+
+    # FIX 2: Existing property list handler
     if "property_list" in template_path or "propertylist" in template_path:
         context['listings'] = PropertyListing.objects.all()
         
     return render(request, template_path, context)
 
-@csrf_protect
-def user_login(request):
-    if request.method == "POST":
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            auth_login(request, user)
-            messages.success(request, f"Welcome back {username}! 🎉", extra_tags="login")
-            return redirect('index')
-        else:
-            messages.error(request, "Invalid username or password" , extra_tags="logout")
-    return render(request, 'login.html')
 
-def user_logout(request):   
-    auth_logout(request)
-    messages.success(request, "Logged out successfully 👍")
-    return redirect('login')
+# =========================================================================
+# 3. EXTRA SUB-PAGES HANDLERS
+# =========================================================================
 
-def index(request):
-    return render(request, "index.html")
-
+@login_required(login_url='login')
 def propertylist(request):
-   # 1. Fetch all rows from your PropertyListing table
     all_properties = PropertyListing.objects.all()
-    
-    # 2. Pass it into the context dictionary with the exact key 'listings'
+    all_modules = Module.objects.all()
     context = {
-        'listings': all_properties
+        'listings': all_properties,
+        'modules': all_modules
     }
     return render(request, 'property_list.html', context)
 
+
+@login_required(login_url='login')
 def addgroup(request):
-    return render(request, "add_group.html")
+    return render(request, "add_group.html", {'modules': Module.objects.all()})
 
 
+@login_required(login_url='login')
 def grouplist(request):
-    return render(request, "grouplist.html")
+    return render(request, "grouplist.html", {'modules': Module.objects.all()})
 
 
-def adduser(request):
-    return render(request, "add_user.html")
 
+@login_required(login_url='login')
+def adduser_view(request):
+    all_modules = Module.objects.all()  # Keeps sidebar navigation alive
     
+    if request.method == "POST":
+        user_name = request.POST.get('username', '').strip()
+        em_ail = request.POST.get('email', '').strip()
+        pass_word = request.POST.get('password', '')
+        confirm_pass = request.POST.get('confirm_password', '')
+        
+        # 1. Validation: Check if fields are empty
+        if not user_name or not pass_word:
+            messages.error(request, "Username and password fields are strictly required.")
+            return render(request, "add_user.html", {'modules': all_modules})
+            
+        # 2. Validation: Check password confirmation match
+        if pass_word != confirm_pass:
+            messages.error(request, "Passwords do not match! Please verify your inputs.")
+            return render(request, "add_user.html", {'modules': all_modules, 'typed_username': user_name, 'typed_email': em_ail})
+
+        # 3. Validation: Verify if username already exists in database
+        if User.objects.filter(username=user_name).exists():
+            messages.error(request, f"The username '{user_name}' is already taken!")
+            return render(request, "add_user.html", {'modules': all_modules, 'typed_email': em_ail})
+
+        # 4. Success Execution: Create the account securely
+        new_user = User.objects.create_user(username=user_name, email=em_ail, password=pass_word)
+        new_user.save()
+        
+        messages.success(request, f"User account '{user_name}' successfully registered! 🎉")
+        return redirect('/child/2/')  # Redirects straight back to your user list view
+        
+    return render(request, "add_user.html", {'modules': all_modules})
+
+@login_required(login_url='login')
 def userlist(request):
-    return render(request, "userlist.html")
+   
+    all_users = User.objects.all()
+    all_modules = Module.objects.all() 
+    
+    context = {
+        'users': all_users,
+        'modules': all_modules
+    }
+    return render(request, "userlist.html", context)
 
 
-def login(request):
-    return render(request, "login.html")
+# DELETE USER TRANSACTION
+@login_required(login_url='login')
+def delete_user(request, user_id):
+    if request.method == "POST":
+        # Prevent superusers from accidentally deleting themselves
+        if request.user.id == int(user_id):
+            messages.error(request, "You cannot delete your own active session account!")
+            return redirect(request.META.get('HTTP_REFERER', 'index'))
+            
+        target_user = get_object_or_404(User, id=user_id)
+        target_user.delete()
+        messages.success(request, f"User account '{target_user.username}' successfully removed.")
+    return redirect(request.META.get('HTTP_REFERER', 'index'))
+
+
+# EDIT USER TRANSACTION
+@login_required(login_url='login')
+def edit_user(request, user_id):
+    target_user = get_object_or_404(User, id=user_id)
+    all_modules = Module.objects.all()
+    
+    if request.method == "POST":
+        target_user.username = request.POST.get('username')
+        target_user.email = request.POST.get('email')
+        target_user.save()
+        messages.success(request, f"Account settings for '{target_user.username}' updated successfully.")
+        return redirect('userlist')
+        
+    return render(request, 'edit_user.html', {'target_user': target_user, 'modules': all_modules})

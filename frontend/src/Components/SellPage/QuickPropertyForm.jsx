@@ -82,6 +82,8 @@ function QuickPropertyForm() {
         baths: "",
         sqft: "",
         listing_type: "",
+        property_type: "",
+        status: "",
         is_featured: false,
       });
 
@@ -224,6 +226,7 @@ function QuickPropertyForm() {
               name="listing_type"
               value={formData.listing_type}
               onChange={handleChange}
+              className={quicksell.input}
               required
             >
               <option value="">Select Type</option>
@@ -231,6 +234,51 @@ function QuickPropertyForm() {
               <option value="rent">Rent</option>
             </select>
           </div>
+
+          {/* PROPERTY TYPE */}
+          <div className={quicksell["form-group"]}>
+            <label>Property Type *</label>
+
+            <select
+              name="property_type"
+              value={formData.property_type}
+              onChange={handleChange}
+              className={quicksell.input}
+              required
+            >
+              <option value="">Select Property Type</option>
+
+              <option value="villa">Villa</option>
+
+              <option value="apartment">Apartment</option>
+
+              <option value="house">House</option>
+
+              <option value="plot">Plot</option>
+            </select>
+          </div>
+
+          {/* STATUS */}
+          <div className={quicksell["form-group"]}>
+            <label>Status *</label>
+
+            <select
+              name="status"
+              value={formData.status}
+              onChange={handleChange}
+              className={quicksell.input}
+              required
+            >
+              <option value="">Select Status</option>
+
+              <option value="available">Available</option>
+
+              <option value="sold">Sold</option>
+
+              <option value="pending">Pending</option>
+            </select>
+          </div>
+
           <div className={quicksell["form-group"]}>
             <label>Featured Property</label>
 
@@ -238,6 +286,7 @@ function QuickPropertyForm() {
               name="is_featured"
               value={formData.is_featured}
               onChange={handleChange}
+              className={quicksell.input}
             >
               <option value="false">No</option>
               <option value="true">Yes</option>
@@ -252,6 +301,7 @@ function QuickPropertyForm() {
               type="file"
               accept="image/*"
               onChange={handleImageChange}
+              className={quicksell.input}
               required
             />
           </div>
