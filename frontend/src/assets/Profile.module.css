@@ -1,0 +1,110 @@
+.profilePage {
+  min-height: 100vh;
+  background: #f4f7fb;
+  padding: 140px 20px 60px;
+  display: flex;
+  justify-content: center;
+}
+
+.profileCard {
+  width: 100%;
+  max-width: 750px;
+  background: white;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+}
+
+/* TOP */
+
+.topSection {
+  background: linear-gradient(
+    135deg,
+    #05182c,
+    #163b65
+  );
+
+  padding: 50px 20px;
+  text-align: center;
+  color: white;
+}
+
+.avatar {
+  width: 110px;
+  height: 110px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 50%;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.topSection h2 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.topSection p {
+  opacity: 0.9;
+  font-size: 15px;
+}
+
+/* INFO */
+
+.infoSection {
+  padding: 35px;
+  display: grid;
+  gap: 20px;
+}
+
+.infoBox {
+  background: #f8fafc;
+  padding: 20px;
+  border-radius: 14px;
+}
+
+.infoBox span {
+  font-size: 13px;
+  color: #64748b;
+}
+
+.infoBox h4 {
+  margin-top: 8px;
+  color: #0f172a;
+  font-size: 20px;
+}
+
+.active {
+  color: #16a34a !important;
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+
+  .profilePage {
+    padding-top: 120px;
+  }
+
+  .profileCard {
+    border-radius: 18px;
+  }
+
+  .topSection h2 {
+    font-size: 26px;
+  }
+
+  .avatar {
+    width: 90px;
+    height: 90px;
+    font-size: 38px;
+  }
+
+  .infoSection {
+    padding: 20px;
+  }
+}

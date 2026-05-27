@@ -12,7 +12,6 @@ const Rentals = () => {
   const [searchData, setSearchData] = useState({
     property_type: "",
     budget: "",
-    location: "",
   });
 
   // SHARED STATE FOR RENTAL CARDS
@@ -28,7 +27,9 @@ const Rentals = () => {
   const fetchRentProperties = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${DJANGO_BASE_URL}/api/rent-properties/`);
+      const response = await axios.get(
+        `${DJANGO_BASE_URL}/api/rent-properties/`,
+      );
       setProperties(response.data);
       setError(null);
     } catch (err) {
@@ -52,7 +53,7 @@ const Rentals = () => {
     try {
       setLoading(true);
       const params = {};
-      
+
       if (searchData.property_type) {
         params.property_type = searchData.property_type;
       }
@@ -62,7 +63,7 @@ const Rentals = () => {
 
       const response = await axios.get(
         `${DJANGO_BASE_URL}/api/rent-property-search/`,
-        { params }
+        { params },
       );
 
       setProperties(response.data);
@@ -81,7 +82,6 @@ const Rentals = () => {
       <section className={sell.rSection}>
         <div className="container">
           <div className="row align-items-center">
-            
             {/* LEFT SIDE SEARCH CONTROL */}
             <div className="col-md-7">
               <h1 className={sell.htitle}>
@@ -90,7 +90,6 @@ const Rentals = () => {
 
               <div className={`${sell.sBox} mt-4`}>
                 <div className="row g-2 align-items-center">
-                  
                   {/* PROPERTY TYPE DROPDOWN */}
                   <div className="col-md-4">
                     <select
@@ -144,7 +143,6 @@ const Rentals = () => {
                 className={sell.rightImage}
               />
             </div>
-
           </div>
         </div>
       </section>
@@ -171,7 +169,9 @@ const Rentals = () => {
             <div className="row g-4 mt-3">
               {properties.length > 0 ? (
                 properties.map((item) => {
-                  const imageUrl = `${DJANGO_BASE_URL}${item.image}`;
+                  const imageUrl = item.image?.startsWith("http")
+                    ? item.image
+                    : `${DJANGO_BASE_URL}${item.image}`;
                   return (
                     <div className="col-md-4" key={item.id}>
                       <div
@@ -181,7 +181,11 @@ const Rentals = () => {
                         {/* Image Wrap */}
                         <div style={{ position: "relative" }}>
                           <img
-                            src={item.image ? imageUrl : "https://placeholder.com"}
+                            src={
+                              item.image
+                                ? imageUrl
+                                : "https://via.placeholder.com/400x300"
+                            }
                             alt={item.head || item.title}
                             className="img-fluid rounded mb-3"
                             style={{
@@ -222,7 +226,9 @@ const Rentals = () => {
                           ₹{Number(item.price).toLocaleString()}
                         </h4>
 
-                        <p className="text-muted">{item.location || item.address}</p>
+                        <p className="text-muted">
+                          {item.location || item.address}
+                        </p>
 
                         {/* Property Utility Metrics */}
                         <div className="d-flex justify-content-between text-center mt-3">
@@ -238,7 +244,9 @@ const Rentals = () => {
 
                           <div>
                             <i className="bi bi-bounding-box-circles"></i>
-                            <p className="m-0">{item.sqft} Sqft</p>
+                            <p className="m-0">
+                              {item.sqft ? `${item.sqft} Sqft` : "N/A"}
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -247,7 +255,9 @@ const Rentals = () => {
                 })
               ) : (
                 <div className="text-center py-5 w-100">
-                  <h5 className="text-muted">No properties found matching your search.</h5>
+                  <h5 className="text-muted">
+                    No properties found matching your search.
+                  </h5>
                 </div>
               )}
             </div>
@@ -259,4 +269,3 @@ const Rentals = () => {
 };
 
 export default Rentals;
-

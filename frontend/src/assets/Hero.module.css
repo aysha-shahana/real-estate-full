@@ -1,139 +1,163 @@
-body {
-  background-color: #f0f3f6;
-}
-
-/* Hero Section */
 .hero {
   position: relative;
-  background-image: url('../assets/Imges/bbanner.jpeg');
+  min-height: 100vh;
+
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.65),
+      rgba(0, 0, 0, 0.65)),
+    url("../assets/Imges/bbanner.jpeg");
+
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  height: 673px;
+  
   display: flex;
   align-items: center;
-  animation: zoomBanner 15s ease-in-out infinite alternate;
+
+  padding-top: 60px;
+  overflow: hidden;
 }
 
-@keyframes zoomBanner {
-  0% { background-size: 100%; }
-  100% { background-size: 110%; }
-}
+/* HERO TEXT */
 
-/* Hero Text */
 .herosec {
-  display: flex;
-  flex-wrap: wrap;
-  font-size: 42px; /* original size */
-  font-weight: 700;
-  line-height: 1.3;
+  font-size: 62px;
+  font-weight: 800;
+  line-height: 1.1;
   color: white;
-  margin-top: -6.5px;
-  
+  margin-bottom: 20px;
+  max-width: 850px;
 }
 
+/* SUBTEXT */
 
-.word {
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeUp 0.6s forwards;
+.hero p {
+  font-size: 22px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.82);
+  max-width: 760px;
 }
 
-@keyframes fadeUp {
-  to { opacity: 1; transform: translateY(0); }
-}
+/* SEARCH CONTAINER */
 
-/* Input Section */
 .inputese {
-  position: absolute;
-  left: 50%;
-  bottom: 50px; 
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 1000px;
-  z-index: 10;
-  background-color: #2f383c;
-  border-radius: 16px;
-  margin: 0px 0px 70px 0px;
-  padding: 20px;
-  box-sizing: border-box;
+  margin-top: 60px;
 }
+
+/* GLASS EFFECT */
+
+.inputese .bg-opacity-25 {
+  background: rgba(255, 255, 255, 0.12) !important;
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  padding: 28px !important;
+}
+
+/* INPUTS */
+
+.inputese .form-control,
+.inputese .form-select {
+  height: 58px;
+  border-radius: 12px;
+  border: none;
+  font-size: 15px;
+}
+
+/* SEARCH ICON */
 
 .inputWithIcon {
-  padding-right: 35px;
+  padding-left: 42px;
 }
 
 .inputIcon {
   position: absolute;
-  right: 12px;
-  top: 71%;
-  transform: translateY(-50%);
-  font-size: 18px;
-  color: #bbb;
-  pointer-events: none;
+  right: 20px;
+  top: 49px;
+  color: gray;
+  font-size: 17px;
 }
 
-/* Buttons */
+/* SEARCH BUTTON */
+
 .serch {
-  border: 1px solid white;
-  background-color: transparent;
-  border-radius: 8px;
+  height: 58px;
+  border: none;
+  margin-top: 20px;
+  border-radius: 12px;
+  background: #354968;
   color: white;
+  font-weight: 700;
+  transition: 0.3s ease;
+  width: 100%;
 }
 
-/* Popular Search */
-.popular {
-  margin-bottom: 260px;
-  border-radius: 20px;
+.serch:hover {
+  background: #a1b1c9;
+  transform: translateY(-2px);
 }
 
-.popular .btn {
-  margin-bottom: 5px;
+/* LABELS */
+
+.inputese p {
+  color: white;
+  font-weight: 500;
+  margin-bottom: 10px;
 }
 
-/* Responsive Breakpoints */
-@media (max-width: 991px) {
+/* RESPONSIVE */
+
+@media (max-width: 1200px) {
+
   .herosec {
-    font-size: 34px; /* smaller for tablet */
+    font-size: 58px;
   }
-  .inputese {
-    bottom: 40px;
+}
+
+@media (max-width: 992px) {
+
+  .hero {
+    text-align: center;
+    padding-top: 140px;
+  }
+
+  .herosec {
+    font-size: 48px;
+  }
+
+  .hero p {
+    font-size: 18px;
   }
 }
 
 @media (max-width: 768px) {
+
+  .hero {
+    min-height: auto;
+    padding-bottom: 80px;
+  }
+
   .herosec {
-    font-size: 30px;
-    text-align: center;
+    font-size: 38px;
+    line-height: 1.2;
   }
+
+  .hero p {
+    font-size: 16px;
+  }
+
   .inputese {
-    bottom: 30px;
-    padding: 15px;
+    margin-top: 40px;
   }
-  .inputese .d-flex {
-    flex-direction: column; /* buttons stack vertically */
-    gap: 10px;
+
+  .inputese .bg-opacity-25 {
+    padding: 18px !important;
   }
 }
 
 @media (max-width: 576px) {
+
   .herosec {
-    font-size: 24px;
-  }
-  .inputese {
-    width: 95%;
-    bottom: 20px;
-    padding: 10px;
-  }
-  .inputese .col-12 {
-    margin-bottom: 10px;
-  }
-  .popular {
-    margin-bottom: 200px;
-  }
-  .popular .btn {
-    flex: 1 1 45%;
-    margin-bottom: 5px;
+    font-size: 30px;
   }
 }
-

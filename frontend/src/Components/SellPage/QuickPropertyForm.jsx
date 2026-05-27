@@ -97,42 +97,10 @@ function QuickPropertyForm() {
 
   return (
     <>
-      <section className={sell.rSection}>
-        <div className="container">
-          <div className="row align-items-center">
-            {/* LEFT SIDE */}
-            <div className="col-md-7">
-              <h1 className={sell.htitle}>
-                Trusted Solutions for Selling Your Property
-              </h1>
-
-              <div className={`${quicksell.sellBox} mt-4 p-3`}>
-                <div className="row g-2 align-items-center">
-                  <div className="col-md-3">
-                    <a href="#sellform">
-                      <button className={quicksell["sell-rent"]}>
-                        Sell or Rent Your Property
-                      </button>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* RIGHT IMAGE */}
-            <div className="col-md-5 text-center">
-              <img
-                src={sellimg}
-                alt="illustration"
-                className={sell.rightImage}
-              />
-            </div>
-          </div>
-        </div>
-      </section>
+     
 
       {/* FORM */}
-      <div className={quicksell.container} id="sellform">
+      <div className={quicksell.container} id="sellform" style={{ paddingTop: "140px" }}>
         <form
           className={quicksell["form-card"]}
           style={{ backgroundColor: "#f0f2f5" }}

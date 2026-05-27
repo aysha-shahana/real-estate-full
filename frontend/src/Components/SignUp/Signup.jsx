@@ -1,71 +1,169 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+
+import axios from "axios";
+
+import {
+  Link,
+  useNavigate,
+} from "react-router-dom";
+
+import styles from "../../assets/Signup.module.css";
 
 function Signup() {
+
   const navigate = useNavigate();
-  const [form, setForm] = useState({ name: "", email: "", password: "" });
+
+  const [form, setForm] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+
+  const [error, setError] = useState("");
+
+  // INPUT CHANGE
 
   function handleChange(e) {
-    setForm({ ...form, [e.target.name]: e.target.value });
+
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
   }
 
-  function handleSubmit(e) {
+  // SUBMIT
+
+  async function handleSubmit(e) {
+
     e.preventDefault();
 
-    // Save user data into localStorage (BEGINNER-FRIENDLY)
-    localStorage.setItem("user", JSON.stringify(form));
+    setError("");
 
-    alert("Signup successful!");
-    navigate("/signin");
+    try {
+
+      await axios.post(
+        "http://127.0.0.1:8000/api/signup/",
+        form
+      );
+
+      alert("Signup successful!");
+
+      navigate("/signin");
+
+    } catch (err) {
+
+      console.log(err);
+
+      setError("Signup failed");
+    }
   }
 
   return (
-    <div style={{ maxWidth: "350px", margin: "60px auto" }}>
-      <h2>Signup</h2>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          name="name"
-          placeholder="Full Name"
-          value={form.name}
-          onChange={handleChange}
-          style={{ width: "100%", margin: "10px 0", padding: "8px" }}
-        />
+    <div className={styles.signupPage}>
 
-        <input
-          name="email"
-          placeholder="Email"
-          value={form.email}
-          onChange={handleChange}
-          style={{ width: "100%", margin: "10px 0", padding: "8px" }}
-        />
+      <div className={styles.card}>
 
-        <input
-          name="password"
-          type="password"
-          placeholder="Password"
-          value={form.password}
-          onChange={handleChange}
-          style={{ width: "100%", margin: "10px 0", padding: "8px" }}
-        />
+        <h2>
+          Create Account
+        </h2>
 
-        <button
-          type="submit"
-          style={{
-            width: "100%",
-            padding: "10px",
-            background: "black",
-            color: "white",
-            border: "none",
-          }}
-        >
-          Signup
-        </button>
-      </form>
+        <p>
+          Signup to continue
+        </p>
 
-      <p style={{ marginTop: "10px" }}>
-        Already have an account? <Link to="/signin">Signin</Link>
-      </p>
+        {error && (
+          <div className={styles.error}>
+            {error}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit}>
+
+          {/* USERNAME */}
+
+          <div className={styles.formGroup}>
+
+            <label>
+              Username
+            </label>
+
+            <input
+              type="text"
+              name="username"
+              placeholder="Enter username"
+              value={form.username}
+              onChange={handleChange}
+              required
+            />
+
+          </div>
+
+          {/* EMAIL */}
+
+          <div className={styles.formGroup}>
+
+            <label>
+              Email
+            </label>
+
+            <input
+              type="email"
+              name="email"
+              placeholder="Enter email"
+              value={form.email}
+              onChange={handleChange}
+              required
+            />
+
+          </div>
+
+          {/* PASSWORD */}
+
+          <div className={styles.formGroup}>
+
+            <label>
+              Password
+            </label>
+
+            <input
+              type="password"
+              name="password"
+              placeholder="Enter password"
+              value={form.password}
+              onChange={handleChange}
+              required
+            />
+
+          </div>
+
+          {/* BUTTON */}
+
+          <button
+            type="submit"
+            className={styles.signupBtn}
+          >
+
+            Signup
+
+          </button>
+
+        </form>
+
+        {/* SIGNIN */}
+
+        <div className={styles.bottomText}>
+
+          Already have an account?
+
+          <Link to="/signin">
+            Signin
+          </Link>
+
+        </div>
+
+      </div>
+
     </div>
   );
 }

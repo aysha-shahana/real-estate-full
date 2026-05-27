@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-import forimage from "../../assets/Imges/forimage.jpg";
 import styles from "../../assets/Hero.module.css";
 
 // ADD THIS
@@ -53,14 +52,14 @@ const Hero = () => {
   return (
     <>
       {/* HERO SECTION */}
-      <section className={`${styles.hero} position-relative`}>
+      <section className={`${styles.hero}`}>
 
-        <div className="container" style={{marginBottom: "180px"}}>
+        <div className="container">
 
           {/* HERO HEADING */}
-          <div className="row text-center text-md-start pt-5">
+          <div className="row justify-content-center text-center text-lg-start">
 
-            <div className="col-md-8 mx-auto">
+           <div className="col-lg-7 col-md-9">
 
               <h1 className={`${styles.herosec} text-light fw-bold`}>
                 Explore. Buy. Sell. Rent. All in One Place.
@@ -76,7 +75,7 @@ const Hero = () => {
           </div>
 
           {/* INPUT SECTION */}
-          <div className={`${styles.inputese} mt-4`} style={{marginBottom:"150px"}}>
+          <div className={`${styles.inputese} mt-5`}>
 
             <div className="p-4 rounded shadow-sm bg-white bg-opacity-25" >
 

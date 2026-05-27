@@ -1,7 +1,7 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group, User
 from django.contrib import messages
+from django.shortcuts import get_object_or_404, redirect, render
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 
@@ -96,28 +96,32 @@ def module_view(request, module_id):
 
 @login_required(login_url='login')
 def child_view(request, child_id):
+
     child = get_object_or_404(Child, id=child_id)
-    all_modules = Module.objects.all() # Keep sidebar alive
-    
+    all_modules = Module.objects.all()
+
     if child.url_name:
         template_path = child.url_name if child.url_name.endswith('.html') else f"{child.url_name}.html"
     else:
         template_path = "index.html"
-        
-    # CREATE CONTEXT DICTIONARY
+
     context = {
-        'child': child, 
+        'child': child,
         'modules': all_modules
     }
-    
-    # FIX 1: If the user requests the userlist page via child link, attach registered users!
+
+    # USER LIST
     if "userlist" in template_path or "user_list" in template_path:
         context['users'] = User.objects.all()
 
-    # FIX 2: Existing property list handler
+    # PROPERTY LIST
     if "property_list" in template_path or "propertylist" in template_path:
         context['listings'] = PropertyListing.objects.all()
-        
+
+    # GROUP LIST
+    if "grouplist" in template_path or "group_list" in template_path:
+        context['groups'] = Group.objects.all()
+
     return render(request, template_path, context)
 
 
@@ -135,17 +139,42 @@ def propertylist(request):
     }
     return render(request, 'property_list.html', context)
 
-
 @login_required(login_url='login')
 def addgroup(request):
-    return render(request, "add_group.html", {'modules': Module.objects.all()})
+
+    if request.method == "POST":
+        group_name = request.POST.get("group_name")
+
+        if group_name:
+            Group.objects.create(name=group_name)
+            messages.success(request, "User Group Added Successfully")
+            return redirect("grouplist")
+
+    return render(request, "addgroup.html", {
+        'modules': Module.objects.all()
+    })
 
 
 @login_required(login_url='login')
 def grouplist(request):
-    return render(request, "grouplist.html", {'modules': Module.objects.all()})
+
+    groups = Group.objects.all().order_by('-id')
+
+    return render(request, "grouplist.html", {
+        'groups': groups,
+        'modules': Module.objects.all()
+    })
 
 
+@login_required(login_url='login')
+def deletegroup(request, id):
+
+    group = get_object_or_404(Group, id=id)
+    group.delete()
+
+    messages.success(request, "Group Deleted Successfully")
+
+    return redirect('grouplist')
 
 @login_required(login_url='login')
 def adduser_view(request):

@@ -1,102 +1,216 @@
-import React from 'react';
-import footer from '../assets/FooterComponent.module.css';
+import React from "react";
+import { Link } from "react-router-dom";
+
+import footer from "../assets/FooterComponent.module.css";
+
 import logo from "../../public/xen-logo.png";
 
 const FooterComponent = () => {
+
   return (
-   <footer className={footer.footerWrapper}>
-  <div className="container py-5">
 
-    {/* Top Branding + Social */}
-    <div className="row mb-5 align-items-center">
-      <div className="col-md-6 mb-3 mb-md-0">
-       <img src={logo} alt="company logo" style={{width: '100px'}} />
-      </div>
+    <footer className={footer.footerWrapper}>
 
-      <div className="col-md-6 d-flex justify-content-md-end justify-content-start align-items-center flex-wrap gap-3">
-        <span className="fw-semibold">Follow Us:</span>
+      <div className="container">
 
-        <div className="d-flex gap-3">
-          <a href="#" className={footer.socialIcon}><i className="bi bi-facebook"></i></a>
-          <a href="#" className={footer.socialIcon}><i className="bi bi-twitter"></i></a>
-          <a href="#" className={footer.socialIcon}><i className="bi bi-instagram"></i></a>
-          <a href="#" className={footer.socialIcon}><i className="bi bi-linkedin"></i></a>
+        {/* TOP AREA */}
+
+        <div className={footer.topSection}>
+
+          {/* LOGO + ABOUT */}
+
+          <div>
+
+            <img
+              src={logo}
+              alt="company logo"
+              className={footer.logo}
+            />
+
+            <p className={footer.about}>
+              Discover premium properties,
+              trusted agents, and modern
+              real-estate solutions all in
+              one place.
+            </p>
+
+            {/* SOCIAL */}
+
+            <div className={footer.socialWrapper}>
+
+              <a href="#">
+                <i className="bi bi-facebook"></i>
+              </a>
+
+              <a href="#">
+                <i className="bi bi-instagram"></i>
+              </a>
+
+              <a href="#">
+                <i className="bi bi-twitter-x"></i>
+              </a>
+
+              <a href="#">
+                <i className="bi bi-linkedin"></i>
+              </a>
+
+            </div>
+
+          </div>
+
+          {/* QUICK LINKS */}
+
+          <div>
+
+            <h4 className={footer.heading}>
+              Quick Links
+            </h4>
+
+            <ul className={footer.list}>
+
+              <li>
+                <Link to="/">
+                  Home
+                </Link>
+              </li>
+
+              <li>
+                <Link to="/buy">
+                  Buy
+                </Link>
+              </li>
+
+              <li>
+                <Link to="/rent">
+                  Rent
+                </Link>
+              </li>
+
+              <li>
+                <Link to="/agency">
+                  Agency
+                </Link>
+              </li>
+
+              <li>
+                <Link to="/contact">
+                  Contact
+                </Link>
+              </li>
+
+            </ul>
+
+          </div>
+
+          {/* PROPERTY TYPES */}
+
+          <div>
+
+            <h4 className={footer.heading}>
+              Property Types
+            </h4>
+
+            <ul className={footer.list}>
+
+              <li>Apartment</li>
+
+              <li>Villa</li>
+
+              <li>Commercial</li>
+
+              <li>Luxury Homes</li>
+
+              <li>Beach House</li>
+
+            </ul>
+
+          </div>
+
+          {/* CONTACT */}
+
+          <div>
+
+            <h4 className={footer.heading}>
+              Contact
+            </h4>
+
+            <ul className={footer.contactList}>
+
+              <li>
+                <i className="bi bi-envelope"></i>
+                support@xenestate.com
+              </li>
+
+              <li>
+                <i className="bi bi-telephone"></i>
+                +91 98765 43210
+              </li>
+
+              <li>
+                <i className="bi bi-geo-alt"></i>
+                Kochi, Kerala, India
+              </li>
+
+            </ul>
+
+          </div>
+
+          {/* NEWSLETTER */}
+
+          <div>
+
+            <h4 className={footer.heading}>
+              Newsletter
+            </h4>
+
+            <p className={footer.newsText}>
+              Subscribe for latest property
+              updates and offers.
+            </p>
+
+            <div className={footer.newsletter}>
+
+              <input
+                type="email"
+                placeholder="Enter your email"
+              />
+
+              <button>
+                Subscribe
+              </button>
+
+            </div>
+
+          </div>
+
         </div>
-      </div>
-    </div>
 
-    {/* Content */}
-    <div className="row gy-4">
+        {/* BOTTOM */}
 
-      {/* Subscribe */}
-      <div className="col-md-4">
-        <h4 className={footer.heading}>Subscribe</h4>
-        <div className="input-group mb-2">
-          <input
-            type="email"
-            className={`form-control ${footer.input}`}
-            placeholder="Your email please"
-          />
-          <button className={`btn ${footer.sendBtn}`}>Send</button>
+        <div className={footer.bottomSection}>
+
+          <p>
+            © 2026 XenEstate.
+            All rights reserved.
+          </p>
+
+          <div className={footer.bottomLinks}>
+
+            <a href="#">
+              Privacy Policy
+            </a>
+
+            <a href="#">
+              Terms & Conditions
+            </a>
+
+          </div>
+
         </div>
-        <p className={footer.textSmall}>
-          Subscribe to our newsletter to receive our weekly feed.
-        </p>
+
       </div>
 
-      {/* Discover */}
-      <div className="col-6 col-md-2">
-        <h4 className={footer.heading}>Discover</h4>
-        <ul className={footer.list}>
-          <li>Wayanad</li>
-          <li>Kollam</li>
-          <li>Thiruvananthapuram</li>
-          <li>Kannur</li>
-          <li>Kochi</li>
-        </ul>
-      </div>
-
-      {/* Quick Links */}
-      <div className="col-6 col-md-2">
-        <h4 className={footer.heading}>Quick Links</h4>
-        <ul className={footer.list}>
-          <li>Home</li>
-          <li>Sell</li>
-          <li>Rent</li>
-          <li>Buy</li>
-          <li>Agency</li>
-          <li>Contact</li>
-        </ul>
-      </div>
-
-      {/* Contact */}
-      <div className="col-6 col-md-2">
-        <h4 className={footer.heading}>Contact Us</h4>
-        <ul className={footer.list}>
-          <li>vi@HomeRetro.com</li>
-          <li>+91 67450 97562</li>
-        </ul>
-      </div>
-
-      {/* Address */}
-      <div className="col-6 col-md-2">
-        <h4 className={footer.heading}>Our Address</h4>
-        <p className={footer.textSmall}>
-          99 Fifth Avenue, 3rd Floor <br />
-          San Francisco, CA 1980
-        </p>
-      </div>
-
-    </div>
-
-    {/* Bottom */}
-    <div className="text-center mt-4 pt-3 border-top">
-      <p className={footer.copy}>© 2025 HomeRetro. All rights reserved.</p>
-    </div>
-
-  </div>
-</footer>
-
+    </footer>
   );
 };
 
