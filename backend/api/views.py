@@ -186,3 +186,43 @@ def buy_property_search(request):
 
     serializer = PropertyListingSerializer(properties, many=True)
     return Response(serializer.data)
+
+
+
+@api_view(['GET'])
+def user_dashboard(request):
+
+    total_properties = PropertyListing.objects.count()
+
+    active_properties = PropertyListing.objects.filter(
+        status="available"
+    ).count()
+
+    sold_properties = PropertyListing.objects.filter(
+        status="sold"
+    ).count()
+
+    recent_properties = PropertyListing.objects.all().order_by(
+        '-id'
+    )[:5]
+
+    recent_data = []
+
+    for property in recent_properties:
+
+        recent_data.append({
+            "title": property.title,
+            "property_type": property.property_type,
+            "status": property.status,
+            "price": property.price,
+        })
+
+    data = {
+        "total_properties": total_properties,
+        "active_properties": active_properties,
+        "sold_properties": sold_properties,
+        "enquiries": 18,
+        "recent_properties": recent_data,
+    }
+
+    return Response(data)

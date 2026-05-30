@@ -30,6 +30,7 @@ import QuickPropertyForm from "./Components/SellPage/QuickPropertyForm";
 
 import "./App.css";
 import Profile from "./Components/Profile";
+import UserDashboard from "./Components/UserDashboard/UserDashboard";
 
 function App() {
 
@@ -40,6 +41,7 @@ function App() {
   const hideLayoutRoutes = [
     "/signin",
     "/signup",
+    "/dashboard",
   ];
 
   const hideLayout =
@@ -67,6 +69,13 @@ function App() {
           path="/add-property"
           element={<QuickPropertyForm />}
         />
+
+        <Route
+          path="/dashboard"
+          element={<UserDashboard />}
+        />
+
+
 
         <Route
           path="/rent"

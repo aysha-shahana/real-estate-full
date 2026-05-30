@@ -18,6 +18,8 @@ urlpatterns = [
     path("user/edit/<int:user_id>/", views.edit_user, name="edituser"),
     path("user/delete/<int:user_id>/", views.delete_user, name="deleteuser"),
     path("child/<int:child_id>/", views.child_view, name="child_view"),
+    path('userdashboard/', views.user_dashboard, name='user_dashboard'),
+
 ]
 
 if settings.DEBUG:

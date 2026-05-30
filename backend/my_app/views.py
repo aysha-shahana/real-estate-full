@@ -252,3 +252,7 @@ def edit_user(request, user_id):
         return redirect('userlist')
         
     return render(request, 'edit_user.html', {'target_user': target_user, 'modules': all_modules})
+
+
+def user_dashboard(request):
+    return render(request, "dashboard/index.html") 

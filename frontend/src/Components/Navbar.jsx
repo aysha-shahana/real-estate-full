@@ -264,6 +264,9 @@ const Navbar = () => {
 
                 <div className={styles.dropdown}>
 
+
+                  
+
                   <div
                     onClick={() =>
                       handleProtectedRoute(
@@ -274,13 +277,12 @@ const Navbar = () => {
                     Profile
                   </div>
 
-                 <div
+                <div
   onClick={() => {
 
     if (token) {
 
-      window.location.href =
-        "http://127.0.0.1:8000/" ,  "_blank";
+      navigate("/dashboard");
 
     } else {
 
@@ -289,11 +291,12 @@ const Navbar = () => {
           from: "/dashboard",
         },
       });
+
     }
 
-  }} 
+  }}
 >
-  My Dashboard 
+  My Dashboard
 </div>
 
                   <div

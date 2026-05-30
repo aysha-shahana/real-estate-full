@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import signup
 from .views import rent_properties, buy_properties, add_property, property_search
-from .views import featured_properties , rent_property_search , buy_property_search
+from .views import featured_properties , rent_property_search , buy_property_search , user_dashboard
 from rest_framework_simplejwt.views import (TokenObtainPairView, TokenRefreshView)
 
 urlpatterns = [
@@ -20,4 +20,5 @@ urlpatterns = [
 
     # REFRESH TOKEN
     path('token/refresh/', TokenRefreshView.as_view()),
+    path('user-dashboard/', user_dashboard),
 ]

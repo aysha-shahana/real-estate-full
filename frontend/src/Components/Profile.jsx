@@ -16,19 +16,15 @@ function Profile() {
         {/* TOP */}
 
         <div className={styles.topSection}>
-
           <div className={styles.avatar}>
             <i className="bi bi-person-fill"></i>
           </div>
-
           <h2>
             {username || "User"}
           </h2>
-
           <p>
             Welcome to your profile
           </p>
-
         </div>
 
         {/* DETAILS */}
