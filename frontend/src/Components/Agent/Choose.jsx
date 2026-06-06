@@ -6,7 +6,7 @@ import agency from '../../assets/Imges/agency.jpg'
 
 const Choose = () => {
   return (
-    <div className="container">
+   <div className="container py-5" style={{ marginTop: "100px" }}>
     <div className={choose.section}>
       <div className={choose.sectionLeft}>
         <h1>

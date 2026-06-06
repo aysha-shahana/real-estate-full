@@ -4,10 +4,17 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+from django.contrib.admin.views.decorators import staff_member_required
 
 # Model Imports
 from .models import Module, Child
 from my_app.models import PropertyListing
+from my_app.models import PropertyOffer
+from my_app.models import RentalApplication
+
+
+
+
 
 # =========================================================================
 # 1. AUTHENTICATION VIEWS (LOGIN, SIGNUP, LOGOUT)
@@ -121,6 +128,54 @@ def child_view(request, child_id):
     # GROUP LIST
     if "grouplist" in template_path or "group_list" in template_path:
         context['groups'] = Group.objects.all()
+        
+    # VISIT REQUEST LIST
+
+    if "visit_requests" in template_path:
+        context["visits"] = VisitRequest.objects.all().order_by(
+        "-created_at"
+    )
+    
+    # PROPERTY OFFERS
+    if "property_offer" in template_path or "offers" in template_path:
+        context["offers"] = PropertyOffer.objects.all().order_by(
+        "-created_at"
+    )
+        
+        
+    # PROPERTY OFFERS
+
+    if "offers" in template_path:
+
+        offers = PropertyOffer.objects.all().order_by("-created_at")
+
+        context["offers"] = offers
+
+        context["total_offers"] = offers.count()
+
+        context["highest_offer"] = (
+        PropertyOffer.objects.aggregate(
+            Max("offer_amount")
+        )["offer_amount__max"]
+    )
+        
+    if "rent_applications" in template_path:
+
+        applications = RentalApplication.objects.all().order_by(
+        "-created_at"
+    )
+
+        context["applications"] = applications
+
+        context["total_applications"] = applications.count()
+
+        context["total_properties"] = (
+        PropertyListing.objects.count()
+        )
+
+    context["total_visits"] = (
+        VisitRequest.objects.count()
+    )
 
     return render(request, template_path, context)
 
@@ -238,6 +293,7 @@ def delete_user(request, user_id):
     return redirect(request.META.get('HTTP_REFERER', 'index'))
 
 
+
 # EDIT USER TRANSACTION
 @login_required(login_url='login')
 def edit_user(request, user_id):
@@ -256,3 +312,118 @@ def edit_user(request, user_id):
 
 def user_dashboard(request):
     return render(request, "dashboard/index.html") 
+
+
+from my_app.models import VisitRequest
+
+def visit_requests(request):
+
+    visits = VisitRequest.objects.all()
+
+    return render(
+        request,
+        "visit_requests.html",
+        {"visits": visits}
+    )
+    
+def accept_visit(request, pk):
+
+    visit = get_object_or_404(
+        VisitRequest,
+        id=pk
+    )
+
+    visit.status = "accepted"
+    visit.save()
+
+    return redirect("visit_requests")
+
+
+def reject_visit(request, pk):
+
+    visit = get_object_or_404(
+        VisitRequest,
+        id=pk
+    )
+
+    visit.status = "rejected"
+    visit.save()
+
+    return redirect("visit_requests")
+
+from django.db.models import Max
+
+@staff_member_required
+def offer_list(request):
+
+    offers = PropertyOffer.objects.all().order_by("-created_at")
+
+    context = {
+        "offers": offers,
+
+        "total_offers": PropertyOffer.objects.count(),
+
+        "highest_offer": PropertyOffer.objects.aggregate(
+            Max("offer_amount")
+        )["offer_amount__max"],
+
+        "total_properties": PropertyListing.objects.count(),
+
+        "total_visits": VisitRequest.objects.count(),
+    }
+
+    return render(
+        request,
+        "admin/offers.html",
+        context
+    )
+    
+    
+    
+def accept_offer(request, offer_id):
+
+    offer = get_object_or_404(
+        PropertyOffer,
+        id=offer_id
+    )
+
+    offer.status = "accepted"
+    offer.save()
+
+    messages.success(
+        request,
+        "Offer accepted successfully."
+    )
+
+    return redirect(request.META.get("HTTP_REFERER"))
+
+
+
+def reject_offer(request, offer_id):
+
+    offer = get_object_or_404(
+        PropertyOffer,
+        id=offer_id
+    )
+
+    offer.status = "rejected"
+    offer.save()
+
+    messages.warning(
+        request,
+        "Offer rejected."
+    )
+
+    return redirect(request.META.get("HTTP_REFERER"))
+
+def rent_applications(request):
+
+    applications = RentalApplication.objects.all().order_by('-created_at')
+
+    return render(
+        request,
+        "rent_applications.html",
+        {
+            "applications": applications
+        }
+    )

@@ -4,6 +4,7 @@ import sell from "../../assets/Mainhead.module.css";
 import axios from "axios";
 import buying from '../../assets/buying.module.css';
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 const Tophead = () => {
@@ -18,6 +19,8 @@ const Tophead = () => {
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchBuyProperties();
@@ -161,9 +164,15 @@ const Tophead = () => {
                      return (
                        <div className="col-md-4" key={item.id}>
                          <div
-                           className="card shadow-sm p-3"
-                           style={{ borderRadius: "12px" }}
-                         >
+  className="card shadow-sm p-3"
+  style={{
+    borderRadius: "12px",
+    cursor: "pointer",
+  }}
+  onClick={() =>
+    navigate(`/buy-property/${item.id}`)
+  }
+>
                            {/* Image Wrap */}
                            <div style={{ position: "relative" }}>
                              <img

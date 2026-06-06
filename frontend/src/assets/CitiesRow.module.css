@@ -1,34 +1,44 @@
-
-
-.Container {
-  display: flex;
-  align-items: center;
-  gap: 23px;
-  padding: 18px 20px;
-  background: #ffffff;
-  border-radius: 8px;
-  margin: 10px 12px;
-  
+.cityCard {
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  height: 220px;
+  cursor: pointer;
 }
 
-.cardImg {
-  border-radius: 25%;
-  width: 50px;
-  height: 35px;
+.cityCard img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  transition: transform 0.5s ease;
 }
 
-.cardparat h6 {
-  font-size: 16px;
-  color: #111;
-  margin: 2px 0 0;
-  font-weight: 600;
+.cityCard:hover img {
+  transform: scale(1.08);
 }
 
-.cardparat p {
-  font-size: 13px;
-  margin: 0;
-  color: #0c0c0c;
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.75),
+    rgba(0, 0, 0, 0.15)
+  );
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
 }
 
+.overlay h5 {
+  color: white;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
 
+.overlay span {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+}

@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<!-- PAGE HEADER -->
+
+<div class="block-header">
+    <div class="row">
+        <div class="col-lg-5 col-md-5 col-sm-12">
+            <h2>
+                Visit Requests
+                <small>Manage all scheduled property visits</small>
+            </h2>
+        </div>
+
+```
+    <div class="col-lg-7 col-md-7 col-sm-12 text-md-right">
+        <ul class="breadcrumb float-md-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'index' %}">
+                    <i class="zmdi zmdi-home"></i>
+                    Xen Properties
+                </a>
+            </li>
+
+            <li class="breadcrumb-item active">
+                Visit Requests
+            </li>
+        </ul>
+    </div>
+</div>
+```
+
+</div>
+
+<div class="container-fluid">
+
+```
+<div class="row clearfix">
+
+    <div class="col-lg-12">
+
+        <div class="card">
+
+            <div class="header">
+                <h2>
+                    <strong>Scheduled</strong> Property Visits
+                </h2>
+            </div>
+
+            <div class="body">
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover table-bordered">
+
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Property</th>
+                                <th>Visitor</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Visit Date</th>
+                                <th>Status</th>
+                                <th width="180">Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            {% for visit in visits %}
+
+                            <tr>
+
+                                <td>{{ forloop.counter }}</td>
+
+                                <td>
+                                    {{ visit.property.title }}
+                                </td>
+
+                                <td>
+                                    {{ visit.name }}
+                                </td>
+
+                                <td>
+                                    {{ visit.email }}
+                                </td>
+
+                                <td>
+                                    {{ visit.phone }}
+                                </td>
+
+                                <td>
+                                    {{ visit.visit_date }}
+                                </td>
+
+                                <td>
+
+                                    {% if visit.status == "pending" %}
+
+                                    <span class="badge badge-warning">
+                                        Pending
+                                    </span>
+
+                                    {% elif visit.status == "accepted" %}
+
+                                    <span class="badge badge-success">
+                                        Accepted
+                                    </span>
+
+                                    {% elif visit.status == "rejected" %}
+
+                                    <span class="badge badge-danger">
+                                        Rejected
+                                    </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                                <td>
+
+                                    {% if visit.status == "pending" %}
+
+                                    <a href="{% url 'accept_visit' visit.id %}"
+   class="btn btn-success btn-sm">
+   Accept
+</a>
+
+<a href="{% url 'reject_visit' visit.id %}"
+   class="btn btn-danger btn-sm">
+   Reject
+</a>
+
+                                    {% else %}
+
+                                    <span class="text-muted">
+                                        Action Completed
+                                    </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                            </tr>
+
+                            {% empty %}
+
+                            <tr>
+
+                                <td colspan="8" class="text-center">
+
+                                    No Visit Requests Found
+
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</div>
+
+{% endblock content %}

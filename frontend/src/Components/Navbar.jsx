@@ -13,11 +13,25 @@ import logo from "../../public/xen-logo.png";
 
 import styles from "../assets/Navbar.module.css";
 
+
+
+
 const Navbar = () => {
+
+  const location = useLocation();
+
+const transparentPages = [
+  "/",
+  "/rent",
+  "/buy",
+];
+
+const isTransparentPage =
+  transparentPages.includes(location.pathname);
+
 
   const navigate = useNavigate();
 
-  const location = useLocation();
 
   const [scrolled, setScrolled] =
     useState(false);
@@ -130,19 +144,19 @@ const Navbar = () => {
 
   return (
 
-    <nav
-      className={`
-        navbar
-        navbar-expand-lg
-        fixed-top
-        ${styles.navbarCustom}
-        ${
-          scrolled || isAddPropertyPage
-            ? styles.scrolled
-            : ""
-        }
-      `}
-    >
+  <nav
+  className={`
+    navbar
+    navbar-expand-lg
+    fixed-top
+    ${styles.navbarCustom}
+    ${
+      !isTransparentPage || scrolled
+        ? styles.scrolled
+        : ""
+    }
+  `}
+>
 
       <div className="container">
 
@@ -261,67 +275,42 @@ const Navbar = () => {
               {/* DROPDOWN */}
 
               {dropdownOpen && (
+  <div className={styles.dropdown}>
 
-                <div className={styles.dropdown}>
+    {!token ? (
+      <div
+        onClick={() => navigate("/signin")}
+      >
+        Login
+      </div>
+    ) : (
+      <>
+        <div
+          onClick={() => navigate("/profile")}
+        >
+          Profile
+        </div>
 
+        <div
+          onClick={() => navigate("/dashboard")}
+        >
+          My Dashboard
+        </div>
 
-                  
+        <div
+          onClick={() => navigate("/my-properties")}
+        >
+          My Property
+        </div>
 
-                  <div
-                    onClick={() =>
-                      handleProtectedRoute(
-                        "/profile"
-                      )
-                    }
-                  >
-                    Profile
-                  </div>
+        <div onClick={logout}>
+          Logout
+        </div>
+      </>
+    )}
 
-                <div
-  onClick={() => {
-
-    if (token) {
-
-      navigate("/dashboard");
-
-    } else {
-
-      navigate("/signin", {
-        state: {
-          from: "/dashboard",
-        },
-      });
-
-    }
-
-  }}
->
-  My Dashboard
-</div>
-
-                  <div
-                    onClick={() =>
-                      handleProtectedRoute(
-                        "/my-property"
-                      )
-                    }
-                  >
-                    My Property
-                  </div>
-
-                  {token && (
-
-                    <div
-                      onClick={logout}
-                    >
-                      Logout
-                    </div>
-
-                  )}
-
-                </div>
-
-              )}
+  </div>
+)}
 
             </div>
 

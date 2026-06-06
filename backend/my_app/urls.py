@@ -19,6 +19,39 @@ urlpatterns = [
     path("user/delete/<int:user_id>/", views.delete_user, name="deleteuser"),
     path("child/<int:child_id>/", views.child_view, name="child_view"),
     path('userdashboard/', views.user_dashboard, name='user_dashboard'),
+    path("visit-requests/", views.visit_requests, name="visit_requests"),
+    path("accept-visit/<int:pk>/",views.accept_visit,name="accept_visit"),
+
+    path(
+        "reject-visit/<int:pk>/",
+        views.reject_visit,
+        name="reject_visit"
+    ),
+
+    path(
+        "admin/offers/",
+        views.offer_list,
+        name="offer_list"
+    ),
+
+    path(
+        "offer/accept/<int:offer_id>/",
+        views.accept_offer,
+        name="accept_offer"
+    ),
+
+    path(
+        "offer/reject/<int:offer_id>/",
+        views.reject_offer,
+        name="reject_offer"
+    ),
+    path(
+    "rent-applications/",
+    views.rent_applications,
+    name="rent_applications"
+),
+    
+
 
 ]
 

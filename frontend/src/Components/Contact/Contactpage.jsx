@@ -5,7 +5,7 @@ import style from '../../assets/Contactpagge.module.css'
 const Contactpage = () => {
   return (
     <div className={style.contactsection}>
-      <div className="container">
+       <div className="container py-5" style={{ marginTop: "50px" }}>
         <div className={style.wrapper}>
           
           {/* LEFT FORM SECTION */}

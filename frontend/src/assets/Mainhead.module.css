@@ -1,6 +1,6 @@
 
 .rSection {
-  background: #bac8e0; /* light background */
+  background: #192841;
   padding-top: 140px;
   position: relative;
   overflow: hidden;
@@ -90,7 +90,7 @@
 .htitle {
   font-size: 34px;
   font-weight: 800;
-  color: #114d44;
+  color: #ffff;
   margin: 0;
   line-height: 1.15;
 }

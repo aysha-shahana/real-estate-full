@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 import renti from "../../assets/Imges/rentbanner.jpg";
 import sell from "../../assets/Mainhead.module.css";
 import secondcom from "../../assets/Pagethreecss/Second.module.css";
@@ -13,6 +13,8 @@ const Rentals = () => {
     property_type: "",
     budget: "",
   });
+
+  const navigate = useNavigate();
 
   // SHARED STATE FOR RENTAL CARDS
   const [properties, setProperties] = useState([]);
@@ -174,10 +176,14 @@ const Rentals = () => {
                     : `${DJANGO_BASE_URL}${item.image}`;
                   return (
                     <div className="col-md-4" key={item.id}>
-                      <div
-                        className="card shadow-sm p-3"
-                        style={{ borderRadius: "12px" }}
-                      >
+                     <div
+  className="card shadow-sm p-3"
+  style={{
+    borderRadius: "12px",
+    cursor: "pointer",
+  }}
+  onClick={() => navigate(`/property/${item.id}`)}
+>
                         {/* Image Wrap */}
                         <div style={{ position: "relative" }}>
                           <img

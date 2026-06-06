@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
-import quicksell from "../../assets/QuickpropertyForm.module.css";
-import sell from "../../assets/Mainhead.module.css";
-import sellimg from "../../assets/Imges/sellbannertwo.jpg";
+import api from "../../assets/axiosConfig.js";
+import styles from "../../assets/UserDashboard.module.css";
+import { useNavigate } from "react-router-dom";
 
 function QuickPropertyForm() {
   const DJANGO_BASE_URL = "http://127.0.0.1:8000";
@@ -16,8 +15,12 @@ function QuickPropertyForm() {
     baths: "",
     sqft: "",
     listing_type: "",
+    property_type: "",
+    status: "",
     is_featured: false,
   });
+
+  const navigate = useNavigate();
 
   // IMAGE STATE
   const [image, setImage] = useState(null);
@@ -59,21 +62,20 @@ function QuickPropertyForm() {
     }
 
     try {
-      const response = await axios.post(
-        `${DJANGO_BASE_URL}/api/add-property/`,
-        data,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+      const token = localStorage.getItem("access_token");
+
+      await api.post("/add-property/", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
         },
-      );
+      });
 
       console.log(response.data);
 
       alert("Property Added Successfully!");
 
-      // RESET FORM
+      navigate("/my-properties");
+
       setFormData({
         title: "",
         price: "",
@@ -89,7 +91,7 @@ function QuickPropertyForm() {
 
       setImage(null);
     } catch (error) {
-      console.error(error.response?.data || error);
+      console.log(error);
 
       alert("Failed to add property");
     }
@@ -97,12 +99,10 @@ function QuickPropertyForm() {
 
   return (
     <>
-     
-
       {/* FORM */}
-      <div className={quicksell.container} id="sellform" style={{ paddingTop: "140px" }}>
+      <div className={styles.formCard}>
         <form
-          className={quicksell["form-card"]}
+          className={styles.formCard}
           style={{ backgroundColor: "#f0f2f5" }}
           onSubmit={handleSubmit}
         >
@@ -111,7 +111,7 @@ function QuickPropertyForm() {
           <p>Please fill the below form. Our expert will contact you soon</p>
 
           {/* PROPERTY TITLE */}
-          <div className={quicksell["form-group"]}>
+          <div className={styles.formGroup}>
             <label>Property Title *</label>
 
             <input
@@ -124,7 +124,7 @@ function QuickPropertyForm() {
           </div>
 
           {/* PRICE */}
-          <div className={quicksell["form-group"]}>
+          <div className={styles.formGroup}>
             <label>Price *</label>
 
             <input
@@ -137,7 +137,7 @@ function QuickPropertyForm() {
           </div>
 
           {/* ADDRESS */}
-          <div className={quicksell["form-group"]}>
+          <div className={styles.formGroup}>
             <label>Address *</label>
 
             <input
@@ -150,7 +150,7 @@ function QuickPropertyForm() {
           </div>
 
           {/* BEDS */}
-          <div className={quicksell["form-group"]}>
+          <div className={styles.formGroup}>
             <label>Beds *</label>
 
             <input
@@ -163,7 +163,7 @@ function QuickPropertyForm() {
           </div>
 
           {/* BATHS */}
-          <div className={quicksell["form-group"]}>
+          <div className={styles.formGroup}>
             <label>Baths *</label>
 
             <input
@@ -176,7 +176,7 @@ function QuickPropertyForm() {
           </div>
 
           {/* SQFT */}
-          <div className={quicksell["form-group"]}>
+          <div className={styles.formGroup}>
             <label>Sqft *</label>
 
             <input
@@ -187,14 +187,14 @@ function QuickPropertyForm() {
               required
             />
           </div>
-          <div className={quicksell["form-group"]}>
+          <div className={styles.formGroup}>
             <label>Listing Type *</label>
 
             <select
               name="listing_type"
               value={formData.listing_type}
               onChange={handleChange}
-              className={quicksell.input}
+              className={styles.formInput}
               required
             >
               <option value="">Select Type</option>
@@ -204,14 +204,14 @@ function QuickPropertyForm() {
           </div>
 
           {/* PROPERTY TYPE */}
-          <div className={quicksell["form-group"]}>
+          <div className={styles.formGroup}>
             <label>Property Type *</label>
 
             <select
               name="property_type"
               value={formData.property_type}
               onChange={handleChange}
-              className={quicksell.input}
+              className={styles.formInput}
               required
             >
               <option value="">Select Property Type</option>
@@ -227,14 +227,14 @@ function QuickPropertyForm() {
           </div>
 
           {/* STATUS */}
-          <div className={quicksell["form-group"]}>
+          <div className={styles.formGroup}>
             <label>Status *</label>
 
             <select
               name="status"
               value={formData.status}
               onChange={handleChange}
-              className={quicksell.input}
+              className={styles.formInput}
               required
             >
               <option value="">Select Status</option>
@@ -247,14 +247,14 @@ function QuickPropertyForm() {
             </select>
           </div>
 
-          <div className={quicksell["form-group"]}>
+          <div className={styles.formGroup}>
             <label>Featured Property</label>
 
             <select
               name="is_featured"
               value={formData.is_featured}
               onChange={handleChange}
-              className={quicksell.input}
+              className={styles.formInput}
             >
               <option value="false">No</option>
               <option value="true">Yes</option>
@@ -262,25 +262,27 @@ function QuickPropertyForm() {
           </div>
 
           {/* IMAGE */}
-          <div className={quicksell["form-group"]}>
+          <div className={styles.formGroup}>
             <label>Property Image *</label>
 
             <input
               type="file"
               accept="image/*"
               onChange={handleImageChange}
-              className={quicksell.input}
+              className={styles.formInput}
               required
             />
           </div>
 
           {/* BUTTONS */}
-          <div className={quicksell["action-buttons"]}>
-            <button type="reset" className={quicksell["cancel-btn"]}>
+          <div className={styles.actionButtons}>
+            <button type="reset" className={styles.cancelBtn}>
+              {" "}
               Cancel
             </button>
 
-            <button type="submit" className={quicksell["submit-btn"]}>
+            <button type="submit" className={styles.submitBtn}>
+              {" "}
               Submit
             </button>
           </div>

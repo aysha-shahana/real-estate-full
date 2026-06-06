@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Module, Child, PropertyListing
+from .models import Module, Child, PropertyListing , PropertyOffer ,PropertyBooking
 
 
 @admin.register(Module)
@@ -36,3 +36,58 @@ class PropertyListingAdmin(admin.ModelAdmin):
     )
 
     list_per_page = 10
+    
+from django.contrib import admin
+from .models import VisitRequest
+
+@admin.register(VisitRequest)
+class VisitRequestAdmin(admin.ModelAdmin):
+
+    list_display = (
+        "id",
+        "property",
+        "name",
+        "phone",
+        "visit_date",
+        "visit_time",
+        "status",
+    )
+
+    list_filter = (
+        "status",
+        "visit_date",
+    )
+
+    search_fields = (
+        "name",
+        "phone",
+        "email",
+    )
+    
+    
+    list_editable = (
+        "status",
+    )
+    
+    
+    
+@admin.register(PropertyOffer)
+class PropertyOfferAdmin(admin.ModelAdmin):
+    list_display = (
+        "property",
+        "name",
+        "phone",
+        "offer_amount",
+        "created_at"
+    )
+    
+    
+@admin.register(PropertyBooking)
+class PropertyBookingAdmin(admin.ModelAdmin):
+    list_display = (
+        "property",
+        "name",
+        "phone",
+        "booking_amount",
+        "payment_status"
+    )

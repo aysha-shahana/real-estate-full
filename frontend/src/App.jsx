@@ -1,10 +1,6 @@
 import React from "react";
 
-import {
-  Routes,
-  Route,
-  useLocation,
-} from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 
 import Navbar from "./Components/Navbar";
 
@@ -26,14 +22,17 @@ import Signup from "./Components/SignUp/Signup";
 
 import Signin from "./Components/SignIn/Signin";
 
-import QuickPropertyForm from "./Components/SellPage/QuickPropertyForm";
-
 import "./App.css";
 import Profile from "./Components/Profile";
 import UserDashboard from "./Components/UserDashboard/UserDashboard";
+import AddProperty from "./Components/Addproperty/AddProperty";
+import MyProperties from "./Components/MyProperties/MyProperties";
+import Editproperties from "./Components/Edit Properties/Editproperties";
+import PropertyDetails from "./Components/PropertyDetails/PropertyDetails";
+import BuyPropertyDetails from "./Components/BuypropertyDetails/BuyPropertyDetails";
+import ApplyForRent from "./Components/Apply for rent/ApplyForRent";
 
 function App() {
-
   const location = useLocation();
 
   // HIDE NAVBAR + FOOTER
@@ -42,16 +41,18 @@ function App() {
     "/signin",
     "/signup",
     "/dashboard",
+    "/add-property",
+    "/my-properties",
+    "/edit-property/:id",
+    "/profile",
   ];
 
   const hideLayout =
-    hideLayoutRoutes.includes(
-      location.pathname.toLowerCase()
-    );
+    hideLayoutRoutes.includes(location.pathname) ||
+    location.pathname.startsWith("/edit-property/");
 
   return (
     <>
-
       {/* NAVBAR */}
 
       {!hideLayout && <Navbar />}
@@ -59,69 +60,41 @@ function App() {
       {/* ROUTES */}
 
       <Routes>
+        <Route path="/" element={<Home />} />
 
-        <Route
-          path="/"
-          element={<Home />}
-        />
+        <Route path="/add-property" element={<AddProperty />} />
 
-        <Route
-          path="/add-property"
-          element={<QuickPropertyForm />}
-        />
+        <Route path="/dashboard" element={<UserDashboard />} />
 
-        <Route
-          path="/dashboard"
-          element={<UserDashboard />}
-        />
+        <Route path="/my-properties" element={<MyProperties />} />
 
+        <Route path="/edit-property/:id" element={<Editproperties />} />
 
+        <Route path="/rent" element={<Pagethree />} />
 
-        <Route
-          path="/rent"
-          element={<Pagethree />}
-        />
+        <Route path="/buy" element={<Mainpart />} />
+        <Route path="/profile" element={<Profile />} />
 
-        <Route
-          path="/buy"
-          element={<Mainpart />}
-        />
-        <Route 
-        path="/profile"
-        element={<Profile />}
-        />
+        <Route path="/singlepage" element={<Cannectsigle />} />
 
-        <Route
-          path="/singlepage"
-          element={<Cannectsigle />}
-        />
+        <Route path="/agency" element={<Partagency />} />
 
-        <Route
-          path="/agency"
-          element={<Partagency />}
-        />
+        <Route path="/contact" element={<Mainfail />} />
 
-        <Route
-          path="/contact"
-          element={<Mainfail />}
-        />
+        <Route path="/buy-property/:id" element={<BuyPropertyDetails />} />
 
-        <Route
-          path="/signin"
-          element={<Signin />}
-        />
+        <Route path="/property/:id" element={<PropertyDetails />} />
 
-        <Route
-          path="/signup"
-          element={<Signup />}
-        />
+        <Route path="/apply-for-rent/:id" element={<ApplyForRent />} />
+        
+        <Route path="/signin" element={<Signin />} />
 
+        <Route path="/signup" element={<Signup />} />
       </Routes>
 
       {/* FOOTER */}
 
       {!hideLayout && <FooterComponent />}
-
     </>
   );
 }

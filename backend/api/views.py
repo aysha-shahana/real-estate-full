@@ -2,10 +2,13 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.models import User
-from my_app.models import PropertyListing
-from .serializers import PropertyListingSerializer
-
+from my_app.models import PropertyListing , UserProfile , RentalApplication
+from .serializers import PropertyListingSerializer , VisitRequestSerializer
+from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny
+from django.http import JsonResponse
+from my_app.models import VisitRequest
 
 
 
@@ -31,10 +34,23 @@ def signup(request):
     return Response({
         'message': 'User created successfully'
     })
+    
+    
 
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def my_properties(request):
 
+    properties = PropertyListing.objects.filter(
+        user=request.user
+    ).order_by("-id")
 
+    serializer = PropertyListingSerializer(
+        properties,
+        many=True
+    )
 
+    return Response(serializer.data)
 @api_view(['GET'])
 def buy_properties(request):
     properties = PropertyListing.objects.filter(
@@ -63,24 +79,58 @@ def rent_properties(request):
     return Response(serializer.data)
 
 
-@api_view(['POST'])
+
+@api_view(["GET"])
+@permission_classes([AllowAny])
+def click_property_detail(request, id):
+
+    try:
+        property = PropertyListing.objects.get(id=id)
+
+        data = {
+            "id": property.id,
+            "title": property.title,
+            "price": property.price,
+            "address": property.address,
+            "beds": property.beds,
+            "baths": property.baths,
+            "sqft": property.sqft,
+            "description": property.description,
+            "property_type": property.property_type,
+            "listing_type": property.listing_type,
+            "status": property.status,
+            "image": property.image.url if property.image else None,
+        }
+
+        return JsonResponse(data)
+
+    except PropertyListing.DoesNotExist:
+        return JsonResponse(
+            {"error": "Property not found"},
+            status=404
+        )
+ 
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
 def add_property(request):
+
+    print("USER =", request.user)
+    print("AUTH =", request.auth)
 
     serializer = PropertyListingSerializer(
         data=request.data
     )
 
     if serializer.is_valid():
-        serializer.save()
-        return Response(
-            serializer.data,
-            status=status.HTTP_201_CREATED
+
+        serializer.save(
+            user=request.user
         )
 
-    return Response(
-        serializer.errors,
-        status=status.HTTP_400_BAD_REQUEST
-    )
+        return Response(serializer.data)
+
+    return Response(serializer.errors, status=400)
     
     
 @api_view(['GET'])
@@ -226,3 +276,247 @@ def user_dashboard(request):
     }
 
     return Response(data)
+
+class CurrentUserView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+
+        property_count = PropertyListing.objects.filter(user=user).count()
+
+        profile, created = UserProfile.objects.get_or_create(user=user)
+
+        image_url = ""
+        if profile.profile_image:
+            image_url = request.build_absolute_uri(profile.profile_image.url)
+
+        return Response({
+            "id": user.id,
+            "username": user.username,
+            "email": user.email,
+            "first_name": user.first_name,
+            "property_count": property_count,
+            "profile_image": image_url
+        })
+        
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def delete_property(request, pk):
+    try:
+        property_obj = PropertyListing.objects.get(
+            id=pk,
+            user=request.user
+        )
+
+        property_obj.delete()
+
+        return Response({
+            "message": "Deleted successfully"
+        })
+
+    except PropertyListing.DoesNotExist:
+        return Response(
+            {"error": "Property not found"},
+            status=404
+        )
+        
+
+@api_view(['PUT'])
+def edit_property(request, pk):
+
+    try:
+        property_obj = PropertyListing.objects.get(
+            id=pk,
+            user=request.user
+        )
+
+        serializer = PropertyListingSerializer(
+            property_obj,
+            data=request.data
+        )
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+        return Response(serializer.errors, status=400)
+
+    except PropertyListing.DoesNotExist:
+        return Response(
+            {"error": "Property not found"},
+            status=404
+        )
+        
+        
+    #   edit property work akkan vendi  
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def property_detail(request, pk):
+    try:
+        property_obj = PropertyListing.objects.get(
+            id=pk,
+            user=request.user
+        )
+
+        serializer = PropertyListingSerializer(property_obj)
+
+        return Response(serializer.data)
+
+    except PropertyListing.DoesNotExist:
+        return Response(
+            {"error": "Property not found"},
+            status=404
+        )
+class ChangePasswordView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        user = request.user
+
+        old_password = request.data.get("old_password")
+        new_password = request.data.get("new_password")
+
+        # 1. check old password
+        if not user.check_password(old_password):
+            return Response(
+                {"error": "Old password is incorrect"},
+                status=400
+            )
+
+        # 2. set new password properly
+        user.set_password(new_password)
+        user.save()
+
+        return Response(
+            {"message": "Password updated successfully"}
+        )
+        
+@api_view(["PUT"])
+@permission_classes([IsAuthenticated])
+def update_profile(request):
+    user = request.user
+
+    username = request.data.get("username")
+    first_name = request.data.get("first_name")
+    email = request.data.get("email")
+
+    if username:
+        user.username = username
+
+    if first_name:
+        user.first_name = first_name
+
+    if email:
+        user.email = email
+
+    user.save()
+
+    profile, created = UserProfile.objects.get_or_create(user=user)
+
+    if "profile_image" in request.FILES:
+        profile.profile_image = request.FILES["profile_image"]
+        profile.save()
+
+    return Response({"message": "Profile updated successfully"})
+
+
+
+@api_view(["POST"])
+def schedule_visit(request):
+
+    serializer = VisitRequestSerializer(
+        data=request.data
+    )
+
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+
+    return Response(
+        serializer.errors,
+        status=400
+    )
+    
+    
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def visit_requests(request):
+
+    visits = VisitRequest.objects.all().order_by("-created_at")
+
+    serializer = VisitRequestSerializer(
+        visits,
+        many=True
+    )
+
+    return Response(serializer.data)
+
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+
+from my_app.models import PropertyOffer
+from .serializers import (
+    PropertyOfferSerializer
+)
+
+@api_view(["POST"])
+def submit_offer(request):
+
+    serializer = (
+        PropertyOfferSerializer(
+            data=request.data
+        )
+    )
+
+    if serializer.is_valid():
+
+        serializer.save()
+
+        return Response(
+            serializer.data,
+            status=status.HTTP_201_CREATED
+        )
+
+    return Response(
+        serializer.errors,
+        status=status.HTTP_400_BAD_REQUEST
+    )
+    
+    
+    
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from django.shortcuts import get_object_or_404
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def apply_for_rent(request, property_id):
+
+    property_obj = get_object_or_404(PropertyListing, id=property_id)
+
+    already_applied = RentalApplication.objects.filter(
+        property=property_obj,
+        tenant=request.user
+    ).exists()
+
+    if already_applied:
+        return Response({"message": "Already applied"}, status=400)
+
+    RentalApplication.objects.create(
+        property=property_obj,
+        tenant=request.user,
+        full_name=request.data.get("full_name"),
+        email=request.data.get("email"),
+        phone=request.data.get("phone"),
+        occupation=request.data.get("occupation"),
+        monthly_income=request.data.get("monthly_income"),
+        occupants=request.data.get("occupants"),
+        move_in_date=request.data.get("move_in_date"),
+        message=request.data.get("message"),
+    )
+
+    return Response({"message": "Application submitted"})

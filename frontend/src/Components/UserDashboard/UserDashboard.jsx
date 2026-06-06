@@ -1,5 +1,3 @@
-
-
 import {
   FaHome,
   FaBuilding,
@@ -10,49 +8,64 @@ import {
   FaSearch,
 } from "react-icons/fa";
 
-import React, {
-  useEffect,
-  useState,
-} from "react";
-
+import React, { useEffect, useState } from "react";
 
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
-
 import styles from "../../assets/UserDashboard.module.css";
 
 const UserDashboard = () => {
+  const [userData, setUserData] = useState(null);
 
   const navigate = useNavigate();
-  const [dashboardData, setDashboardData] =
-  useState(null);
+  const [dashboardData, setDashboardData] = useState(null);
   useEffect(() => {
+    axios
+      .get("http://127.0.0.1:8000/api/user-dashboard/")
+      .then((res) => {
+        setDashboardData(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
-  axios.get(
-    "http://127.0.0.1:8000/api/user-dashboard/"
-  )
-  .then((res) => {
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const token = localStorage.getItem("access_token");
 
-    setDashboardData(res.data);
+        const response = await axios.get(
+          "http://127.0.0.1:8000/api/current-user/",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
 
-  })
-  .catch((err) => {
+        setUserData(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-    console.log(err);
+    fetchUser();
 
-  });
-
-}, []);
-
-
-  const username =
-    localStorage.getItem("username") || "User";
+    axios
+      .get("http://127.0.0.1:8000/api/user-dashboard/")
+      .then((res) => {
+        setDashboardData(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   // LOGOUT
 
   const handleLogout = () => {
-
     localStorage.removeItem("access_token");
 
     localStorage.removeItem("refresh_token");
@@ -63,305 +76,182 @@ const UserDashboard = () => {
   };
 
   return (
-
     <div className={styles.dashboard}>
-
       {/* SIDEBAR */}
 
       <aside className={styles.sidebar}>
-
-       <div className={styles.logo}>
-
-  <Link
-    className={styles.navBrand}
-    to="/"
-  >
-
-    <img
-      src="/xen-logo.png"
-      alt="company logo"
-    />
-
-  </Link>
-
-</div>
+        <div className={styles.logo}>
+          <Link className={styles.navBrand} to="/">
+            <img src="/xen-logo.png" alt="company logo" />
+          </Link>
+        </div>
 
         {/* PROFILE */}
 
         <div className={styles.profileSection}>
-
           <img
-            src="https://i.pravatar.cc/150?img=12"
+            src={
+              userData?.profile_image
+                ? userData.profile_image
+                : "/default-avatar.png"
+            }
             alt="profile"
             className={styles.profileImage}
           />
+          <h3>{userData?.username || "User"}</h3>
 
-          <h3>
-            {username}
-          </h3>
-
-          <p>
-            Property Owner
-          </p>
-
+          <p>Property Owner</p>
         </div>
 
         {/* MENU */}
 
         <ul className={styles.menu}>
-
           <li className={styles.active}>
-
             <FaHome />
-
             Dashboard
-
           </li>
 
-          <li>
-
+          <li onClick={() => navigate("/my-properties")}>
             <FaBuilding />
-
             My Properties
-
           </li>
 
-          <li
-            onClick={() =>
-              navigate("/add-property")
-            }
-          >
-
+          <li onClick={() => navigate("/add-property")}>
             <FaPlusCircle />
-
             Add Property
-
           </li>
 
-          <li>
-
+          <li onClick={() => navigate("/profile")}>
             <FaUser />
-
             Profile
-
           </li>
 
-          <li
-            onClick={handleLogout}
-          >
-
+          <li onClick={handleLogout}>
             <FaSignOutAlt />
-
             Logout
-
           </li>
-
         </ul>
-
       </aside>
 
       {/* MAIN CONTENT */}
 
       <main className={styles.main}>
-
         {/* TOPBAR */}
 
         <div className={styles.topbar}>
+          <div><p><Link
+    to="/"
+    className={styles.homeLink}
+  >
+    <FaHome /> Home
+  </Link> / Dashboard</p>
+            <h2>Dashboard</h2>
 
-          <div>
+            <p>Welcome back, {userData?.username || "User"}
+              
 
-            <h2>
-              Dashboard
-            </h2>
-
-            <p>
-              Welcome back, {username}
             </p>
-
           </div>
 
           <div className={styles.topActions}>
-
             <div className={styles.searchBox}>
-
               <FaSearch />
 
-              <input
-                type="text"
-                placeholder="Search properties..."
-              />
-
+              <input type="text" placeholder="Search properties..." />
             </div>
 
             <div className={styles.notification}>
-
               <FaBell />
-
             </div>
-
           </div>
-
         </div>
 
         {/* STATS */}
 
         <div className={styles.statsGrid}>
-
           <div className={styles.card}>
-
             <div>
+              <h3>{dashboardData?.total_properties}</h3>
 
-              <h3>
-                {dashboardData?.total_properties}
-              </h3>
-
-              <p>
-                Total Properties
-              </p>
-
+              <p>Total Properties</p>
             </div>
-
           </div>
 
           <div className={styles.card}>
-
             <div>
+              <h3>{dashboardData?.active_properties}</h3>
 
-              <h3>
-                {dashboardData?.active_properties}
-              </h3>
-
-              <p>
-                Active Listings
-              </p>
-
+              <p>Active Listings</p>
             </div>
-
           </div>
 
           <div className={styles.card}>
-
             <div>
+              <h3>{dashboardData?.sold_properties}</h3>
 
-              <h3>
-               {dashboardData?.sold_properties}
-              </h3>
-
-              <p>
-                Sold Properties
-              </p>
-
+              <p>Sold Properties</p>
             </div>
-
           </div>
 
           <div className={styles.card}>
-
             <div>
+              <h3>{dashboardData?.enquiries}</h3>
 
-              <h3>
-                {dashboardData?.enquiries}
-              </h3>
-
-              <p>
-                Property Enquiries
-              </p>
-
+              <p>Property Enquiries</p>
             </div>
-
           </div>
-
         </div>
 
         {/* RECENT PROPERTIES */}
 
         <div className={styles.tableCard}>
-
           <div className={styles.tableHeader}>
+            <h3>Recent Properties</h3>
 
-            <h3>
-              Recent Properties
-            </h3>
-
-            <button>
-              View All
-            </button>
-
+            <button>View All</button>
           </div>
 
           <table className={styles.table}>
-
             <thead>
-
               <tr>
+                <th>Property</th>
 
-                <th>
-                  Property
-                </th>
+                <th>Type</th>
 
-                <th>
-                  Type
-                </th>
+                <th>Status</th>
 
-                <th>
-                  Status
-                </th>
-
-                <th>
-                  Price
-                </th>
-
+                <th>Price</th>
               </tr>
-
             </thead>
 
-          <tbody>
+            <tbody>
+              {dashboardData?.recent_properties?.map((property, index) => (
+                <tr key={index}>
+                  <td>{property.title}</td>
 
-  {dashboardData?.recent_properties?.map(
-    (property, index) => (
+                  <td>{property.property_type}</td>
 
-      <tr key={index}>
+                  <td>
+                    <span
+                      className={
+                        property.status === "available"
+                          ? styles.activeStatus
+                          : property.status === "pending"
+                            ? styles.pendingStatus
+                            : styles.soldStatus
+                      }
+                    >
+                      {property.status}
+                    </span>
+                  </td>
 
-        <td>
-          {property.title}
-        </td>
-
-        <td>
-          {property.property_type}
-        </td>
-
-        <td>
-
-          <span className={
-            property.status === "available"
-              ? styles.activeStatus
-              : property.status === "pending"
-              ? styles.pendingStatus
-              : styles.soldStatus
-          }>
-
-            {property.status}
-
-          </span>
-
-        </td>
-
-        <td>
-          ₹ {property.price}
-        </td>
-
-      </tr>
-    )
-  )}
-
-</tbody>
-
+                  <td>₹ {property.price}</td>
+                </tr>
+              ))}
+            </tbody>
           </table>
-
         </div>
-
       </main>
-
     </div>
   );
 };
