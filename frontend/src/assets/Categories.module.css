@@ -4,6 +4,15 @@
   border-radius: 12px;
 }
 
+.maincateco h3, p{
+  text-align: center;
+}
+
+.maincateco h3{
+  font-family: "Cormorant Garamond", serif;
+  font-size: 32px;
+}
+
 
 .city-card {
   width: 160px;             

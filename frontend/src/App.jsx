@@ -30,7 +30,7 @@ import MyProperties from "./Components/MyProperties/MyProperties";
 import Editproperties from "./Components/Edit Properties/Editproperties";
 import PropertyDetails from "./Components/PropertyDetails/PropertyDetails";
 import BuyPropertyDetails from "./Components/BuypropertyDetails/BuyPropertyDetails";
-import ApplyForRent from "./Components/Apply for rent/ApplyForRent";
+// import ApplyForRent from "./Components/Apply for rent/ApplyForRent";
 
 function App() {
   const location = useLocation();
@@ -85,7 +85,7 @@ function App() {
 
         <Route path="/property/:id" element={<PropertyDetails />} />
 
-        <Route path="/apply-for-rent/:id" element={<ApplyForRent />} />
+        {/* <Route path="/apply-for-rent/:id" element={<ApplyForRent />} /> */}
         
         <Route path="/signin" element={<Signin />} />
 

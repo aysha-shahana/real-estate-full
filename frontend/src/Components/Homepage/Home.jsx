@@ -1,6 +1,6 @@
 import React from 'react'
 import Hero from './Hero'
-import CitiesRow from './CitiesRow'
+// import CitiesRow from './CitiesRow'
 import FeaturedProperties from './FeaturedProperties'
 import Steps from './Steps'
 import Article from './Articles'
@@ -12,7 +12,7 @@ const Home = () => {
   return (
     <div>
       <Hero/>
-      <CitiesRow/>
+      {/* <CitiesRow/> */}
       <FeaturedProperties/>
       <Steps/>
       {/* <WhyWork/> */}

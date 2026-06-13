@@ -5,6 +5,8 @@ import renti from "../../assets/Imges/rentbanner.jpg";
 import sell from "../../assets/Mainhead.module.css";
 import secondcom from "../../assets/Pagethreecss/Second.module.css";
 
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet"></link>
+
 const Rentals = () => {
   const DJANGO_BASE_URL = "http://127.0.0.1:8000";
 
@@ -85,13 +87,13 @@ const Rentals = () => {
         <div className="container">
           <div className="row align-items-center">
             {/* LEFT SIDE SEARCH CONTROL */}
-            <div className="col-md-7">
+            <div className={sell.heroContent}>
               <h1 className={sell.htitle}>
                 Find Rentals That Match Your Lifestyle
               </h1>
 
-              <div className={`${sell.sBox} mt-4`}>
-                <div className="row g-2 align-items-center">
+              <div className={sell.sBox}>
+                <div className="row g-3">
                   {/* PROPERTY TYPE DROPDOWN */}
                   <div className="col-md-4">
                     <select
@@ -136,15 +138,6 @@ const Rentals = () => {
                 </div>
               </div>
             </div>
-
-            {/* RIGHT SIDE HERO BANNER */}
-            <div className="col-md-5 text-center">
-              <img
-                src={renti}
-                alt="Rental Illustration"
-                className={sell.rightImage}
-              />
-            </div>
           </div>
         </div>
       </section>
@@ -176,14 +169,14 @@ const Rentals = () => {
                     : `${DJANGO_BASE_URL}${item.image}`;
                   return (
                     <div className="col-md-4" key={item.id}>
-                     <div
-  className="card shadow-sm p-3"
-  style={{
-    borderRadius: "12px",
-    cursor: "pointer",
-  }}
-  onClick={() => navigate(`/property/${item.id}`)}
->
+                      <div
+                        className="card shadow-sm p-3"
+                        style={{
+                          borderRadius: "12px",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => navigate(`/property/${item.id}`)}
+                      >
                         {/* Image Wrap */}
                         <div style={{ position: "relative" }}>
                           <img

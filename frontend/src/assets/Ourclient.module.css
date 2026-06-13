@@ -1,63 +1,134 @@
-.bagro{
-    background-color: #e2e6e9;
-    height:400px ;
+.bagro {
+  background: #f8f8f8;
+  padding: 100px 0;
 }
 
 .clientsection {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  margin-top: 40px;
+  gap: 30px;
 }
 
 .centerhead {
-  grid-column: 1 / -1; /* Heading spans all columns */
+  grid-column: 1 / -1;
+
   text-align: center;
-  margin-bottom: 30px;
-  font-size: 2rem;
+
+  font-family: "Cormorant Garamond", serif;
+
+  font-size: 58px;
+
+  font-weight: 500;
+
+  color: #011824;
+
+  margin-bottom: 60px;
 }
 
-/* Card styling */
 .sarvicecard {
-  background-color: #011824;
+  background: #fff;
 
-  color: white;
-  padding: 25px;
-  border-radius: 10px;
+  padding: 50px 35px;
+
+  border-radius: 20px;
+
   text-align: center;
-  transition: transform 0.3s, box-shadow 0.3s;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,.08);
+
+  transition: .4s ease;
+
+  position: relative;
+
+  overflow: hidden;
+}
+
+.sarvicecard i {
+  font-size: 50px;
+  color: #011824;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.sarvicecard::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 4px;
+
+  background: #011824;
 }
 
 .sarvicecard:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  transform: translateY(-10px);
+
+  box-shadow: 0 20px 40px rgba(0,0,0,.12);
+}
+
+.sarvicecard h3 {
+  font-size: 30px;
+
+  font-family: "Cormorant Garamond", serif;
+
+  color: #011824;
+
+  margin-bottom: 20px;
+}
+
+.sarvicecard p {
+  color: #666;
+
+  line-height: 1.9;
+
+  margin-bottom: 30px;
+
+  font-size: 16px;
 }
 
 .sarvicecard button {
-  margin-top: 15px;
-  background: white;
-  color: rgb(12, 13, 13);
-  padding: 8px 14px;
-  border-radius: 6px;
+  background: #011824;
+
+  color: #fff;
+
   border: none;
-  cursor: pointer;
-  transition: 0.3s;
+
+  padding: 14px 30px;
+
+  border-radius: 8px;
+
+  font-weight: 600;
+
+  transition: .3s ease;
 }
 
 .sarvicecard button:hover {
-  background-color: aqua;
-  color: white;
+  background: #02324a;
+
+  transform: translateY(-2px);
 }
 
-/* Responsive */
+
 @media (max-width: 992px) {
   .clientsection {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .centerhead {
+    font-size: 42px;
+  }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .clientsection {
     grid-template-columns: 1fr;
+  }
+
+  .centerhead {
+    font-size: 34px;
   }
 }

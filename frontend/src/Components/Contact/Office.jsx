@@ -1,8 +1,8 @@
-
-import React from 'react'
-import ofimg from '../../assets/Imges/offi.jpg'
-import oneoff from '../../assets/Imges/officeone.jpg'
-import offf from '../../assets/Imges/offoo.jpg'
+import React from "react";
+import ofimg from "../../assets/Imges/offi.jpg";
+import oneoff from "../../assets/Imges/officeone.jpg";
+import offf from "../../assets/Imges/offoo.jpg";
+import style from "../../assets/office.module.css";
 const offices = [
   {
     id: 1,
@@ -10,7 +10,7 @@ const offices = [
     address: "9514 Smoky Hollow St. Sulphur, LA 70663",
     phone: "(736) 267-8659",
     email: "rsmartin@gmail.com",
-    image: ofimg
+    image: ofimg,
   },
   {
     id: 2,
@@ -18,7 +18,7 @@ const offices = [
     address: "19 North Road Piscataway, NJ 08854",
     phone: "(736) 267-8659",
     email: "rsmartin@gmail.com",
-    image: oneoff
+    image: oneoff,
   },
   {
     id: 3,
@@ -26,41 +26,52 @@ const offices = [
     address: "8460 Rockville Ave. Greenville, NC 27834",
     phone: "(736) 267-8659",
     email: "rsmartin@gmail.com",
-    image: offf
+    image: offf,
   },
 ];
- 
- 
 
 const Office = () => {
   return (
-    
-<section className="py-5" style={{ backgroundColor: "#f0f2f5" }}>
+    <section className="py-5" style={{ backgroundColor: "#f0f2f5" }}>
       <div className="container text-center">
-        <h2 className="fw-bold mb-2">Our Offices</h2>
+        <h2 className="fw-bold mb-3">Visit Our Offices</h2>
+
         <p className="text-muted mb-5">
-          Easy and smooth guidance to help you through the process.
+          Connect with our local property experts and receive personalized
+          guidance for buying, selling, or renting your ideal property.
         </p>
 
         <div className="row g-4">
           {offices.map((office) => (
-            <div className="col-12 col-md-4" key={office.id}>
-              <div className="card border-0 shadow-sm">
-                <img
-                  src={office.image}
-                  alt={office.name}
-                  className="card-img-top"
-                  style={{ height: "250px", objectFit: "cover" }}
-                />
-                <div className="card-body text-start">
-                  <h5 className="fw-bold">{office.name}</h5>
-                  <p className="mb-1">{office.address}</p>
-                  <p className="mb-1">
-                    <strong>Phone:</strong> {office.phone}
-                  </p>
-                  <p className="mb-0">
-                    <strong>Email:</strong> {office.email}
-                  </p>
+            <div className="col-lg-4 col-md-6" key={office.id}>
+              <div className={style.officeCard}>
+                <div className={style.imageWrapper}>
+                  <img
+                    src={office.image}
+                    alt={office.name}
+                    className={style.officeImage}
+                  />
+                </div>
+
+                <div className={style.officeContent}>
+                  <h4>{office.name}</h4>
+
+                  <div className={style.infoItem}>
+                    <i className="bi bi-geo-alt-fill"></i>
+                    <span>{office.address}</span>
+                  </div>
+
+                  <div className={style.infoItem}>
+                    <i className="bi bi-telephone-fill"></i>
+                    <span>{office.phone}</span>
+                  </div>
+
+                  <div className={style.infoItem}>
+                    <i className="bi bi-envelope-fill"></i>
+                    <span>{office.email}</span>
+                  </div>
+
+                  <button className={style.visitBtn}>Get Directions</button>
                 </div>
               </div>
             </div>

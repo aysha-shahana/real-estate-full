@@ -1,32 +1,26 @@
-import React from 'react'
-import choose from '../../assets/choose.module.css'
-import agency from '../../assets/Imges/agency.jpg'
-
-
+import React from "react";
+import choose from "../../assets/choose.module.css";
 
 const Choose = () => {
   return (
-   <div className="container py-5" style={{ marginTop: "100px" }}>
-    <div className={choose.section}>
-      <div className={choose.sectionLeft}>
-        <h1>
-          Choose the Perfect Agency for Your <br />
-          Property Needs
-        </h1>
-        <p>
-          Find trusted real estate experts to help you discover, buy, or sell
-          your dream property with confidence.
-        </p>
-      </div>
+    <section className={choose.rSection}>
+      <div className={choose.heroContent}>
 
-      <div className={choose.sectionRight}>
-        <img src={agency} alt="Agency Banner" />
+        <h1 className={choose.htitle}>
+          Choose the Perfect Agency for 
+          <br />
+          Your Property Needs
+          
+        </h1>
+
+        <p className={choose.subText}>
+          Find trusted real estate experts to help you discover,
+          buy, or sell your dream property with confidence.
+        </p>
+
       </div>
-    </div>
-    </div>
+    </section>
   );
 };
-
-
 
 export default Choose;

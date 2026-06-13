@@ -1,28 +1,49 @@
 /* =========================
    NAVBAR
 ========================= */
-
 .navbarCustom {
   background: transparent;
-  padding: 18px 0;
-  position: fixed;
-  width: 100%;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-  transition: 0.3s ease;
-  display: flex;
-  align-items: center;
+  padding: 22px 0;
+  transition: all .3s ease;
+}
+
+.scrolled {
+  background: #011824;
+  backdrop-filter: blur(10px);
+  padding: 15px 0;
+}
+
+.navbarCustom .container{
+    max-width: 1700px;
+}
+
+.navlink a {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: .3px;
+  text-decoration: none;
+  
+}
+
+.navlink a:hover {
+  color: #d6b25e;
+}
+
+.addPropertyBtn {
+  background: #011824;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 12px 25px;
+}
+
+.userBox {
+  color: white;
 }
 
 /* SCROLLED */
 
-.scrolled {
-  background: rgba(5, 24, 44, 0.96);
-  backdrop-filter: blur(12px);
-  box-shadow: 0 4px 18px rgba(0,0,0,0.2);
-  padding: 12px 0;
-}
 
 /* =========================
    LOGO
@@ -41,15 +62,6 @@
   list-style: none;
 }
 
-.navlink a {
-  text-decoration: none;
-  color: white;
-  font-size: 16px;
-  font-weight: 600;
-  margin: 0 10px;
-  transition: 0.3s ease;
-  position: relative;
-}
 
 .navlink a:hover {
   color: #dbeafe;
@@ -77,19 +89,16 @@
 ========================= */
 
 .addPropertyBtn {
-  background: white;
-  color: #05182c;
-  border: none;
+  background: transparent;
+  color: #ffff;
+  border: 1px #fff solid;
   padding: 10px 22px;
   border-radius: 10px;
   font-weight: 700;
   transition: 0.3s ease;
 }
 
-.addPropertyBtn:hover {
-  transform: translateY(-2px);
-  background: #f1f5f9;
-}
+
 
 /* =========================
    USER MENU

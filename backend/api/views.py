@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.models import User
 from my_app.models import PropertyListing , UserProfile , RentalApplication
-from .serializers import PropertyListingSerializer , VisitRequestSerializer
+from .serializers import PropertyListingSerializer , VisitRequestSerializer , PropertyDetailSerializer
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import AllowAny
@@ -297,7 +297,8 @@ class CurrentUserView(APIView):
             "email": user.email,
             "first_name": user.first_name,
             "property_count": property_count,
-            "profile_image": image_url
+            "profile_image": image_url,
+            "phone": profile.phone
         })
         
 @api_view(['DELETE'])
@@ -349,7 +350,7 @@ def edit_property(request, pk):
         )
         
         
-    #   edit property work akkan vendi  
+  
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def property_detail(request, pk):
@@ -391,35 +392,48 @@ class ChangePasswordView(APIView):
         return Response(
             {"message": "Password updated successfully"}
         )
-        
 @api_view(["PUT"])
 @permission_classes([IsAuthenticated])
 def update_profile(request):
+
     user = request.user
+    profile, created = UserProfile.objects.get_or_create(
+        user=user
+    )
+    user.username = request.data.get(
+        "username",
+        user.username
+    )
 
-    username = request.data.get("username")
-    first_name = request.data.get("first_name")
-    email = request.data.get("email")
+    user.first_name = request.data.get(
+        "first_name",
+        user.first_name
+    )
 
-    if username:
-        user.username = username
+    user.email = request.data.get(
+        "email",
+        user.email
+    )
 
-    if first_name:
-        user.first_name = first_name
-
-    if email:
-        user.email = email
-
-    user.save()
-
-    profile, created = UserProfile.objects.get_or_create(user=user)
+    profile.phone = request.data.get(
+        "phone",
+        profile.phone
+    )
 
     if "profile_image" in request.FILES:
-        profile.profile_image = request.FILES["profile_image"]
-        profile.save()
+        profile.profile_image = request.FILES[
+            "profile_image"
+        ]
+        
+    
 
-    return Response({"message": "Profile updated successfully"})
+    user.save()
+    profile.save()
+    
 
+    return Response({
+        "message": "Profile updated"
+    })
 
 
 @api_view(["POST"])
@@ -520,3 +534,13 @@ def apply_for_rent(request, property_id):
     )
 
     return Response({"message": "Application submitted"})
+
+
+
+@api_view(["GET"])
+def property_details(request, id):
+    property = PropertyListing.objects.get(id=id)
+
+    serializer = PropertyDetailSerializer(property)
+
+    return Response(serializer.data) 

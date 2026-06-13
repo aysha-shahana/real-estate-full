@@ -15,20 +15,20 @@
 }
 
 .imgLarge {
-  width: 300px;
-  height: 360px;
+  width: 380px;
+  height: 400px;
   object-fit: cover;
   border-radius: 12px;
 }
 
 .statsCard {
   position: absolute;
-  bottom: -20px;
-  left: 40px;
+  bottom: 0px;
+  
   background:#011824;
   color: #fff;
-  padding: 15px 20px;
-  width: 140px;
+  padding: 5px;
+  width: 220px;
   border-radius: 12px;
   text-align: center;
   
@@ -72,6 +72,6 @@
 }
 
 .featureItem i {
-  color: #86a4b3;
+  color: #011824;
   font-size: 20px;
 }

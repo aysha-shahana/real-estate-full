@@ -4,22 +4,22 @@
 }
 
 .theme-purple.sidebar-collapse .navbar-collapse:before {
-    background-color: #9b6fc1
+    background-color: #1E88E5
 }
 
 .theme-purple .btn-primary {
-    background: #9b6fc1
+    background: #1E88E5
 }
 
 .theme-purple .btn-primary:active,
 .theme-purple .btn-primary:hover,
 .theme-purple .btn-primary:focus {
-    background: #7e6990
+    background: #011824
 }
 
 .theme-purple .btn-primary.btn-simple {
-    border-color: #9b6fc1;
-    color: #9b6fc1;
+    border-color: #1E88E5;
+    color: #1E88E5;
     background: transparent
 }
 
@@ -32,12 +32,12 @@
 }
 
 .theme-purple section.content:before {
-    background-color: #7e6990
+    background-color: #011824
 }
 
 .theme-purple .navbar,
 .theme-purple .page-loader-wrapper {
-    background: #7e6990
+    background: #011824
 }
 
 .theme-purple .bars {
@@ -50,54 +50,54 @@
 
 .theme-purple .sidebar .menu .list li.active>:first-child i,
 .theme-purple .sidebar .menu .list li.active>:first-child span {
-    color: #9b6fc1
+    color: #1E88E5
 }
 
 .theme-purple .sidebar .menu .list a:hover {
-    color: #9b6fc1
+    color: #1E88E5
 }
 
 .theme-purple .checkbox input[type="checkbox"]:checked+label::after {
-    border: 1px solid #9b6fc1
+    border: 1px solid #1E88E5
 }
 
 .theme-purple .nav-tabs .nav-link.active,
 .theme-purple .nav-tabs .nav-link:hover {
-    border: 1px solid #7e6990 !important;
-    background: #7e6990;
+    border: 1px solid #011824 !important;
+    background: #011824;
     color: #fff
 }
 
 .theme-purple .card .header h2:before {
-    background: #9b6fc1
+    background: #1E88E5
 }
 
 .theme-purple .card .header h2 strong {
-    color: #9b6fc1
+    color: #1E88E5
 }
 
 .theme-blue .menu>ul>li>ul.normal-sub>li a:hover,
 .theme-blue .menu>ul>li>ul>li>ul>li a:hover {
-    background-color: #569dd2
+    background-color: #1E88E5
 }
 
 .theme-blue.sidebar-collapse .navbar-collapse:before {
-    background-color: #569dd2
+    background-color: #1E88E5
 }
 
 .theme-blue .btn-primary {
-    background: #569dd2
+    background: #1E88E5
 }
 
 .theme-blue .btn-primary:active,
 .theme-blue .btn-primary:hover,
 .theme-blue .btn-primary:focus {
-    background: #569dd2
+    background: #1E88E5
 }
 
 .theme-blue .btn-primary.btn-simple {
-    border-color: #569dd2;
-    color: #569dd2;
+    border-color: #1E88E5;
+    color: #1E88E5;
     background: transparent
 }
 
@@ -110,12 +110,12 @@
 }
 
 .theme-blue section.content:before {
-    background-color: #569dd2
+    background-color: #1E88E5
 }
 
 .theme-blue .navbar,
 .theme-blue .page-loader-wrapper {
-    background: #569dd2
+    background: #1E88E5
 }
 
 .theme-blue .bars {
@@ -128,27 +128,27 @@
 
 .theme-blue .sidebar .menu .list li.active>:first-child i,
 .theme-blue .sidebar .menu .list li.active>:first-child span {
-    color: #569dd2
+    color: #1E88E5
 }
 
 .theme-blue .sidebar .menu .list a:hover {
-    color: #569dd2
+    color: #1E88E5
 }
 
 .theme-blue .checkbox input[type="checkbox"]:checked+label::after {
-    border: 1px solid #569dd2
+    border: 1px solid #1E88E5
 }
 
 .theme-blue .nav-tabs .nav-link.active {
-    border: 1px solid #569dd2 !important
+    border: 1px solid #1E88E5 !important
 }
 
 .theme-blue .card .header h2:before {
-    background: #569dd2
+    background: #1E88E5
 }
 
 .theme-blue .card .header h2 strong {
-    color: #569dd2
+    color: #1E88E5
 }
 
 .theme-cyan .menu>ul>li>ul.normal-sub>li a:hover,
@@ -157,11 +157,11 @@
 }
 
 .theme-cyan.sidebar-collapse .navbar-collapse:before {
-    background-color: #58b9ba
+    background-color: #00BCD4
 }
 
 .theme-cyan .btn-primary {
-    background: #58b9ba
+    background: #00BCD4
 }
 
 .theme-cyan .btn-primary:active,
@@ -171,8 +171,8 @@
 }
 
 .theme-cyan .btn-primary.btn-simple {
-    border-color: #58b9ba;
-    color: #58b9ba;
+    border-color: #00BCD4;
+    color: #00BCD4;
     background: transparent
 }
 
@@ -203,27 +203,27 @@
 
 .theme-cyan .sidebar .menu .list li.active>:first-child i,
 .theme-cyan .sidebar .menu .list li.active>:first-child span {
-    color: #58b9ba
+    color: #00BCD4
 }
 
 .theme-cyan .sidebar .menu .list a:hover {
-    color: #58b9ba
+    color: #00BCD4
 }
 
 .theme-cyan .checkbox input[type="checkbox"]:checked+label::after {
-    border: 1px solid #58b9ba
+    border: 1px solid #00BCD4
 }
 
 .theme-cyan .nav-tabs .nav-link.active {
-    border: 1px solid #58b9ba !important
+    border: 1px solid #00BCD4 !important
 }
 
 .theme-cyan .card .header h2:before {
-    background: #58b9ba
+    background: #00BCD4
 }
 
 .theme-cyan .card .header h2 strong {
-    color: #58b9ba
+    color: #00BCD4
 }
 
 .theme-green .menu>ul>li>ul.normal-sub>li a:hover,
@@ -232,11 +232,11 @@
 }
 
 .theme-green.sidebar-collapse .navbar-collapse:before {
-    background-color: #4b9f79
+    background-color: #2EBD85
 }
 
 .theme-green .btn-primary {
-    background: #4b9f79
+    background: #2EBD85
 }
 
 .theme-green .btn-primary:active,
@@ -246,8 +246,8 @@
 }
 
 .theme-green .btn-primary.btn-simple {
-    border-color: #4b9f79;
-    color: #4b9f79;
+    border-color: #2EBD85;
+    color: #2EBD85;
     background: transparent
 }
 
@@ -278,27 +278,27 @@
 
 .theme-green .sidebar .menu .list li.active>:first-child i,
 .theme-green .sidebar .menu .list li.active>:first-child span {
-    color: #4b9f79
+    color: #2EBD85
 }
 
 .theme-green .sidebar .menu .list a:hover {
-    color: #4b9f79
+    color: #2EBD85
 }
 
 .theme-green .checkbox input[type="checkbox"]:checked+label::after {
-    border: 1px solid #4b9f79
+    border: 1px solid #2EBD85
 }
 
 .theme-green .nav-tabs .nav-link.active {
-    border: 1px solid #4b9f79 !important
+    border: 1px solid #2EBD85 !important
 }
 
 .theme-green .card .header h2:before {
-    background: #4b9f79
+    background: #2EBD85
 }
 
 .theme-green .card .header h2 strong {
-    color: #4b9f79
+    color: #2EBD85
 }
 
 .theme-orange .menu>ul>li>ul.normal-sub>li a:hover,
@@ -307,11 +307,11 @@
 }
 
 .theme-orange.sidebar-collapse .navbar-collapse:before {
-    background-color: #ff9e47
+    background-color: #F4A62A
 }
 
 .theme-orange .btn-primary {
-    background: #ff9e47
+    background: #F4A62A
 }
 
 .theme-orange .btn-primary:active,
@@ -321,8 +321,8 @@
 }
 
 .theme-orange .btn-primary.btn-simple {
-    border-color: #ff9e47;
-    color: #ff9e47;
+    border-color: #F4A62A;
+    color: #F4A62A;
     background: transparent
 }
 
@@ -353,27 +353,27 @@
 
 .theme-orange .sidebar .menu .list li.active>:first-child i,
 .theme-orange .sidebar .menu .list li.active>:first-child span {
-    color: #ff9e47
+    color: #F4A62A
 }
 
 .theme-orange .sidebar .menu .list a:hover {
-    color: #ff9e47
+    color: #F4A62A
 }
 
 .theme-orange .checkbox input[type="checkbox"]:checked+label::after {
-    border: 1px solid #ff9e47
+    border: 1px solid #F4A62A
 }
 
 .theme-orange .nav-tabs .nav-link.active {
-    border: 1px solid #ff9e47 !important
+    border: 1px solid #F4A62A !important
 }
 
 .theme-orange .card .header h2:before {
-    background: #ff9e47
+    background: #F4A62A
 }
 
 .theme-orange .card .header h2 strong {
-    color: #ff9e47
+    color: #F4A62A
 }
 
 .theme-blush .menu>ul>li>ul.normal-sub>li a:hover,
@@ -382,11 +382,11 @@
 }
 
 .theme-blush.sidebar-collapse .navbar-collapse:before {
-    background-color: #e96875
+    background-color: #1E88E5
 }
 
 .theme-blush .btn-primary {
-    background: #e96875
+    background: #1E88E5
 }
 
 .theme-blush .btn-primary:active,
@@ -396,8 +396,8 @@
 }
 
 .theme-blush .btn-primary.btn-simple {
-    border-color: #e96875;
-    color: #e96875;
+    border-color: #1E88E5;
+    color: #1E88E5;
     background: transparent
 }
 
@@ -410,12 +410,12 @@
 }
 
 .theme-blush section.content:before {
-    background-color: #e96875
+    background-color: #1E88E5
 }
 
 .theme-blush .navbar,
 .theme-blush .page-loader-wrapper {
-    background: #e96875
+    background: #1E88E5
 }
 
 .theme-blush .bars {
@@ -428,25 +428,25 @@
 
 .theme-blush .sidebar .menu .list li.active>:first-child i,
 .theme-blush .sidebar .menu .list li.active>:first-child span {
-    color: #e96875
+    color: #1E88E5
 }
 
 .theme-blush .sidebar .menu .list a:hover {
-    color: #e96875
+    color: #1E88E5
 }
 
 .theme-blush .checkbox input[type="checkbox"]:checked+label::after {
-    border: 1px solid #e96875
+    border: 1px solid #1E88E5
 }
 
 .theme-blush .nav-tabs .nav-link.active {
-    border: 1px solid #e96875 !important
+    border: 1px solid #1E88E5 !important
 }
 
 .theme-blush .card .header h2:before {
-    background: #e96875
+    background: #1E88E5
 }
 
 .theme-blush .card .header h2 strong {
-    color: #e96875
+    color: #1E88E5
 }

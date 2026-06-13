@@ -1,163 +1,85 @@
 .hero {
-  position: relative;
   min-height: 100vh;
-
-  background:
-    linear-gradient(rgba(0, 0, 0, 0.65),
-      rgba(0, 0, 0, 0.65)),
-    url("../assets/Imges/bbanner.jpeg");
+  display: flex;
+  align-items: center;
+  position: relative;
 
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  
-  display: flex;
-  align-items: center;
-
-  padding-top: 60px;
-  overflow: hidden;
 }
 
-/* HERO TEXT */
 
 .herosec {
-  font-size: 62px;
-  font-weight: 800;
-  line-height: 1.1;
-  color: white;
-  margin-bottom: 20px;
-  max-width: 850px;
+  font-size: 72px;
+  line-height: 1.15;
+  text-align: center;
+  max-width: 900px;
+  margin: auto;
+  font-family: "Cormorant Garamond", serif;
 }
-
-/* SUBTEXT */
 
 .hero p {
-  font-size: 22px;
-  line-height: 1.7;
-  color: rgba(255, 255, 255, 0.82);
-  max-width: 760px;
+  text-align: center;
+  max-width: 700px;
+  margin: auto;
 }
-
-/* SEARCH CONTAINER */
 
 .inputese {
-  margin-top: 60px;
+  max-width:900px ;
+  
+  margin: 50px auto 0;
 }
 
-/* GLASS EFFECT */
-
-.inputese .bg-opacity-25 {
-  background: rgba(255, 255, 255, 0.12) !important;
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 18px;
-  padding: 28px !important;
+.inputese > div {
+  background: rgb(237, 229, 229) !important;
+  border-radius: 70px;
+  overflow: hidden;
+  height: 56px;
 }
 
-/* INPUTS */
-
-.inputese .form-control,
-.inputese .form-select {
-  height: 58px;
-  border-radius: 12px;
-  border: none;
-  font-size: 15px;
+.inputese input,
+.inputese select {
+  height: 56px;
+  background: #eee;
 }
 
-/* SEARCH ICON */
-
-.inputWithIcon {
-  padding-left: 42px;
+.inputese .col-md-3 {
+  border-right: 1px solid #eee;
 }
 
-.inputIcon {
-  position: absolute;
-  right: 20px;
-  top: 49px;
-  color: gray;
-  font-size: 17px;
+.inputese .col-md-3:last-child {
+  border-right: none;
 }
-
-/* SEARCH BUTTON */
-
-.serch {
-  height: 58px;
-  border: none;
-  margin-top: 20px;
-  border-radius: 12px;
-  background: #354968;
-  color: white;
-  font-weight: 700;
-  transition: 0.3s ease;
-  width: 100%;
-}
-
-.serch:hover {
-  background: #a1b1c9;
-  transform: translateY(-2px);
-}
-
-/* LABELS */
 
 .inputese p {
-  color: white;
-  font-weight: 500;
-  margin-bottom: 10px;
+  display: none;
 }
 
-/* RESPONSIVE */
+.serch{
+  width:100%;
+  height: 56px;
+  min-height:60px;
 
-@media (max-width: 1200px) {
+  border:none;
+  border-radius:0 50px 50px 0;
 
-  .herosec {
-    font-size: 58px;
-  }
+  background:#011824;
+  color:#fff;
+  font-size:18px;
+  font-weight:600;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
-@media (max-width: 992px) {
 
-  .hero {
-    text-align: center;
-    padding-top: 140px;
-  }
 
-  .herosec {
-    font-size: 48px;
-  }
-
-  .hero p {
-    font-size: 18px;
-  }
+.inputIcon {
+  top: 50%;
+  transform: translateY(-50%);
+  left: 15px;
+  color: #777;
 }
 
-@media (max-width: 768px) {
-
-  .hero {
-    min-height: auto;
-    padding-bottom: 80px;
-  }
-
-  .herosec {
-    font-size: 38px;
-    line-height: 1.2;
-  }
-
-  .hero p {
-    font-size: 16px;
-  }
-
-  .inputese {
-    margin-top: 40px;
-  }
-
-  .inputese .bg-opacity-25 {
-    padding: 18px !important;
-  }
-}
-
-@media (max-width: 576px) {
-
-  .herosec {
-    font-size: 30px;
-  }
-}

@@ -1,40 +1,92 @@
+.stepsSection {
+  background:
+    linear-gradient(
+     rgba(77, 69, 137, 0.36),
+      rgba(77, 69, 137, 0.36)
+    ),
+    url("../assets/Imges/apartment\ 5.jpg");
 
-   .iconCircle {
-  background: #011824;
-  padding: 10px;
+  background-size: cover;
+  background-position: center;
+
+  padding: 120px 0;
+  position: relative;
+}
+
+.overlay {
+  width: 100%;
+}
+
+.headingArea {
+  text-align: center;
+  margin-bottom: 70px;
+  position: relative;
+}
+
+.headingArea h2 {
+  font-size: 58px;
+  font-weight: 300;
+  line-height: 1.1;
+  color: #eae7e7;
+  font-family: "Cormorant Garamond", serif;
+}
+
+
+
+.stepCard {
+  background: #fff;
+
+  border-radius: 12px;
+
+  padding: 50px 35px;
+
+  text-align: center;
+
+  min-height: 320px;
+
+  box-shadow:
+    0 20px 50px rgba(0,0,0,.08);
+
+  transition: .3s;
+}
+
+.stepCard:hover {
+  transform: translateY(-8px);
+}
+
+.iconCircle {
+  width: 70px;
+  height: 70px;
+
+  margin: 0 auto 25px;
+
   border-radius: 50%;
-  font-size: 30px;
-  color: #ffffff;
-  display: inline-flex;
+
+  background: #011824;
+
+  color: #fff;
+
+  display: flex;
   align-items: center;
   justify-content: center;
-  height: 70px;
-  width: 70px;
+
+  font-size: 28px;
+}
+
+.stepCard h5 {
+  color: #011824;
   margin-bottom: 15px;
+  font-weight: 600;
 }
 
-.maincan {
-  background-color: rgb(211, 230, 241);
-  padding: 40px 20px;
-  border-radius: 10px;
+.stepCard p {
+  color: #6b7280;
+  line-height: 1.8;
+  margin-bottom: 20px;
 }
 
-@media (max-width: 768px) {
-  .iconCircle {
-    height: 60px;
-    width: 60px;
-    font-size: 24px;
-  }
-
-  .maincan {
-    padding: 30px 15px;
-  }
-
-  h5 {
-    font-size: 18px;
-  }
-
-  p {
-    font-size: 14px;
-  }
+.stepCard a {
+  color: #011824;
+  text-decoration: none;
+  font-weight: 600;
 }

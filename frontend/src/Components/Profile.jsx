@@ -26,6 +26,7 @@ const [editData, setEditData] = useState({
   username: "",
   first_name: "",
   email: "",
+  phone: "",
   profile_image: null,
 });
 
@@ -36,11 +37,12 @@ const [editData, setEditData] = useState({
       confirm_password: "",
     });
 
-    const openEditProfile = () => {
+  const openEditProfile = () => {
   setEditData({
-    username: userData?.username,
-    first_name: userData?.first_name,
-    email: userData?.email,
+    username: userData?.username || "",
+    first_name: userData?.first_name || "",
+    email: userData?.email || "",
+    phone: userData?.phone || "",
     profile_image: null,
   });
 
@@ -128,6 +130,7 @@ const handleImageChange = (e) => {
   };
 
 
+
           
 const updateProfile = async () => {
   const formData = new FormData();
@@ -135,6 +138,7 @@ const updateProfile = async () => {
   formData.append("username", editData.username);
   formData.append("first_name", editData.first_name);
   formData.append("email", editData.email);
+  formData.append("phone", editData.phone);
 
   if (editData.profile_image) {
     formData.append("profile_image", editData.profile_image);
@@ -293,6 +297,8 @@ const updateProfile = async () => {
               </h4>
             </div>
 
+
+
             <div
               className={styles.infoCard}
             >
@@ -316,6 +322,11 @@ const updateProfile = async () => {
                 ********
               </h4>
             </div>
+
+    <div className={styles.infoCard}>
+  <span>Phone Number</span>
+  <h4>{userData?.phone || "Not Set"}</h4>
+</div>
           </div>
 
           <div
@@ -363,6 +374,14 @@ const updateProfile = async () => {
         value={editData.email}
         onChange={handleEditChange}
       />
+
+      <input
+  type="text"
+  name="phone"
+  placeholder="Phone Number"
+  value={editData.phone}
+  onChange={handleEditChange}
+/>
 
       <label>Profile Image</label>
 

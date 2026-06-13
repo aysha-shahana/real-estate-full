@@ -1,93 +1,207 @@
 .contactsection {
-  padding: 60px 0;
+  padding: 100px 0;
   background: #f8f9fa;
 }
 
 .wrapper {
-  display: flex;
-  justify-content: space-between;
-  gap: 30px;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 60px;
+  align-items: center;
 }
 
-/* LEFT FORM */
+/* =====================
+   FORM CARD
+===================== */
+
 .formcard {
-  flex: 1;
-  min-width: 320px;
   background: #fff;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+
+  padding: 50px;
+
+  border-radius: 24px;
+
+  box-shadow: 0 20px 50px rgba(0,0,0,.08);
 }
 
 .formcard h3 {
+  font-family: "Cormorant Garamond", serif;
+
+  font-size: 52px;
+
+  color: #011824;
+
   margin-bottom: 10px;
-  font-size: 1.8rem;
-  font-weight: bold;
 }
 
 .formcard p {
-  margin-bottom: 20px;
-  color: #777;
+  color: #666;
+
+  margin-bottom: 35px;
+
+  line-height: 1.8;
 }
 
 .formcard input,
 .formcard textarea {
   width: 100%;
-  padding: 12px 15px;
-  margin-bottom: 15px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+
+  border: 1px solid #e5e7eb;
+
+  padding: 18px 20px;
+
+  margin-bottom: 18px;
+
+  border-radius: 12px;
+
+  font-size: 15px;
+
+  transition: .3s ease;
+}
+
+.formcard input:focus,
+.formcard textarea:focus {
   outline: none;
-  font-size: 1rem;
+
+  border-color: #011824;
+
+  box-shadow: 0 0 0 4px rgba(1,24,36,.08);
 }
 
 .formcard textarea {
-  min-height: 120px;
+  min-height: 180px;
+
   resize: none;
 }
 
 .formcard button {
   width: 100%;
-  padding: 14px;
-  background: #000;
-  color: #fff;
+
+  height: 58px;
+
   border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: 0.3s ease;
+
+  border-radius: 12px;
+
+  background: #011824;
+
+  color: #fff;
+
+  font-weight: 600;
+
+  transition: .3s ease;
 }
 
 .formcard button:hover {
-  background: rgb(17, 43, 78);;
+  background: #02283b;
+
+  transform: translateY(-2px);
 }
 
-/* RIGHT INFO SECTION */
+/* =====================
+   INFO SECTION
+===================== */
+
 .infowrapper {
-  flex: 1;
-  min-width: 320px;
-  padding: 30px;
+  padding: 20px;
 }
 
-.infowrapper h3 {
-  font-size: 2rem;
-  font-weight: bold;
+.subTitle {
+  display: block;
+
+  letter-spacing: 3px;
+
+  color: #011824;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
   margin-bottom: 15px;
 }
 
-.infowrapper p {
-  color: #555;
+.infowrapper h3 {
+  font-family: "Cormorant Garamond", serif;
+
+  font-size: 60px;
+
+  color: #011824;
+
+  line-height: 1.1;
+
   margin-bottom: 20px;
+}
+
+.infowrapper p {
+  color: #666;
+
+  font-size: 17px;
+
+  line-height: 1.8;
+
+  margin-bottom: 40px;
 }
 
 .infowrapper ul {
   list-style: none;
+
   padding: 0;
+
+  margin: 0;
 }
 
-.infowrapper ul li {
-  margin-bottom: 12px;
-  color: #222;
-  font-size: 1rem;
+.infowrapper li {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 15px;
+
+  margin-bottom: 25px;
+
+  font-size: 16px;
+
+  color: #444;
+}
+
+.infowrapper li i {
+  color: #011824;
+
+  font-size: 18px;
+
+  margin-top: 3px;
+}
+
+@media(max-width:992px){
+
+  .wrapper{
+    grid-template-columns: 1fr;
+  }
+
+  .formcard{
+    padding: 35px;
+  }
+
+  .formcard h3{
+    font-size: 40px;
+  }
+
+  .infowrapper h3{
+    font-size: 44px;
+  }
+}
+
+@media(max-width:576px){
+
+  .formcard h3{
+    font-size: 32px;
+  }
+
+  .infowrapper h3{
+    font-size: 34px;
+  }
+
+  .contactsection{
+    padding: 70px 0;
+  }
 }

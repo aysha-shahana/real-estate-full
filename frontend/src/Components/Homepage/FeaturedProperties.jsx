@@ -3,6 +3,8 @@ import axios from "axios";
 
 import styles from "../../assets/FeaturedProperties.module.css";
 
+
+
 const FeaturedProperties = () => {
 
   const DJANGO_BASE_URL = "http://127.0.0.1:8000";
@@ -43,9 +45,9 @@ const FeaturedProperties = () => {
           Featured Properties
         </h2>
 
-        <p>
-          Lorem ipsum dolor sit amet,
-          consectetur adipiscing elit.
+        <p className={styles.subText}>
+          With unparalleled attention to detail, superior craftsmanship,
+          and desirable amenities, each Featured Property embodies the epitome of luxury living.
         </p>
 
         <div className="row g-4">

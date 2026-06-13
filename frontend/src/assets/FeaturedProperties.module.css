@@ -1,6 +1,27 @@
+.feature {
+  text-align: center;
+}
+
 .head {
-  font-size: 26px;
-  font-weight: 700;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 58px;
+  font-weight: 400;
+  color: #17324a;
+  margin-top: -30px;
+  margin-bottom: 20px;
+}
+
+.subText {
+  max-width: 750px;
+  margin: 0 auto 50px;
+
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.8;
+
+  color: #506274;
+
+  font-family: "Lato", sans-serif;
 }
 
 /* CARD CONTAINER */

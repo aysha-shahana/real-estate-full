@@ -1,10 +1,26 @@
+.rSection{
+  min-height: 70vh;
 
-.rSection {
-  background: #192841;
-  padding-top: 140px;
-  position: relative;
-  overflow: hidden;
-  height: 550px;
+  background:
+    linear-gradient(
+      rgba(0,0,0,.55),
+      rgba(0,0,0,.55)
+    ),
+    url("../assets/Imges/rent\ banner.jpg");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  position:relative;
+}
+
+.heroContent{
+  text-align:center;
 }
 
 
@@ -19,30 +35,35 @@
 /* -----------------------------------------
    GLASS SEARCH BOX
 ----------------------------------------- */
- .sBox {
-  background: rgba(255, 255, 255, 0.30); 
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border-radius: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.07);
-  padding: 15px; 
-  width: 490px;
-} 
+.sBox{
+  max-width:1050px;
+
+  margin:auto;
+
+  background:transparent;
+
+  padding:0;
+}
 
 
 /* -----------------------------------------
    GLASS INPUTS & SELECTS
 ----------------------------------------- */
-.slect {
-  background: rgba(255, 255, 255, 0.25) !important;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(200, 200, 200, 0.5) !important;
-  color: #020d0b !important;
-  border-radius: 12px;
-  padding: 10px;
-  width: 100%;
+.slect{
+  height:58px !important;
+
+  background:#fff !important;
+
+  border:none !important;
+
+  border-radius:8px !important;
+
+  color:#444 !important;
+
+  font-size:16px;
+
+  box-shadow:
+    0 5px 15px rgba(0,0,0,.08);
 }
 
 .slect option {
@@ -53,22 +74,28 @@
 /* -----------------------------------------
    GLASS BUTTON
 ----------------------------------------- */
-.archBtn {
-  background: rgba(255, 255, 255, 0.35) !important;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-radius: 12px;
-  padding: 10px 0;
-  color: #114d44 !important;
-  font-weight: 600;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  transition: 0.3s ease;
+.archBtn{
+  height:58px;
+
+  background:#011824 !important;
+
+  color:#fff !important;
+
+  border:none !important;
+
+  border-radius:8px !important;
+
+  font-weight:600;
+
+  box-shadow:
+    0 5px 15px rgba(0,0,0,.15);
 }
 
-.archBtn:hover {
-  background: rgba(255, 255, 255, 0.55) !important;
-  transform: translateY(-2px);
+.archBtn:hover{
+  background: #032436 !important;
 }
+
+
 
 
 /* -----------------------------------------
@@ -87,23 +114,21 @@
   }
 }
 
-.htitle {
-  font-size: 34px;
-  font-weight: 800;
-  color: #ffff;
-  margin: 0;
-  line-height: 1.15;
+.htitle{
+  font-family: "Cormorant Garamond", serif;
+
+  font-size: 52px;
+  font-weight: 300;
+
+  color:#fff;
+
+  line-height:1.05;
+
+  max-width:900px;
+
+  margin:0 auto 50px;
 }
 
-/* ✔ Floating Image */
-.rightImage {
-  width: 100%;
-  max-width: 600px;
-  height: auto;
-  border-radius: 16px;
-  display: inline-block;
-  animation: float 4s ease-in-out infinite;
-}
 
 /* Floating animation */
 @keyframes float {
@@ -112,4 +137,15 @@
   100% { transform: translateY(0); }
 }
 
+@media(max-width:768px){
+
+  .htitle{
+    font-size:48px;
+  }
+
+  .sBox{
+    width:100%;
+  }
+
+}
 

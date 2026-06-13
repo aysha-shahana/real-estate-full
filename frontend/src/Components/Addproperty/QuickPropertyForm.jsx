@@ -14,6 +14,7 @@ function QuickPropertyForm() {
     beds: "",
     baths: "",
     sqft: "",
+    description: "",
     listing_type: "",
     property_type: "",
     status: "",
@@ -83,6 +84,7 @@ function QuickPropertyForm() {
         beds: "",
         baths: "",
         sqft: "",
+        description: "",
         listing_type: "",
         property_type: "",
         status: "",
@@ -187,6 +189,21 @@ function QuickPropertyForm() {
               required
             />
           </div>
+
+          <div className={styles.formGroup}>
+            <label>Description</label>
+
+              <textarea
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+                rows="4"
+                className={styles.formInput}
+                placeholder="Enter property description"
+              />
+          </div>
+
+
           <div className={styles.formGroup}>
             <label>Listing Type *</label>
 

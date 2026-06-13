@@ -10,20 +10,17 @@ import {
 } from "react-router-dom";
 
 import logo from "../../public/xen-logo.png";
-
 import styles from "../assets/Navbar.module.css";
-
-
-
-
 const Navbar = () => {
 
-  const location = useLocation();
+const location = useLocation();
 
 const transparentPages = [
   "/",
   "/rent",
   "/buy",
+  "/agency",
+  "/contact"
 ];
 
 const isTransparentPage =

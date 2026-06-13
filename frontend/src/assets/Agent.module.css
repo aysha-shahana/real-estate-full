@@ -1,65 +1,135 @@
 .agentGrid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 2 columns for 2 cards per row */
+  grid-template-columns: repeat(4, 1fr);
   gap: 30px;
-  justify-items: center;
 }
 
 .agentCard {
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  text-align: center;
-  width: 100%;
-  max-width: 260px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,.08);
+
+  transition: .4s ease;
+}
+
+.agentCard:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0,0,0,.12);
 }
 
 .agentImg {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
+  width: 100%;
+  height: 300px;
   object-fit: cover;
-  margin-bottom: 15px;
+}
+
+.agentCard h3 {
+  font-size: 24px;
+  color: #011824;
+  margin-top: 20px;
+  margin-bottom: 5px;
+  text-align: center;
 }
 
 .title {
-  color: #555;
-  font-size: 0.9rem;
-  margin-bottom: 10px;
+  color: #777;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 15px;
 }
 
 .info {
-  text-align: left;
-  margin-bottom: 15px;
-  width: 100%;
+  padding: 0 25px;
 }
 
 .info p {
-  margin: 5px 0;
-  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  color: #555;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+.info i {
+  color: #011824;
 }
 
 .contactBtn {
-  padding: 8px 20px;
+  width: calc(100% - 50px);
+
+  margin: 20px 25px 25px;
+
   border: none;
-  background-color: #0d2e44;
+
+  background: #011824;
+
   color: #fff;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.3s;
+
+  height: 50px;
+
+  border-radius: 10px;
+
+  font-weight: 600;
+
+  transition: .3s;
 }
 
 .contactBtn:hover {
-  background-color: #0d2e44;
+  background: #02324a;
 }
 
-/* Responsive for smaller screens */
-@media (max-width: 768px) {
-  .agentGrid {
-    grid-template-columns: 1fr; /* single column on mobile */
+.subTitle {
+  display: block;
+
+  letter-spacing: 3px;
+
+  color: #011824;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  margin-bottom: 10px;
+}
+
+.mainTitle {
+  font-family: "Cormorant Garamond", serif;
+
+  font-size: 56px;
+
+  color: #011824;
+
+  font-weight: 500;
+
+  margin-bottom: 15px;
+}
+
+.desc {
+  max-width: 700px;
+
+  margin: auto;
+
+  color: #666;
+
+  font-size: 18px;
+}
+
+@media(max-width:1200px){
+  .agentGrid{
+    grid-template-columns: repeat(2,1fr);
+  }
+}
+
+@media(max-width:768px){
+  .agentGrid{
+    grid-template-columns: 1fr;
+  }
+
+  .mainTitle{
+    font-size: 40px;
   }
 }

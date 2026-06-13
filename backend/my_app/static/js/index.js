@@ -3,11 +3,11 @@
 //Primary use:	Oreo - Responsive Bootstrap 4 Template
 //should be included in all pages. It controls some layout
 
-$(function() {
+$(function () {
     "use strict";
 
     // Customized line Index page
-    $('#linecustom1').sparkline('html',{
+    $('#linecustom1').sparkline('html', {
         height: '35px',
         width: '100%',
         lineColor: '#e5d1e4',
@@ -17,7 +17,7 @@ $(function() {
         spotColor: '#e2a8df',
         spotRadius: 1
     });
-    $('#linecustom2').sparkline('html',{
+    $('#linecustom2').sparkline('html', {
         height: '35px',
         width: '100%',
         lineColor: '#c9e3f4',
@@ -27,7 +27,7 @@ $(function() {
         spotColor: '#8dbfe0',
         spotRadius: 1
     });
-    $('#linecustom3').sparkline('html',{
+    $('#linecustom3').sparkline('html', {
         height: '35px',
         width: '100%',
         lineColor: '#efded3',
@@ -37,7 +37,7 @@ $(function() {
         spotColor: '#e0b89d',
         spotRadius: 1
     });
-    $('#linecustom4').sparkline('html',{
+    $('#linecustom4').sparkline('html', {
         height: '35px',
         width: '100%',
         lineColor: '#a0d6be',
@@ -50,13 +50,13 @@ $(function() {
 
     // 
     $('.knob').knob({
-        draw: function() {
+        draw: function () {
         }
     });
 
-    setTimeout(function(){
+    setTimeout(function () {
         // Total Properties
-        $(document).ready(function(){
+        $(document).ready(function () {
             var chart = c3.generate({
                 bindto: '#c3chart-properties', // id of chart wrapper
                 data: {
@@ -70,10 +70,10 @@ $(function() {
                     type: 'donut', // default type of chart
                     labels: false,
                     colors: {
-                        'data1': '#e96875',
-                        'data2': '#ff9e47',
+                        'data1': '#1E88E5',
+                        'data2': '#F4A62A',
                         'data3': '#62bad9',
-                        'data4': '#7e6990'
+                        'data4': '#011824'
                     },
                     names: {
                         // name of each serie
@@ -101,7 +101,7 @@ $(function() {
             });
         });
         // Graph this year
-        $(document).ready(function(){
+        $(document).ready(function () {
             var chart = c3.generate({
                 bindto: '#chart-bar-rotated', // id of chart wrapper
                 data: {
@@ -112,8 +112,8 @@ $(function() {
                     ],
                     type: 'bar', // default type of chart
                     colors: {
-                        'data1': '#7e6990',
-                        'data2': '#ff9e47'
+                        'data1': '#011824',
+                        'data2': '#F4A62A'
                     },
                     names: {
                         // name of each serie
@@ -129,7 +129,7 @@ $(function() {
                     },
                     y: {
                         tick: {
-                          format: d3.format('$,')
+                            format: d3.format('$,')
                         }
                     },
                     rotated: true,
@@ -147,7 +147,7 @@ $(function() {
             });
         });
         // Browser Usage
-        $(document).ready(function(){
+        $(document).ready(function () {
             var chart = c3.generate({
                 bindto: '#c3chart-Browser-Usage', // id of chart wrapper
                 data: {
@@ -160,10 +160,10 @@ $(function() {
                     ],
                     type: 'donut', // default type of chart
                     colors: {
-                        'data1': '#e96875',
-                        'data2': '#ff9e47',
+                        'data1': '#1E88E5',
+                        'data2': '#F4A62A',
                         'data3': '#62bad9',
-                        'data4': '#7e6990'
+                        'data4': '#011824'
                     },
                     names: {
                         // name of each serie
@@ -218,37 +218,37 @@ $(function() {
             }
         },
         markers: [{
-                latLng: [37.09, -95.71],
-                name: 'America'
-            },
-            {
-                latLng: [51.16, 10.45],
-                name: 'Germany'
-            },
-            {
-                latLng: [-25.27, 133.77],
-                name: 'Australia'
-            },
-            {
-                latLng: [56.13, -106.34],
-                name: 'Canada'
-            },
-            {
-                latLng: [20.59, 78.96],
-                name: 'India'
-            },
-            {
-                latLng: [55.37, -3.43],
-                name: 'United Kingdom'
-            },
+            latLng: [37.09, -95.71],
+            name: 'America'
+        },
+        {
+            latLng: [51.16, 10.45],
+            name: 'Germany'
+        },
+        {
+            latLng: [-25.27, 133.77],
+            name: 'Australia'
+        },
+        {
+            latLng: [56.13, -106.34],
+            name: 'Canada'
+        },
+        {
+            latLng: [20.59, 78.96],
+            name: 'India'
+        },
+        {
+            latLng: [55.37, -3.43],
+            name: 'United Kingdom'
+        },
         ]
     });
 });
 
 
 //======
-$(window).on('scroll',function() {
-    $('.card .sparkline').each(function() {
+$(window).on('scroll', function () {
+    $('.card .sparkline').each(function () {
         var imagePos = $(this).offset().top;
 
         var topOfWindow = $(window).scrollTop();

@@ -11,6 +11,7 @@ from .views import (
     visit_requests,
     submit_offer,
     apply_for_rent,
+    property_details,
 )
 from .views import (
     featured_properties,
@@ -48,14 +49,8 @@ urlpatterns = [
     path("property-details/<int:id>/", click_property_detail, name="property_detail"),
     path("schedule-visit/", schedule_visit),
     path("visit-requests/", visit_requests),
-path(
-    "submit-offer/",
-    submit_offer,
-    name="submit_offer"
-),
+    path("submit-offer/",submit_offer,name="submit_offer"),
+    path("apply-for-rent/<int:property_id>/",apply_for_rent),
+    path("property-details-seller/<int:id>/",property_details,),
 
-path(
-    "apply-for-rent/<int:property_id>/",
-    apply_for_rent,
-),
 ]

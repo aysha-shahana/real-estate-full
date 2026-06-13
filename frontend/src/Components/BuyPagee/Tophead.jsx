@@ -83,9 +83,9 @@ const Tophead = () => {
       <section className={sell.rSection}>
         <div className="container">
           <div className="row align-items-center">
-            <div className="col-md-7">
+            <div className={sell.heroContent}>
               <h1 className={sell.htitle}>
-                Buy the Home That Fits Your Life Perfectly
+                Buy The Home That Fits Your Life Perfectly
               </h1>
 
               <div className={`${sell.sBox} mt-4 p-3`}>
@@ -127,14 +127,7 @@ const Tophead = () => {
               </div>
             </div>
 
-            {/* RIGHT IMAGE */}
-            <div className="col-md-5 text-center">
-              <img
-                src={bannerimg}
-                alt="Right side illustration"
-                className={`${sell.rightImage}`}
-              />
-            </div>
+           
           </div>
         </div>
       </section>

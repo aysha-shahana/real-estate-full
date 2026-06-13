@@ -1,0 +1,107 @@
+.sellerCard {
+  background: #fff;
+  border: 1px solid #d9dfe3;
+  border-radius: 4px;
+  padding: 18px;
+}
+
+.sellerTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sellerLeft {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.postedBy {
+  margin: 0;
+  color: #6c757d;
+  font-size: 13px;
+}
+
+.sellerName {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.memberSince {
+  color: #6c757d;
+  font-size: 14px;
+}
+
+.arrow {
+  font-size: 28px;
+  color: #555;
+  cursor: pointer;
+}
+
+.stats {
+  text-align: center;
+  margin: 25px 0;
+  padding: 10px 0;
+  border-top: 1px solid #ececec;
+  border-bottom: 1px solid #ececec;
+}
+
+.stats h6 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.stats span {
+  font-size: 13px;
+  color: #777;
+}
+
+.chatBtn {
+  width: 100%;
+  height: 58px;
+  border: 2px solid #25D366;
+  background: white;
+  color: #25D366;
+  font-size: 17px;
+  font-weight: 700;
+  border-radius: 6px;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: 0.3s;
+}
+
+.chatBtn:hover {
+  background: #25D366;
+  color: white;
+}
+
+.phoneBtn {
+  width: 100%;
+  height: 58px;
+  border: none;
+  background: #002f34;
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.phoneBtn:hover {
+  background: #01434a;
+}

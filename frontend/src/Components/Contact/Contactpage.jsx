@@ -5,13 +5,15 @@ import style from '../../assets/Contactpagge.module.css'
 const Contactpage = () => {
   return (
     <div className={style.contactsection}>
-       <div className="container py-5" style={{ marginTop: "50px" }}>
+       <div className="container py-5">
         <div className={style.wrapper}>
           
           {/* LEFT FORM SECTION */}
           <div className={style.formcard}>
             <h3>Get in touch</h3>
-            <p>Leo morbi faucibus mattis pharetra tellus velit ultricies duis rhoncus</p>
+            <p>Connect with our dedicated property specialists for expert
+  advice, personalized solutions, and a seamless real estate
+  experience tailored to your needs.</p>
             <input type="text" placeholder="Your name" />
             <input type="email" placeholder="Your email" />
             <input type="text" placeholder="Your phone" />
@@ -20,19 +22,46 @@ const Contactpage = () => {
           </div>
 
           {/* RIGHT INFO SECTION */}
-          <div className={style.infowrapper}>
-            <h3>
-              Feel free to <br /> contact us
-            </h3>
-            <p>Leo morbi faucibus mattis pharetra</p>
+         <div className={style.infowrapper}>
 
-            <ul>
-              <li>8911 Tanglewood Ave. Capitol Heights, MD 20743</li>
-              <li>(566) 237-4687</li>
-              <li>(239) 319-8083</li>
-              <li>moinefou@hotmail.com</li>
-            </ul>
-          </div>
+  <span className={style.subTitle}>
+    CONTACT US
+  </span>
+
+  <h3>
+    Feel Free To
+    <br />
+    Contact Us
+  </h3>
+
+  <p>
+    Our experienced team is ready to help you find,
+    buy, rent, or sell your ideal property.
+  </p>
+
+  <ul>
+    <li>
+      <i className="bi bi-geo-alt-fill"></i>
+      8911 Tanglewood Ave. Capitol Heights, MD 20743
+    </li>
+
+    <li>
+      <i className="bi bi-telephone-fill"></i>
+      (566) 237-4687
+    </li>
+
+    <li>
+      <i className="bi bi-phone-fill"></i>
+      (239) 319-8083
+    </li>
+
+    <li>
+      <i className="bi bi-envelope-fill"></i>
+      moinefou@hotmail.com
+    </li>
+  </ul>
+
+</div>
 
         </div>
       </div>

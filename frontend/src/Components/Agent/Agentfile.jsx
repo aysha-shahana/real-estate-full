@@ -50,10 +50,18 @@ const agenntdada = [
 const Agentfile = () => {
   return (
     <div className="container mt-3 py-5">
-      <div className="text-center mb-5">
-        <h2>Our Professional Agents Are Here to Guide You</h2>
-        <p>Personalized assistance to help you make confident decisions.</p>
-      </div>
+    <div className="text-center mb-5">
+  <span className={agent.subTitle}>OUR EXPERTS</span>
+
+  <h2 className={agent.mainTitle}>
+    Meet Our Professional Agents
+  </h2>
+
+  <p className={agent.desc}>
+    Experienced real estate professionals dedicated to helping
+    you find the perfect property.
+  </p>
+</div>
 
       <div className={agent.agentGrid}>
         {agenntdada.map((item) => (
@@ -63,20 +71,27 @@ const Agentfile = () => {
             <h3>{item.name}</h3>
             <p className={agent.title}>{item.title}</p>
 
-            <div className={agent.info}>
-              <p>
-                <strong>Office:</strong> {item.office}
-              </p>
-              <p>
-                <strong>Mobile:</strong> {item.mobile}
-              </p>
-              <p>
-                <strong>Email:</strong> {item.email}
-              </p>
-            </div>
+          <div className={agent.info}>
+  <p>
+    <i className="bi bi-telephone-fill"></i>
+    {item.office}
+  </p>
 
-            <button className={agent.contactBtn}>Contact Agent</button>
-          </div>
+  <p>
+    <i className="bi bi-phone-fill"></i>
+    {item.mobile}
+  </p>
+
+  <p>
+    <i className="bi bi-envelope-fill"></i>
+    {item.email}
+  </p>
+</div>
+
+<button className={agent.contactBtn}>
+  Contact Agent
+</button>         
+ </div>
         ))}
       </div>
     </div>

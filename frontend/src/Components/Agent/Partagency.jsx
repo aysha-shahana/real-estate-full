@@ -11,12 +11,13 @@ const Partagency = () => {
   return (
     <div>
       <Choose/>
+      <Agentfile/>
       <Statuse/>
       <Guidance/>
-    <Ourclient/>
-    <Agentfile/>
-    <Yourneeds/>
-    
+      
+      <Ourclient/>
+      
+      <Yourneeds/>
     </div>
   )
 }
