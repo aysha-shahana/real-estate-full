@@ -30,6 +30,8 @@ const [editData, setEditData] = useState({
   profile_image: null,
 });
 
+
+
   const [passwordData, setPasswordData] =
     useState({
       old_password: "",
@@ -52,6 +54,7 @@ const [editData, setEditData] = useState({
   useEffect(() => {
     fetchUser();
   }, []);
+  
 
 const fetchUser = async () => {
   try {
@@ -129,9 +132,6 @@ const handleImageChange = (e) => {
 }
   };
 
-
-
-          
 const updateProfile = async () => {
   const formData = new FormData();
 

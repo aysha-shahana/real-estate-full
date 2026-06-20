@@ -1,8 +1,8 @@
 import React from 'react'
- import jojo from '../../assets/Imges/jojo.jpg'
-import profil from '../../assets/Imges/profile.jpg'
-import huma from '../../assets/Imges/human.jpg'
-import man from '../../assets/Imges/man.jpg'
+ import jojo from '../../assets/Imges/agent 1.avif'
+import profil from '../../assets/Imges/agent 2.jpg'
+import huma from '../../assets/Imges/agent 3.avif'
+import man from '../../assets/Imges/agent 4.jpg'
 
 import agent from '../../assets/Agent.module.css'
 

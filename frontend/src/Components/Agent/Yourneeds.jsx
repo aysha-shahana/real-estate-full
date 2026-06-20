@@ -1,6 +1,6 @@
 import React from 'react'
 
-import said from '../../assets/Imges/saidimage.jpg'
+import said from '../../assets/Imges/agent home 1.jpg';
 
 import younee from '../../assets/Youneed.module.css';
 
@@ -38,7 +38,7 @@ const Yourneeds = () => {
     </div>
 
     <div className="col-lg-6">
-      <div className={younee.imageWrapper}>
+      <div className={younee.imagewrapper}>
         <img
           src={said}
           alt="img"

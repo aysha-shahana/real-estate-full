@@ -18,6 +18,11 @@ function QuickPropertyForm() {
     listing_type: "",
     property_type: "",
     status: "",
+    furnishing: "",
+    ownership: "",
+    year_built: "",
+    nearby_places: "",
+    amenities: [],
     is_featured: false,
   });
 
@@ -48,56 +53,62 @@ function QuickPropertyForm() {
     setImage(e.target.files[0]);
   };
 
+  const amenitiesList = [
+  "CCTV",
+  "Garden",
+  "Gym",
+  "Lift",
+  "Parking",
+  "Security",
+  "Swimming Pool",
+  "Water Supply",
+  "WiFi",
+];
+
+  const isPlot = formData.property_type === "plot";
+
   // HANDLE SUBMIT
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+ const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    const data = new FormData();
+  const data = new FormData();
 
-    Object.keys(formData).forEach((key) => {
+  Object.keys(formData).forEach((key) => {
+    if (key !== "amenities") {
       data.append(key, formData[key]);
-    });
-
-    if (image) {
-      data.append("image", image);
     }
+  });
 
-    try {
-      const token = localStorage.getItem("access_token");
+  formData.amenities.forEach((amenity) => {
+    data.append("amenities", amenity);
+  });
 
-      await api.post("/add-property/", data, {
+  if (image) {
+    data.append("image", image);
+  }
+
+  try {
+    const response = await api.post(
+      "/add-property/",
+      data,
+      {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-      });
+      }
+    );
 
-      console.log(response.data);
+    console.log(response.data);
 
-      alert("Property Added Successfully!");
+    alert("Property Added Successfully!");
 
-      navigate("/my-properties");
+    navigate("/my-properties");
 
-      setFormData({
-        title: "",
-        price: "",
-        address: "",
-        beds: "",
-        baths: "",
-        sqft: "",
-        description: "",
-        listing_type: "",
-        property_type: "",
-        status: "",
-        is_featured: false,
-      });
-
-      setImage(null);
-    } catch (error) {
-      console.log(error);
-
-      alert("Failed to add property");
-    }
-  };
+  } catch (error) {
+    console.log(error);
+    alert("Failed to add property");
+  }
+};
 
   return (
     <>
@@ -152,30 +163,29 @@ function QuickPropertyForm() {
           </div>
 
           {/* BEDS */}
-          <div className={styles.formGroup}>
-            <label>Beds *</label>
+          {!isPlot && (
+  <div className={styles.formGroup}>
+    <label>Beds *</label>
+    <input
+      type="number"
+      name="beds"
+      value={formData.beds}
+      onChange={handleChange}
+    />
+  </div>
+)}
 
-            <input
-              type="number"
-              name="beds"
-              value={formData.beds}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          {/* BATHS */}
-          <div className={styles.formGroup}>
-            <label>Baths *</label>
-
-            <input
-              type="number"
-              name="baths"
-              value={formData.baths}
-              onChange={handleChange}
-              required
-            />
-          </div>
+{!isPlot && (
+  <div className={styles.formGroup}>
+    <label>Baths *</label>
+    <input
+      type="number"
+      name="baths"
+      value={formData.baths}
+      onChange={handleChange}
+    />
+  </div>
+)}
 
           {/* SQFT */}
           <div className={styles.formGroup}>
@@ -202,6 +212,106 @@ function QuickPropertyForm() {
                 placeholder="Enter property description"
               />
           </div>
+
+          
+{!isPlot && (
+          <div className={styles.formGroup}>
+  <label>Furnishing</label>
+  <select
+    name="furnishing"
+    value={formData.furnishing}
+    onChange={handleChange}
+    className={styles.formInput}
+  >
+    <option value="">Select Furnishing</option>
+    <option value="unfurnished">Unfurnished</option>
+    <option value="semi_furnished">Semi Furnished</option>
+    <option value="fully_furnished">Fully Furnished</option>
+  </select>
+</div>
+)}
+
+
+<div className={styles.formGroup}>
+  <label>Ownership</label>
+
+  <select
+    name="ownership"
+    value={formData.ownership}
+    onChange={handleChange}
+    className={styles.formInput}
+  >
+    <option value="">Select Ownership</option>
+    <option value="freehold">Freehold</option>
+    <option value="leasehold">Leasehold</option>
+  </select>
+</div>
+
+{!isPlot && (
+<div className={styles.formGroup}>
+  <label>Year Built</label>
+
+  <input
+    type="number"
+    name="year_built"
+    value={formData.year_built}
+    onChange={handleChange}
+    className={styles.formInput}
+  />
+</div>
+
+)}
+
+
+<div className={styles.formGroup}>
+  <label>Nearby Places</label>
+
+  <textarea
+    name="nearby_places"
+    value={formData.nearby_places}
+    onChange={handleChange}
+    rows="4"
+    className={styles.formInput}
+    placeholder={`Enter one nearby place per line
+Example:
+School - 500m
+`}
+  />
+</div>
+
+<div className={styles.formGroup}>
+  <label>Amenities</label>
+
+  <div className="row">
+    {amenitiesList.map((item) => (
+      <div className="col-md-4 mb-2" key={item}>
+        <label>
+          <input
+            type="checkbox"
+            value={item}
+            checked={formData.amenities.includes(item)}
+            onChange={(e) => {
+              if (e.target.checked) {
+                setFormData({
+                  ...formData,
+                  amenities: [...formData.amenities, item],
+                });
+              } else {
+                setFormData({
+                  ...formData,
+                  amenities: formData.amenities.filter(
+                    (a) => a !== item
+                  ),
+                });
+              }
+            }}
+          />{" "}
+          {item}
+        </label>
+      </div>
+    ))}
+  </div>
+</div>
 
 
           <div className={styles.formGroup}>

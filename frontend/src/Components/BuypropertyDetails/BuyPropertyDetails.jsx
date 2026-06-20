@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import styles from "../../assets/propertydetails.module.css";
 import { useParams, Link } from "react-router-dom";
 
 function BuyPropertyDetails() {
@@ -10,6 +11,12 @@ function BuyPropertyDetails() {
   const [property, setProperty] = useState(null);
 
   const DJANGO_BASE_URL = "http://127.0.0.1:8000";
+
+  const [phoneRevealed, setPhoneRevealed] = useState(false);
+
+const setShowPhone = () => {
+  setPhoneRevealed(true);
+};
 
   const fetchProperty = async () => {
     try {
@@ -29,89 +36,24 @@ function BuyPropertyDetails() {
 
   const fetchProperties = async () => {
     try {
-      const res = await axios.get(
-  `${DJANGO_BASE_URL}/api/buy-properties/`
-);
+      const res = await axios.get(`${DJANGO_BASE_URL}/api/buy-properties/`);
 
       setProperties(res.data);
     } catch (error) {
       console.log(error);
     }
   };
-
+  const isPlot = property?.property_type === "plot";
   useEffect(() => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
-
     fetchProperty();
     fetchProperties();
   }, [id]);
-
-  const [showModal, setShowModal] =
-  useState(false);
-
-const [showOfferModal,
-setShowOfferModal] =
-useState(false);
-
-const [offerData,
-setOfferData] =
-useState({
-  name: "",
-  phone: "",
-  offer_amount: "",
-});
-
-const handleOfferChange = (e) => {
-
-  setOfferData({
-    ...offerData,
-    [e.target.name]:
-      e.target.value,
-  });
-
-};
-
-const handleOfferSubmit =
-async () => {
-
-  try {
-
-    await axios.post(
-      `${DJANGO_BASE_URL}/api/submit-offer/`,
-      {
-        property: property.id,
-        ...offerData,
-      }
-    );
-
-    alert(
-      "Offer Submitted Successfully"
-    );
-
-    setShowOfferModal(false);
-
-  } catch (error) {
-
-    console.log(error);
-
-    alert(
-      "Failed To Submit Offer"
-    );
-
-  }
-};
-
-const [showBookingModal,
-setShowBookingModal] =
-useState(false);
-
-
-
-const [visitData, setVisitData] =
-  useState({
+  const [showModal, setShowModal] = useState(false);
+  const [visitData, setVisitData] = useState({
     name: "",
     email: "",
     phone: "",
@@ -120,43 +62,28 @@ const [visitData, setVisitData] =
   });
 
   const handleVisitChange = (e) => {
+    setVisitData({
+      ...visitData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-  setVisitData({
-    ...visitData,
-    [e.target.name]: e.target.value,
-  });
-
-};
-
-const handleVisitSubmit = async () => {
-
-  try {
-
-    await axios.post(
-      `${DJANGO_BASE_URL}/api/schedule-visit/`,
-      {
+  const handleVisitSubmit = async () => {
+    try {
+      await axios.post(`${DJANGO_BASE_URL}/api/schedule-visit/`, {
         property: property.id,
         ...visitData,
-      }
-    );
+      });
 
-    alert(
-      "Visit Scheduled Successfully"
-    );
+      alert("Visit Scheduled Successfully");
 
-    setShowModal(false);
+      setShowModal(false);
+    } catch (error) {
+      console.log(error);
 
-  } catch (error) {
-
-    console.log(error);
-
-    alert(
-      "Failed to schedule visit"
-    );
-  }
-};
-
-
+      alert("Failed to schedule visit");
+    }
+  };
 
   if (!property) {
     return (
@@ -166,16 +93,23 @@ const handleVisitSubmit = async () => {
     );
   }
 
+  const propertyAge = property?.year_built
+    ? new Date().getFullYear() - property.year_built
+    : null;
+
   const imageUrl = property.image
     ? `${DJANGO_BASE_URL}${property.image}`
     : "https://via.placeholder.com/900x600";
 
   return (
-    <div className="container py-5" style={{ marginTop: "100px" }}>
+    <div
+      className="container py-5"
+      style={{ marginTop: "100px", minHeight: "100vh" }}
+    >
       {/* TOP SECTION */}
       <div className="row g-4 align-items-start">
         {/* IMAGE */}
-        <div className="col-lg-7">
+        <div className="col-lg-8">
           <img
             src={imageUrl}
             alt={property.title}
@@ -186,18 +120,137 @@ const handleVisitSubmit = async () => {
               objectFit: "cover",
             }}
           />
+
+          <div
+            className="card border-0 p-4 mt-4"
+            style={{
+              borderRadius: "12px",
+              boxShadow: "0 4px 15px rgba(0,0,0,.08)",
+            }}
+          >
+            <h4 className="fw-bold mb-3">Description</h4>
+            <p
+              className="text-muted"
+              style={{
+                lineHeight: "1.9",
+                fontSize: "16px",
+              }}
+            >
+              {property.description || "No description available"}
+            </p>
+          </div>
+
+          {/* AMENITIES */}
+          <div className="card border-0 shadow-sm p-4 mt-4">
+            <h4 className="fw-bold mb-3">Amenities</h4>
+
+            <div className="row g-3">
+              {property.amenities?.length > 0 ? (
+                property.amenities.map((amenity) => (
+                  <div key={amenity.id} className="col-md-4">
+                    <div className="border rounded p-3">✓ {amenity.name}</div>
+                  </div>
+                ))
+              ) : (
+                <p className="text-muted">No amenities available</p>
+              )}
+            </div>
+          </div>
+        <div className="row mt-5 g-4">
+        {/* LEFT */}
+        <div className="col-lg-12">
+          {/* DESCRIPTION */}
+
+          {/* PROPERTY DETAILS */}
+          <div className="card border-0 shadow-sm p-4">
+            <h4 className="fw-bold mb-3">Property Details</h4>
+
+            <table className="table">
+              <tbody>
+               
+
+                <tr>
+                  <td>Property Type</td>
+                  <td>{property.property_type}</td>
+                </tr>
+                {property.property_type !== "plot" && (
+                  <>
+                <tr>
+                  <td>Bedrooms</td>
+                  <td>{property.beds}</td>
+                </tr>
+
+                <tr>
+                  <td>Bathrooms</td>
+                  <td>{property.baths}</td>
+                </tr>
+                <tr>
+                  <td>Furnishing</td>
+                  <td>{property.furnishing?.replaceAll("_", " ")}</td>
+                </tr>
+
+              </>
+)}
+
+                 <tr>
+                  <td>Area</td>
+                  <td>{property.sqft} Sqft</td>
+                </tr>
+
+                <tr>
+                  <td>Parking</td>
+                  <td>{property.parking ? "Available" : "No"}</td>
+                </tr>
+{property.ownership && (
+  <tr>
+    <td>Ownership</td>
+    <td>{property.ownership}</td>
+  </tr>
+)}
+
+              {property.year_built && (
+  <tr>
+    <td>Year Built</td>
+    <td>{property.year_built}</td>
+  </tr>
+)}
+
+
+
+          {property.propertyAge && (
+                <tr>
+                  <td>Property Age</td>
+                  <td>{propertyAge ? `${propertyAge} Years` : "-"}</td>
+                </tr>
+
+                )}
+
+                <tr>
+                  <td>Status</td>
+                  <td>
+                    <span className="badge bg-success">{property.status}</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+         
         </div>
 
-        {/* PROPERTY INFO */}
-        <div className="col-lg-5">
-          <div className="card border-0 shadow-sm p-4">
-            <h2 className="fw-bold mb-3">{property.title}</h2>
+        {/* RIGHT SIDE */}
+        <div className="col-lg-4">
+          {/* PROPERTY CARD */}
+          <div className="card border-0 shadow-sm p-4 mb-4">
+            <h2 className="fw-bold">{property.title}</h2>
 
-            <h1 className="fw-bold text-primary mb-3">
+            <h1 className="text-primary fw-bold">
               ₹{Number(property.price).toLocaleString()}
             </h1>
 
-            <p className="text-muted mb-4">📍 {property.address}</p>
+            <p className="text-muted">📍 {property.address}</p>
 
             <hr />
 
@@ -209,249 +262,172 @@ const handleVisitSubmit = async () => {
               <strong>Status:</strong> {property.status}
             </div>
 
-            <div className="mb-3">
-              <strong>Bedrooms:</strong> {property.beds}
-            </div>
+           {!isPlot && property.beds > 0 && (
+  <div className="mb-3">
+    <strong>Bedrooms:</strong> {property.beds}
+  </div>
+)}
 
-            <div className="mb-3">
-              <strong>Bathrooms:</strong> {property.baths}
-            </div>
+{!isPlot && property.baths > 0 && (
+  <div className="mb-3">
+    <strong>Bathrooms:</strong> {property.baths}
+  </div>
+)}
 
-            <div className="mb-4">
-              <strong>Area:</strong> {property.sqft} Sqft
-            </div>
+{!isPlot && property.furnishing && (
+  <div className="mb-3">
+    <strong>Furnishing:</strong>{" "}
+    {property.furnishing.replaceAll("_", " ")}
+  </div>
+)}
 
-            <div className="d-flex gap-2 flex-wrap">
+{property.ownership && (
+  <div className="mb-3">
+    <strong>Ownership:</strong>{" "}
+    {property.ownership.replaceAll("_", " ")}
+  </div>
+)}
 
-  <button
-    className="btn btn-primary"
-    onClick={() => setShowModal(true)}
-  >
-    Schedule Visit
-  </button>
+{!isPlot && property.year_built && (
+  <div className="mb-3">
+    <strong>Year Built:</strong> {property.year_built}
+  </div>
+)}
+            <hr />
 
-<button
-  className="btn btn-warning"
-  onClick={() =>
-    setShowOfferModal(true)
-  }
->
-  Make Offer
-</button>
+{/* OWNER INFO */}
+<div className="card border-0 shadow-sm p-3 mt-3">
+  <div className="d-flex align-items-center gap-3">
+    <img
+      src={
+        property.owner_image
+          ? `${DJANGO_BASE_URL}${property.owner_image}`
+          : "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+      }
+      alt="seller"
+      style={{
+        width: "60px",
+        height: "60px",
+        objectFit: "cover",
+        borderRadius: "50%",
+      }}
+    />
 
-  <button
-    className="btn btn-success"
-    onClick={() => setShowBookingModal(true)}
-  >
-    Book Property
-  </button>
+    <div>
+      <span
+        className="text-muted text-uppercase fw-bold"
+        style={{
+          fontSize: "11px",
+          letterSpacing: "0.5px",
+        }}
+      >
+        LISTED BY OWNER
+      </span>
 
-</div>
-          </div>
-        </div>
-      </div>
+      <h6 className="fw-bold mb-0 mt-1">
+        {property.owner_name || "Unknown Owner"}
+      </h6>
 
-      {/* HIGHLIGHTS */}
-      <div className="row mt-5 g-3">
-        <div className="col-md-3">
-          <div className="card text-center p-4 shadow-sm h-100">
-            <h3>🛏</h3>
-            <h5>{property.beds}</h5>
-            <p className="mb-0">Bedrooms</p>
-          </div>
-        </div>
-
-        <div className="col-md-3">
-          <div className="card text-center p-4 shadow-sm h-100">
-            <h3>🛁</h3>
-            <h5>{property.baths}</h5>
-            <p className="mb-0">Bathrooms</p>
-          </div>
-        </div>
-
-        <div className="col-md-3">
-          <div className="card text-center p-4 shadow-sm h-100">
-            <h3>📐</h3>
-            <h5>{property.sqft}</h5>
-            <p className="mb-0">Sqft</p>
-          </div>
-        </div>
-
-        <div className="col-md-3">
-          <div className="card text-center p-4 shadow-sm h-100">
-            <h3>🏠</h3>
-            <h5>{property.property_type}</h5>
-            <p className="mb-0">Type</p>
-          </div>
-        </div>
-      </div>
-
-      {/* DESCRIPTION + CONTACT */}
-      <div className="row mt-5 g-4">
-        {/* LEFT */}
-        <div className="col-lg-8">
-          {/* DESCRIPTION */}
-          <div className="card border-0 shadow-sm p-4 mb-4">
-            <h4 className="fw-bold mb-3">Description</h4>
-
-            <p
-              className="text-muted"
-              style={{
-                lineHeight: "1.9",
-                fontSize: "16px",
-              }}
-            >
-              {property.description ||
-                "This apartment is thoughtfully crafted to provide a harmonious blend of comfort, elegance, and practical flow. Every space has been arranged with natural balance in mind, ensuring that each area feels open, inviting, and intuitively connected. The layout promotes smooth movement between rooms, enhancing both functionality and everyday living comfort. Clean lines, well-defined structure"}
-            </p>
-          </div>
-
-          {/* PROPERTY DETAILS */}
-          <div className="card border-0 shadow-sm p-4">
-            <h4 className="fw-bold mb-3">Property Details</h4>
-
-            <table className="table">
-              <tbody>
-                <tr>
-                  <td>Property Type</td>
-                  <td>{property.property_type}</td>
-                </tr>
-
-                <tr>
-                  <td>Bedrooms</td>
-                  <td>{property.beds}</td>
-                </tr>
-
-                <tr>
-                  <td>Bathrooms</td>
-                  <td>{property.baths}</td>
-                </tr>
-
-                <tr>
-                  <td>Area</td>
-                  <td>{property.sqft} Sqft</td>
-                </tr>
-
-                <tr>
-                  <td>Status</td>
-                  <td>
-                    <span className="badge bg-success text-white">
-                      {property.status}
-                    </span>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>Listing Type</td>
-                  <td>{property.listing_type}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-         <div className="card border-0 shadow-sm p-4 mt-4">
-
-  <h4 className="fw-bold mb-3">
-    Amenities
-  </h4>
-
-  <div className="row">
-
-    <div className="col-md-4">
-      ✓ Parking
+      <small className="text-muted">
+        Member since {property.member_since || "N/A"}
+      </small>
     </div>
-
-    <div className="col-md-4">
-      ✓ Lift
-    </div>
-
-    <div className="col-md-4">
-      ✓ Security
-    </div>
-
-    <div className="col-md-4">
-      ✓ Power Backup
-    </div>
-
-    <div className="col-md-4">
-      ✓ Gym
-    </div>
-
-    <div className="col-md-4">
-      ✓ Swimming Pool
-    </div>
-
   </div>
 
+  <hr />
+
+  <div className="d-flex justify-content-between align-items-center">
+    <span className="text-muted small">
+      Total Properties
+    </span>
+
+    <span className="badge bg-dark rounded-pill">
+      {property.total_properties || 0} Listed
+    </span>
+  </div>
+
+  <div className="row g-2 mt-3">
+    <div className="col-6">
+      <button
+        className="btn btn-success w-100"
+        onClick={() => {
+          if (property.phone) {
+            window.open(
+              `https://wa.me/91${property.phone}?text=Hi, I am interested in ${property.title}`,
+              "_blank"
+            );
+          }
+        }}
+      >
+        💬 WhatsApp
+      </button>
+    </div>
+
+    <div className="col-6">
+      {!phoneRevealed ? (
+        <button
+          className="btn btn-dark w-100"
+          onClick={() => setPhoneRevealed(true)}
+        >
+          📞 Show Contact
+        </button>
+      ) : (
+        <button
+          className="btn btn-dark w-100"
+          onClick={() =>
+            (window.location.href = `tel:${property.phone}`)
+          }
+        >
+          📞 {property.phone}
+        </button>
+      )}
+    </div>
+  </div>
+
+  <div className="border-top pt-3 mt-3">
+    <small className="text-success">
+      ● Usually responds within 30 minutes
+    </small>
+  </div>
 </div>
 
-<div className="card border-0 shadow-sm p-4 mt-4">
+            
 
-  <h4 className="fw-bold mb-3">
-    Nearby Places
-  </h4>
+            {/* SCHEDULE VISIT */}
+            <button
+              className="btn btn-primary w-100"
+              onClick={() => setShowModal(true)}
+            >
+              📅 Schedule Visit
+            </button>
+          </div>
+           {/* NEARBY PLACES */}
+          <div className="card border-0 shadow-sm p-4 mt-4">
+            <h4 className="fw-bold mb-3">Nearby Places</h4>
 
-  <ul className="list-group">
-
-    <li className="list-group-item">
-      🏫 School - 1.2 KM
-    </li>
-
-    <li className="list-group-item">
-      🏥 Hospital - 2 KM
-    </li>
-
-    <li className="list-group-item">
-      🛒 Shopping Mall - 3 KM
-    </li>
-
-    <li className="list-group-item">
-      🚉 Railway Station - 5 KM
-    </li>
-
-  </ul>
-
-</div>
-
-        </div>
-
-        {/* RIGHT */}
-        <div className="col-lg-4">
-          <div className="card border-0 shadow p-4">
-            <h4 className="fw-bold mb-4">Contact Owner</h4>
-
-            <input
-              type="text"
-              className="form-control mb-3"
-              placeholder="Your Name"
-            />
-
-            <input
-              type="email"
-              className="form-control mb-3"
-              placeholder="Your Email"
-            />
-
-            <input
-              type="text"
-              className="form-control mb-3"
-              placeholder="Phone Number"
-            />
-
-            <textarea
-              className="form-control mb-3"
-              rows="5"
-              placeholder="Write your message..."
-            />
-
-            <button className="btn btn-primary w-100">Send Enquiry</button>
+            {property.nearby_places ? (
+              <ul className="list-unstyled mb-0">
+                {property.nearby_places
+                  .split(/\r?\n/)
+                  .filter((place) => place.trim())
+                  .map((place, index) => (
+                    <li key={index} className="mb-2">
+                      ✅ {place}
+                    </li>
+                  ))}
+              </ul>
+            ) : (
+              <p className="text-muted">No nearby places available</p>
+            )}
           </div>
         </div>
+        
       </div>
 
+    
+      
       <div className="mt-5">
         <h3 className="fw-bold mb-4">Related Properties</h3>
-
         <div className="row g-4">
           {properties
             .filter(
@@ -509,262 +485,80 @@ const handleVisitSubmit = async () => {
             })}
         </div>
       </div>
-{showModal && (
-  <div
-    className="modal d-block"
-    style={{
-      background:
-        "rgba(0,0,0,0.5)",
-    }}
-  >
-    <div className="modal-dialog">
+      {showModal && (
+        <div
+          className="modal d-block"
+          style={{
+            background: "rgba(0,0,0,0.5)",
+          }}
+        >
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5>Schedule Property Visit</h5>
 
-      <div className="modal-content">
+                <button
+                  className="btn-close"
+                  onClick={() => setShowModal(false)}
+                ></button>
+              </div>
 
-        <div className="modal-header">
+              <div className="modal-body">
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Your Name"
+                  className="form-control mb-3"
+                  onChange={handleVisitChange}
+                />
 
-          <h5>
-            Schedule Property Visit
-          </h5>
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  className="form-control mb-3"
+                  onChange={handleVisitChange}
+                />
 
-          <button
-            className="btn-close"
-            onClick={() =>
-              setShowModal(false)
-            }
-          ></button>
+                <input
+                  type="text"
+                  name="phone"
+                  placeholder="Phone Number"
+                  className="form-control mb-3"
+                  onChange={handleVisitChange}
+                />
 
+                <input
+                  type="date"
+                  name="visit_date"
+                  className="form-control mb-3"
+                  onChange={handleVisitChange}
+                />
+
+                <input
+                  type="time"
+                  name="visit_time"
+                  className="form-control"
+                  onChange={handleVisitChange}
+                />
+              </div>
+
+              <div className="modal-footer">
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => setShowModal(false)}
+                >
+                  Cancel
+                </button>
+
+                <button className="btn btn-primary" onClick={handleVisitSubmit}>
+                  Confirm Visit
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <div className="modal-body">
-
-          <input
-            type="text"
-            name="name"
-            placeholder="Your Name"
-            className="form-control mb-3"
-            onChange={handleVisitChange}
-          />
-
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            className="form-control mb-3"
-            onChange={handleVisitChange}
-          />
-
-          <input
-            type="text"
-            name="phone"
-            placeholder="Phone Number"
-            className="form-control mb-3"
-            onChange={handleVisitChange}
-          />
-
-          <input
-            type="date"
-            name="visit_date"
-            className="form-control mb-3"
-            onChange={handleVisitChange}
-          />
-
-          <input
-            type="time"
-            name="visit_time"
-            className="form-control"
-            onChange={handleVisitChange}
-          />
-
-        </div>
-
-        <div className="modal-footer">
-
-          <button
-            className="btn btn-secondary"
-            onClick={() =>
-              setShowModal(false)
-            }
-          >
-            Cancel
-          </button>
-
-          <button
-            className="btn btn-primary"
-            onClick={handleVisitSubmit}
-          >
-            Confirm Visit
-          </button>
-
-        </div>
-
-      </div>
-
-    </div>
-  </div>
-)}
-
-{showOfferModal && (
-
-<div
- className="modal d-block"
- style={{
-  background:
-  "rgba(0,0,0,0.5)"
- }}
->
-
-<div className="modal-dialog">
-
-<div className="modal-content">
-
-<div className="modal-header">
-
-<h5>
-Make Offer
-</h5>
-
-<button
- className="btn-close"
- onClick={() =>
- setShowOfferModal(false)
- }
-></button>
-
-</div>
-
-<div className="modal-body">
-
-<input
- type="text"
- name="name"
- placeholder="Your Name"
- className="form-control mb-3"
- onChange={handleOfferChange}
-/>
-
-<input
- type="text"
- name="phone"
- placeholder="Phone Number"
- className="form-control mb-3"
- onChange={handleOfferChange}
-/>
-
-<input
- type="number"
- name="offer_amount"
- placeholder="Offer Amount"
- className="form-control"
- onChange={handleOfferChange}
-/>
-
-</div>
-
-<div className="modal-footer">
-
-<button
- className="btn btn-secondary"
- onClick={() =>
- setShowOfferModal(false)
- }
->
-Cancel
-</button>
-
-<button
- className="btn btn-warning"
- onClick={handleOfferSubmit}
->
-Submit Offer
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-)}
-
-{showBookingModal && (
-
-<div
- className="modal d-block"
- style={{
- background:
- "rgba(0,0,0,0.5)"
- }}
->
-
-<div className="modal-dialog">
-
-<div className="modal-content">
-
-<div className="modal-header">
-
-<h5>
-Book Property
-</h5>
-
-</div>
-
-<div className="modal-body">
-
-<p className="fw-bold">
-Booking Amount: ₹20,000
-</p>
-
-<input
- type="text"
- className="form-control mb-3"
- placeholder="Name"
-/>
-
-<input
- type="email"
- className="form-control mb-3"
- placeholder="Email"
-/>
-
-<input
- type="text"
- className="form-control"
- placeholder="Phone"
-/>
-
-</div>
-
-<div className="modal-footer">
-
-<button
-            className="btn btn-secondary"
-            onClick={() =>
-              setShowBookingModal(false)
-            }
-          >
-            Cancel
-          </button>
-
-<button
- className="btn btn-success"
->
-Proceed To Payment
-</button>
-
-</div>
-
-</div>
-</div>
-</div>
-
-)}
-
-
-
-
+      )}
     </div>
   );
 }

@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import AllowAny
 from django.http import JsonResponse
-from my_app.models import VisitRequest
+from my_app.models import VisitRequest , Amenity
 
 
 
@@ -80,58 +80,84 @@ def rent_properties(request):
 
 
 
+# @api_view(["GET"])
+# @permission_classes([AllowAny])
+# def click_property_detail(request, id):
+
+#     try:
+#         property = PropertyListing.objects.get(id=id)
+
+#         data = {
+#             "id": property.id,
+#             "title": property.title,
+#             "price": property.price,
+#             "address": property.address,
+#             "beds": property.beds,
+#             "baths": property.baths,
+#             "sqft": property.sqft,
+#             "description": property.description,
+#             "property_type": property.property_type,
+#             "listing_type": property.listing_type,
+#             "status": property.status,
+#             "image": property.image.url if property.image else None,
+#             "furnishing": property.furnishing,
+#             "parking": property.parking,
+#             "ownership": property.ownership,
+#             "year_built": property.year_built,
+#             "nearby_places": property.nearby_places,
+#             "amenities": [
+#                 {
+#                     "id": amenity.id,
+#                     "name": amenity.name
+#                 }
+#                 for amenity in property.amenities.all()
+#             ],
+#         }
+
+#         return JsonResponse(data)
+
+#     except PropertyListing.DoesNotExist:
+#         return JsonResponse(
+#             {"error": "Property not found"},
+#             status=404
+#         )
+ 
+ 
+ 
 @api_view(["GET"])
 @permission_classes([AllowAny])
 def click_property_detail(request, id):
 
-    try:
-        property = PropertyListing.objects.get(id=id)
+    property_obj = PropertyListing.objects.get(id=id)
 
-        data = {
-            "id": property.id,
-            "title": property.title,
-            "price": property.price,
-            "address": property.address,
-            "beds": property.beds,
-            "baths": property.baths,
-            "sqft": property.sqft,
-            "description": property.description,
-            "property_type": property.property_type,
-            "listing_type": property.listing_type,
-            "status": property.status,
-            "image": property.image.url if property.image else None,
-        }
+    serializer = PropertyDetailSerializer(property_obj)
 
-        return JsonResponse(data)
+    return Response(serializer.data)
 
-    except PropertyListing.DoesNotExist:
-        return JsonResponse(
-            {"error": "Property not found"},
-            status=404
-        )
- 
+
 
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def add_property(request):
 
-    print("USER =", request.user)
-    print("AUTH =", request.auth)
-
-    serializer = PropertyListingSerializer(
-        data=request.data
-    )
+    serializer = PropertyListingSerializer(data=request.data)
 
     if serializer.is_valid():
 
-        serializer.save(
-            user=request.user
-        )
+        property_obj = serializer.save(user=request.user)
+
+        # Amenities save cheyyuka
+        amenities = request.data.getlist("amenities")
+
+        for amenity_name in amenities:
+            amenity, created = Amenity.objects.get_or_create(
+                name=amenity_name
+            )
+            property_obj.amenities.add(amenity)
 
         return Response(serializer.data)
 
     return Response(serializer.errors, status=400)
-    
     
 @api_view(['GET'])
 def property_search(request):
@@ -369,6 +395,8 @@ def property_detail(request, pk):
             {"error": "Property not found"},
             status=404
         )
+        
+        
 class ChangePasswordView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -542,5 +570,5 @@ def property_details(request, id):
     property = PropertyListing.objects.get(id=id)
 
     serializer = PropertyDetailSerializer(property)
-
+    
     return Response(serializer.data) 

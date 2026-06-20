@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import renti from "../../assets/Imges/rentbanner.jpg";
+
 import sell from "../../assets/Mainhead.module.css";
 import secondcom from "../../assets/Pagethreecss/Second.module.css";
 

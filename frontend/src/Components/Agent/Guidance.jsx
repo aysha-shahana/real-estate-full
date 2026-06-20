@@ -1,7 +1,7 @@
 import React from 'react'
 import guid from '../../assets/Guidance.module.css'
 
-import kochi from '../../assets/Imges/team work.jpg';
+import kochi from '../../assets/Imges/agent team.avif';
 const Guidance = () => {
   return (
     

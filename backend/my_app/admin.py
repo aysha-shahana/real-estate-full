@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Module, Child, PropertyListing , PropertyOffer ,PropertyBooking
+from .models import Module, Child, PropertyListing , PropertyOffer ,PropertyBooking , Amenity
 
 
 @admin.register(Module)
@@ -37,6 +37,8 @@ class PropertyListingAdmin(admin.ModelAdmin):
 
     list_per_page = 10
     
+    filter_horizontal = ["amenities"]
+    
 from django.contrib import admin
 from .models import VisitRequest
 
@@ -69,6 +71,10 @@ class VisitRequestAdmin(admin.ModelAdmin):
         "status",
     )
     
+    
+@admin.register(Amenity)
+class AmenityAdmin(admin.ModelAdmin):
+    list_display = ["name"]
     
     
 @admin.register(PropertyOffer)

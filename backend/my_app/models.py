@@ -23,6 +23,19 @@ class Child(models.Model):
 
     def __str__(self):
         return self.name
+    
+class Amenity(models.Model):
+
+    name = models.CharField(
+        max_length=100,
+        unique=True
+    )
+
+    def __str__(self):
+        return self.name
+    
+    
+
 
 class PropertyListing(models.Model):
 
@@ -41,8 +54,20 @@ class PropertyListing(models.Model):
     STATUS_CHOICES = (
         ("available", "Available"),
         ("sold", "Sold"),
+        ("rented", "Rented"),
     )
-
+    
+    FURNISHING_CHOICES = (
+        ("unfurnished", "Unfurnished"),
+        ("semi_furnished", "Semi Furnished"),
+        ("fully_furnished", "Fully Furnished"),
+    )
+    
+    OWNERSHIP_CHOICES = (
+        ("freehold", "Freehold"),
+        ("leasehold", "Leasehold"),
+    )
+    
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -52,19 +77,75 @@ class PropertyListing(models.Model):
     )
 
     title = models.CharField(max_length=200)
-    price = models.DecimalField(max_digits=12, decimal_places=2)
+
+    price = models.DecimalField(
+        max_digits=12,
+        decimal_places=2
+    )
 
     address = models.CharField(max_length=200)
 
-    description = models.TextField(blank=True, null=True)
+    description = models.TextField(
+        blank=True,
+        null=True
+    )
 
-    beds = models.PositiveIntegerField(null=True, blank=True)
-    baths = models.PositiveIntegerField(null=True, blank=True)
-    sqft = models.PositiveIntegerField(null=True, blank=True)
+    beds = models.PositiveIntegerField(
+        null=True,
+        blank=True
+    )
 
-    image = models.ImageField(upload_to="properties/", blank=True, null=True)
+    baths = models.PositiveIntegerField(
+        null=True,
+        blank=True
+    )
 
-    listing_type = models.CharField(max_length=10, choices=PROPERTY_CHOICES)
+    sqft = models.PositiveIntegerField(
+        null=True,
+        blank=True
+    )
+
+    image = models.ImageField(
+        upload_to="properties/",
+        blank=True,
+        null=True
+    )
+    
+    furnishing = models.CharField(
+        max_length=50,
+        choices=FURNISHING_CHOICES,
+        blank=True,
+        null=True
+    )
+      
+    ownership = models.CharField(
+        max_length=50,
+        choices=OWNERSHIP_CHOICES,
+        blank=True,
+        null=True
+    )
+
+    year_built = models.PositiveIntegerField(
+        blank=True,
+        null=True
+    )
+
+    nearby_places = models.TextField(
+        blank=True,
+        null=True,
+        help_text="School, Hospital, Mall"
+    )
+
+    amenities = models.ManyToManyField(
+        Amenity,
+        blank=True,
+        related_name="properties"
+    )
+
+    listing_type = models.CharField(
+        max_length=10,
+        choices=PROPERTY_CHOICES
+    )
 
     property_type = models.CharField(
         max_length=100,
@@ -78,89 +159,36 @@ class PropertyListing(models.Model):
         default="available"
     )
 
-    is_featured = models.BooleanField(default=False)
+    is_featured = models.BooleanField(
+        default=False
+    )
 
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        null = True
+    )
 
     def __str__(self):
         return self.title
-
-    PROPERTY_CHOICES = (
-        ("buy", "Buy"),
-        ("rent", "Rent"),
-    )
-
-    PROPERTY_TYPE_CHOICES = (
-        ("villa", "Villa"),
-        ("apartment", "Apartment"),
-        ("house", "House"),
-        ("plot", "Plot"),
-    )
-
-    STATUS_CHOICES = (
-    ("available", "Available"),
-    ("sold", "Sold"),
-    ("rented", "Rented"),
-)
     
-    user = models.ForeignKey(
-    User,
-    on_delete=models.CASCADE,
-    null=True,
-    blank=True,
-    related_name="properties"
+class NearbyPlace(models.Model):
+
+    property = models.ForeignKey(
+        PropertyListing,
+        on_delete=models.CASCADE,
+        related_name="nearby_places_list"
     )
 
-    title = models.CharField(max_length=200)
+    name = models.CharField(max_length=100)
 
-    price = models.DecimalField(max_digits=12, decimal_places=2)
-
-    address = models.CharField(max_length=200)
-
-    beds = models.PositiveIntegerField(null=True, blank=True)
-
-    baths = models.PositiveIntegerField(null=True, blank=True)
-
-    sqft = models.PositiveIntegerField(null=True, blank=True)
-
-    image = models.ImageField(upload_to="properties/", blank=True, null=True)
-    
-    furnishing = models.CharField(
-    max_length=100,
-    blank=True,
-    null=True)
-
-    parking = models.BooleanField(default=False)
-
-    ownership = models.CharField(max_length=100,blank=True,null=True)
-
-    year_built = models.PositiveIntegerField(blank=True,null=True)
-
-    nearby_places = models.TextField(blank=True,null=True,help_text="School, Hospital, Mall")
-
-    amenities = models.TextField(blank=True,null=True,help_text="Lift,Gym,Pool")
-
-    # BUY / RENT
-    listing_type = models.CharField(max_length=10, choices=PROPERTY_CHOICES)
-    
-
-    # VILLA / HOUSE / APARTMENT
-    property_type = models.CharField(
-        max_length=100, choices=PROPERTY_TYPE_CHOICES, default="house"
+    distance = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True
     )
-
-    # AVAILABLE / SOLD
-    status = models.CharField(
-        max_length=100, choices=STATUS_CHOICES, default="available"
-    )
-
-    is_featured = models.BooleanField(default=False)
-
-    created_at = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
-        return self.title
-
+        return self.name
 
 
 class UserProfile(models.Model):
@@ -212,8 +240,7 @@ class VisitRequest(models.Model):
 
 
 class PropertyOffer(models.Model):
-    
-    
+
     STATUS_CHOICES = (
     ("pending", "Pending"),
     ("accepted", "Accepted"),

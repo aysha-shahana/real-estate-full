@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from my_app.models import PropertyListing , User , VisitRequest , PropertyOffer
+from my_app.models import PropertyListing , User , VisitRequest , PropertyOffer , Amenity , NearbyPlace
         
 
 
@@ -46,8 +46,29 @@ class PropertyOfferSerializer(
 
         fields = "__all__"
         
+        
+class AmenitySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Amenity
+        fields = ["id", "name"]
+        
+class NearbyPlaceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = NearbyPlace
+        fields = "__all__"
 
 class PropertyDetailSerializer(serializers.ModelSerializer):
+    
+    amenities = AmenitySerializer(
+        many=True,
+        read_only=True
+    )
+    
+    nearby_places_list = NearbyPlaceSerializer(
+        many=True,
+        read_only=True
+    )
 
     owner_name = serializers.CharField(
         source="user.username",
