@@ -46,10 +46,17 @@ urlpatterns = [
         name="reject_offer"
     ),
     path(
-    "rent-applications/",
-    views.rent_applications,
-    name="rent_applications"
-),
+        "rent-applications/",
+        views.rent_applications,
+        name="rent_applications"
+    ),
+    # urls.py
+
+    path(
+        "admin-profile/",
+        views.admin_profile,
+        name="admin_profile"
+    ),
     
 
 

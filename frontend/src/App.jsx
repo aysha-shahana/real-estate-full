@@ -60,19 +60,22 @@ function App() {
       {/* ROUTES */}
 
       <Routes>
-        <Route path="/" element={<Home />} />
+      
+    <Route path="/" element={<Home />} />
+    <Route path="/rent" element={<Pagethree />} />
+    <Route path="/buy" element={<Mainpart />} />
 
-        <Route path="/add-property" element={<AddProperty />} />
+  
+    <Route path="/dashboard" element={<UserDashboard />} />
+    <Route path="/add-property" element={<AddProperty />} />
 
-        <Route path="/dashboard" element={<UserDashboard />} />
 
+  
         <Route path="/my-properties" element={<MyProperties />} />
 
         <Route path="/edit-property/:id" element={<Editproperties />} />
 
-        <Route path="/rent" element={<Pagethree />} />
-
-        <Route path="/buy" element={<Mainpart />} />
+       
         <Route path="/profile" element={<Profile />} />
 
         <Route path="/singlepage" element={<Cannectsigle />} />

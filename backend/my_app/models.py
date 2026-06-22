@@ -35,9 +35,8 @@ class Amenity(models.Model):
         return self.name
     
     
-
-
 class PropertyListing(models.Model):
+
 
     PROPERTY_CHOICES = (
         ("buy", "Buy"),
@@ -66,6 +65,17 @@ class PropertyListing(models.Model):
     OWNERSHIP_CHOICES = (
         ("freehold", "Freehold"),
         ("leasehold", "Leasehold"),
+    )
+    APPROVAL_CHOICES = (
+        ("pending", "Pending"),
+        ("Accepted", "Accepted"),
+        ("rejected", "Rejected"),
+    )
+
+    approval_status = models.CharField(
+        max_length=20,
+        choices=APPROVAL_CHOICES,
+        default="pending"
     )
     
     user = models.ForeignKey(

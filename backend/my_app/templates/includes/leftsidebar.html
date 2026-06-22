@@ -11,10 +11,20 @@
                 <ul class="list">
                     <li>
                         <div class="user-info">
-                            <div class="image"><a href="profile.html"><img src="{% static 'images/profile_av.jpg' %}" alt="User"></a></div>
+                            <div class="image"><a href="{% url 'admin_profile' %}">
+{% if request.user.userprofile.profile_image %}
+    <img
+        src="{{ request.user.userprofile.profile_image.url }}"
+    >
+{% else %}
+    <img
+        src="{% static 'assets/images/default-user.png' %}"
+    >
+{% endif %}
+</a></div>
                             <div class="detail">
-                                <h4>Michael</h4>
-                                <small>Agent</small>
+                                <h4>{{ request.user.username}}</h4>
+                                
                             </div>
                             <a title="facebook" href="javascript:void(0);"><i class="zmdi zmdi-facebook"></i></a>
                             <a title="twitter" href="javascript:void(0);"><i class="zmdi zmdi-twitter"></i></a>

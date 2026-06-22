@@ -70,12 +70,184 @@ def logout_view(request):
 # 2. CORE DASHBOARD & LAYOUT ROUTING
 # =========================================================================
 
-@login_required(login_url='login') 
 def index(request):
-    # CRITICAL: Sidebar-il modules list cheyyaan database-il ninnu edukkunnu
+    
     all_modules = Module.objects.all()
-    return render(request, 'index.html', {'modules': all_modules})
 
+    # Main cards
+    total_properties = PropertyListing.objects.count()
+
+    featured_properties = PropertyListing.objects.filter(
+        is_featured=True
+    ).count()
+
+    total_users = User.objects.count()
+
+    # Property statistics
+    buy_properties = PropertyListing.objects.filter(
+        listing_type="buy"
+    ).count()
+
+    rent_properties = PropertyListing.objects.filter(
+        listing_type="rent"
+    ).count()
+
+    sold_properties = PropertyListing.objects.filter(
+        status="sold"
+    ).count()
+
+    rented_properties = PropertyListing.objects.filter(
+        status="rented"
+    ).count()
+
+    # Property type chart
+    villa_count = PropertyListing.objects.filter(
+        property_type="villa"
+    ).count()
+
+    apartment_count = PropertyListing.objects.filter(
+        property_type="apartment"
+    ).count()
+
+    house_count = PropertyListing.objects.filter(
+        property_type="house"
+    ).count()
+
+    plot_count = PropertyListing.objects.filter(
+        property_type="plot"
+    ).count()
+
+    # Visit requests
+    pending_visits = VisitRequest.objects.filter(
+        status="pending"
+    ).count()
+
+    accepted_visits = VisitRequest.objects.filter(
+        status="accepted"
+    ).count()
+
+    rejected_visits = VisitRequest.objects.filter(
+        status="rejected"
+    ).count()
+
+    # Offers
+    pending_offers = PropertyOffer.objects.filter(
+        status="pending"
+    ).count()
+
+    # Recent properties
+    recent_properties = PropertyListing.objects.order_by(
+        "-created_at"
+    )[:5]
+
+    context = {
+        
+        "modules": all_modules,
+        
+        # Main cards
+        "total_properties": total_properties,
+        "featured_properties": featured_properties,
+        "total_users": total_users,
+
+        # Property stats
+        "buy_properties": buy_properties,
+        "rent_properties": rent_properties,
+        "sold_properties": sold_properties,
+        "rented_properties": rented_properties,
+
+        # Charts
+        "villa_count": villa_count,
+        "apartment_count": apartment_count,
+        "house_count": house_count,
+        "plot_count": plot_count,
+
+        # Requests
+        "pending_visits": pending_visits,
+        "accepted_visits": accepted_visits,
+        "rejected_visits": rejected_visits,
+        "pending_offers": pending_offers,
+
+        # Recent properties
+        "recent_properties": recent_properties,
+    }
+
+    return render(
+        request,
+        "index.html",
+        context
+    )
+
+
+
+
+from django.contrib.auth.decorators import login_required
+from .models import UserProfile
+
+@login_required
+def admin_profile(request):
+
+    profile, created = UserProfile.objects.get_or_create(
+        user=request.user 
+    )
+
+    if request.method == "POST":
+
+        request.user.first_name = request.POST.get(
+            "first_name"
+        )
+
+        request.user.last_name = request.POST.get(
+            "last_name"
+        )
+
+        request.user.email = request.POST.get(
+            "email"
+        )
+
+        profile.phone = request.POST.get(
+            "phone"
+        )
+
+        if request.FILES.get("profile_image"):
+            profile.profile_image = request.FILES.get(
+                "profile_image"
+            )
+
+        request.user.save()
+        profile.save()
+
+    context = {
+        "profile": profile,
+
+        "total_properties":
+        PropertyListing.objects.count(),
+
+        "featured_properties":
+        PropertyListing.objects.filter(
+            is_featured=True
+        ).count(),
+
+        "pending_visits":
+        VisitRequest.objects.filter(
+            status="pending"
+        ).count(),
+
+        "pending_offers":
+        PropertyOffer.objects.filter(
+            status="pending"
+        ).count(),
+
+        "recent_properties":
+        PropertyListing.objects.order_by(
+            "-created_at"
+        )[:5]
+    }
+
+    return render(
+        request,
+        "admin_profile.html",
+        context
+    )
 
 @login_required(login_url='login')
 def module_view(request, module_id):

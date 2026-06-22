@@ -153,26 +153,24 @@ $(function () {
                 data: {
                     columns: [
                         // each columns data
-                        ['data1', 40],
-                        ['data2', 10],
-                        ['data3', 35],
-                        ['data4', 15],
+                        ['Villa', villa_count],
+                        ['Apartment', apartment_count],
+                        ['House', house_count],
+                        ['Plot', plot_count]
                     ],
                     type: 'donut', // default type of chart
                     colors: {
-                        'data1': '#1E88E5',
-                        'data2': '#F4A62A',
-                        'data3': '#62bad9',
-                        'data4': '#011824'
-                    },
-                    names: {
-                        // name of each serie
-                        'data1': 'Chrome',
-                        'data2': 'Safari',
-                        'data3': 'Firefox',
-                        'data4': 'Edge',
+                        Villa: '#1E88E5',
+                        Apartment: '#F4A62A',
+                        House: '#62bad9',
+                        Plot: '#011824'
                     }
                 },
+
+                donut: {
+                    title: "Property Types"
+                },
+
                 axis: {
                 },
                 legend: {
@@ -187,62 +185,7 @@ $(function () {
         });
     }, 100);
 
-    // Visitors Statistics
-    $('#world-map-markers').vectorMap({
-        map: 'world_mill_en',
-        normalizeFunction: 'polynomial',
-        hoverOpacity: 0.7,
-        hoverColor: false,
-        backgroundColor: 'transparent',
-        regionStyle: {
-            initial: {
-                fill: 'rgba(210, 214, 222, 1)',
-                "fill-opacity": 1,
-                stroke: 'none',
-                "stroke-width": 0,
-                "stroke-opacity": 1
-            },
-            hover: {
-                fill: 'rgba(255, 193, 7, 2)',
-                cursor: 'pointer'
-            },
-            selected: {
-                fill: 'yellow'
-            },
-            selectedHover: {}
-        },
-        markerStyle: {
-            initial: {
-                fill: '#fff',
-                stroke: '#FFC107 '
-            }
-        },
-        markers: [{
-            latLng: [37.09, -95.71],
-            name: 'America'
-        },
-        {
-            latLng: [51.16, 10.45],
-            name: 'Germany'
-        },
-        {
-            latLng: [-25.27, 133.77],
-            name: 'Australia'
-        },
-        {
-            latLng: [56.13, -106.34],
-            name: 'Canada'
-        },
-        {
-            latLng: [20.59, 78.96],
-            name: 'India'
-        },
-        {
-            latLng: [55.37, -3.43],
-            name: 'United Kingdom'
-        },
-        ]
-    });
+   
 });
 
 
