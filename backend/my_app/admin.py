@@ -11,6 +11,7 @@ class ModuleAdmin(admin.ModelAdmin):
 
 @admin.register(Child)
 class ChildAdmin(admin.ModelAdmin):
+    filter_horizontal = ("allowed_groups",)
     list_display = ('name', 'module', 'url_name')
     search_fields = ('module__name', 'name', 'url_name')
     list_filter = ('module',)

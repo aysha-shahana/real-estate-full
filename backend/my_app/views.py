@@ -12,6 +12,8 @@ from my_app.models import PropertyListing
 from my_app.models import PropertyOffer
 from my_app.models import RentalApplication
 
+from .decorators import admin_required , child_permission_required
+
 
 
 
@@ -70,10 +72,11 @@ def logout_view(request):
 # 2. CORE DASHBOARD & LAYOUT ROUTING
 # =========================================================================
 
+
+@login_required
+@admin_required
 def index(request):
     
-    all_modules = Module.objects.all()
-
     # Main cards
     total_properties = PropertyListing.objects.count()
 
@@ -141,9 +144,6 @@ def index(request):
     )[:5]
 
     context = {
-        
-        "modules": all_modules,
-        
         # Main cards
         "total_properties": total_properties,
         "featured_properties": featured_properties,
@@ -180,67 +180,107 @@ def index(request):
 
 
 
-from django.contrib.auth.decorators import login_required
 from .models import UserProfile
+from django.contrib.auth import update_session_auth_hash
+
+
 
 @login_required
+@admin_required
 def admin_profile(request):
 
     profile, created = UserProfile.objects.get_or_create(
-        user=request.user 
+        user=request.user
     )
 
     if request.method == "POST":
 
-        request.user.first_name = request.POST.get(
-            "first_name"
-        )
+        # PASSWORD CHANGE
+        if "change_password" in request.POST:
 
-        request.user.last_name = request.POST.get(
-            "last_name"
-        )
+            old_password = request.POST.get("old_password")
+            new_password1 = request.POST.get("new_password1")
+            new_password2 = request.POST.get("new_password2")
 
-        request.user.email = request.POST.get(
-            "email"
-        )
+            if not request.user.check_password(old_password):
+                messages.error(
+                    request,
+                    "Current password is incorrect."
+                )
 
-        profile.phone = request.POST.get(
-            "phone"
-        )
+            elif new_password1 != new_password2:
+                messages.error(
+                    request,
+                    "Passwords do not match."
+                )
 
-        if request.FILES.get("profile_image"):
-            profile.profile_image = request.FILES.get(
-                "profile_image"
+            else:
+                request.user.set_password(
+                    new_password1
+                )
+                request.user.save()
+
+                update_session_auth_hash(
+                    request,
+                    request.user
+                )
+
+                messages.success(
+                    request,
+                    "Password updated successfully."
+                )
+
+            return redirect("admin_profile")
+
+        # PROFILE UPDATE
+        else:
+
+            request.user.first_name = request.POST.get(
+                "first_name"
             )
 
-        request.user.save()
-        profile.save()
+            request.user.last_name = request.POST.get(
+                "last_name"
+            )
+
+            request.user.email = request.POST.get(
+                "email"
+            )
+
+            profile.phone = request.POST.get(
+                "phone"
+            )
+
+            if request.FILES.get("profile_image"):
+                profile.profile_image = request.FILES.get(
+                    "profile_image"
+                )
+
+            request.user.save()
+            profile.save()
+
+            messages.success(
+                request,
+                "Profile updated successfully."
+            )
+
+            return redirect("admin_profile")
 
     context = {
         "profile": profile,
-
-        "total_properties":
-        PropertyListing.objects.count(),
-
-        "featured_properties":
-        PropertyListing.objects.filter(
+        "total_properties": PropertyListing.objects.count(),
+        "featured_properties": PropertyListing.objects.filter(
             is_featured=True
         ).count(),
-
-        "pending_visits":
-        VisitRequest.objects.filter(
+        "pending_visits": VisitRequest.objects.filter(
             status="pending"
         ).count(),
-
-        "pending_offers":
-        PropertyOffer.objects.filter(
+        "pending_offers": PropertyOffer.objects.filter(
             status="pending"
         ).count(),
-
-        "recent_properties":
-        PropertyListing.objects.order_by(
+        "recent_properties": PropertyListing.objects.order_by(
             "-created_at"
-        )[:5]
+        )[:5],
     }
 
     return render(
@@ -273,11 +313,12 @@ def module_view(request, module_id):
         
 #     return render(request, template_path, context)
 
+
+@child_permission_required
 @login_required(login_url='login')
 def child_view(request, child_id):
 
     child = get_object_or_404(Child, id=child_id)
-    all_modules = Module.objects.all()
 
     if child.url_name:
         template_path = child.url_name if child.url_name.endswith('.html') else f"{child.url_name}.html"
@@ -286,7 +327,7 @@ def child_view(request, child_id):
 
     context = {
         'child': child,
-        'modules': all_modules
+        
     }
 
     # USER LIST
@@ -355,9 +396,13 @@ def child_view(request, child_id):
 # =========================================================================
 # 3. EXTRA SUB-PAGES HANDLERS
 # =========================================================================
-
+@admin_required
 @login_required(login_url='login')
 def propertylist(request):
+    
+    if not request.user.is_staff:
+        return redirect("/")
+    
     all_properties = PropertyListing.objects.all()
     all_modules = Module.objects.all()
     context = {
@@ -366,6 +411,35 @@ def propertylist(request):
     }
     return render(request, 'property_list.html', context)
 
+
+
+from django.contrib.auth.models import Group
+
+@login_required
+@admin_required
+def edit_group(request, id):
+
+    group = Group.objects.get(id=id)
+
+    if request.method == "POST":
+
+        group.name = request.POST.get(
+            "group_name"
+        )
+
+        group.save()
+
+        messages.success(
+            request,
+            "Group updated successfully"
+        )
+
+        return redirect("grouplist")
+
+    return redirect("grouplist")
+
+
+@admin_required
 @login_required(login_url='login')
 def addgroup(request):
 
@@ -381,7 +455,7 @@ def addgroup(request):
         'modules': Module.objects.all()
     })
 
-
+@admin_required
 @login_required(login_url='login')
 def grouplist(request):
 
@@ -392,7 +466,7 @@ def grouplist(request):
         'modules': Module.objects.all()
     })
 
-
+@admin_required
 @login_required(login_url='login')
 def deletegroup(request, id):
 
@@ -403,6 +477,8 @@ def deletegroup(request, id):
 
     return redirect('grouplist')
 
+
+@admin_required
 @login_required(login_url='login')
 def adduser_view(request):
     all_modules = Module.objects.all()  # Keeps sidebar navigation alive
@@ -437,6 +513,9 @@ def adduser_view(request):
         
     return render(request, "add_user.html", {'modules': all_modules})
 
+
+
+@admin_required
 @login_required(login_url='login')
 def userlist(request):
    
@@ -451,6 +530,8 @@ def userlist(request):
 
 
 # DELETE USER TRANSACTION
+
+@admin_required
 @login_required(login_url='login')
 def delete_user(request, user_id):
     if request.method == "POST":
@@ -467,6 +548,7 @@ def delete_user(request, user_id):
 
 
 # EDIT USER TRANSACTION
+@admin_required
 @login_required(login_url='login')
 def edit_user(request, user_id):
     target_user = get_object_or_404(User, id=user_id)
@@ -488,6 +570,9 @@ def user_dashboard(request):
 
 from my_app.models import VisitRequest
 
+
+@login_required
+@admin_required
 def visit_requests(request):
 
     visits = VisitRequest.objects.all()
@@ -526,6 +611,9 @@ def reject_visit(request, pk):
 from django.db.models import Max
 
 @staff_member_required
+
+@login_required
+@admin_required
 def offer_list(request):
 
     offers = PropertyOffer.objects.all().order_by("-created_at")

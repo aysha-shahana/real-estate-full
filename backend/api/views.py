@@ -2,8 +2,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.models import User
-from my_app.models import PropertyListing , UserProfile , RentalApplication
-from .serializers import PropertyListingSerializer , VisitRequestSerializer , PropertyDetailSerializer
+from my_app.models import PropertyListing , UserProfile , RentalApplication , ContactLead
+from .serializers import PropertyListingSerializer , VisitRequestSerializer , PropertyDetailSerializer , ContactLeadSerializer
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import AllowAny
@@ -350,6 +350,7 @@ def delete_property(request, pk):
         
 
 @api_view(['PUT'])
+@permission_classes([IsAuthenticated])
 def edit_property(request, pk):
 
     try:
@@ -420,6 +421,8 @@ class ChangePasswordView(APIView):
         return Response(
             {"message": "Password updated successfully"}
         )
+        
+        
 @api_view(["PUT"])
 @permission_classes([IsAuthenticated])
 def update_profile(request):
@@ -452,13 +455,9 @@ def update_profile(request):
         profile.profile_image = request.FILES[
             "profile_image"
         ]
-        
-    
 
     user.save()
     profile.save()
-    
-
     return Response({
         "message": "Profile updated"
     })
@@ -480,6 +479,70 @@ def schedule_visit(request):
         status=400
     )
     
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def my_property_visits(request):
+
+    visits = VisitRequest.objects.filter(
+        property__user=request.user
+    ).order_by("-created_at")
+    
+
+    serializer = VisitRequestSerializer(
+        visits,
+        many=True
+    )
+    
+    total_visits = visits.count()
+
+    return Response({
+    "total_visits": total_visits,
+    "visits": VisitRequestSerializer(
+        visits,
+        many=True
+    ).data
+})
+
+
+@api_view(["PATCH"])
+@permission_classes([IsAuthenticated])
+def update_visit_status(
+    request,
+    visit_id
+):
+
+    visit = VisitRequest.objects.get(
+        id=visit_id
+    )
+
+    status = request.data.get(
+        "status"
+    )
+
+    visit.status = status
+    visit.save()
+
+    return Response({
+        "message":
+        "Status updated"
+    })
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def my_contact_leads(request):
+
+    leads = ContactLead.objects.filter(
+        property__user=request.user
+    ).order_by("-created_at")
+
+    serializer = ContactLeadSerializer(
+        leads,
+        many=True
+    )
+
+    return Response(serializer.data)
+
     
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
@@ -529,7 +592,6 @@ def submit_offer(request):
     
     
     
-from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
@@ -572,3 +634,27 @@ def property_details(request, id):
     serializer = PropertyDetailSerializer(property)
     
     return Response(serializer.data) 
+
+
+@api_view(["POST"])
+def create_contact_lead(request):
+
+    serializer = ContactLeadSerializer(
+        data=request.data
+    )
+
+    if serializer.is_valid():
+
+        serializer.save()
+
+        return Response(
+            serializer.data,
+            status=201
+        )
+
+    return Response(
+        serializer.errors,
+        status=400
+    )
+    
+    

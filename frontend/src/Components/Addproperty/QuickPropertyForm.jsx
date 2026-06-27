@@ -282,33 +282,39 @@ School - 500m
 <div className={styles.formGroup}>
   <label>Amenities</label>
 
-  <div className="row">
+  <div className={styles.amenitiesGrid}>
     {amenitiesList.map((item) => (
-      <div className="col-md-4 mb-2" key={item}>
-        <label>
-          <input
-            type="checkbox"
-            value={item}
-            checked={formData.amenities.includes(item)}
-            onChange={(e) => {
-              if (e.target.checked) {
-                setFormData({
-                  ...formData,
-                  amenities: [...formData.amenities, item],
-                });
-              } else {
-                setFormData({
-                  ...formData,
-                  amenities: formData.amenities.filter(
+      <label
+        key={item}
+        className={styles.amenityItem}
+      >
+        <input
+          type="checkbox"
+          value={item}
+          checked={formData.amenities.includes(item)}
+          onChange={(e) => {
+            if (e.target.checked) {
+              setFormData({
+                ...formData,
+                amenities: [
+                  ...formData.amenities,
+                  item,
+                ],
+              });
+            } else {
+              setFormData({
+                ...formData,
+                amenities:
+                  formData.amenities.filter(
                     (a) => a !== item
                   ),
-                });
-              }
-            }}
-          />{" "}
-          {item}
-        </label>
-      </div>
+              });
+            }
+          }}
+        />
+
+        <span>{item}</span>
+      </label>
     ))}
   </div>
 </div>

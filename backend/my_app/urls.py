@@ -57,6 +57,11 @@ urlpatterns = [
         views.admin_profile,
         name="admin_profile"
     ),
+    path(
+        "edit-group/<int:id>/",
+        views.edit_group,
+        name="edit_group"
+    ),
     
 
 

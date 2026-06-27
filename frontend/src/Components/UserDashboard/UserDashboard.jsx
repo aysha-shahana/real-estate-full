@@ -121,6 +121,16 @@ const UserDashboard = () => {
             Add Property
           </li>
 
+          <li onClick={() => navigate("/visit-requests")}>
+            <FaBuilding />
+            Visit Requests
+          </li>
+
+          <li onClick={() => navigate("/contact-leads")}>
+            <FaUser />
+            Contact Leads
+          </li>
+
           <li onClick={() => navigate("/profile")}>
             <FaUser />
             Profile

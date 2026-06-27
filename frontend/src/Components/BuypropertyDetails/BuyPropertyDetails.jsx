@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "../../assets/propertydetails.module.css";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 
 function BuyPropertyDetails() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [properties, setProperties] = useState([]);
 
@@ -13,9 +14,34 @@ function BuyPropertyDetails() {
   const DJANGO_BASE_URL = "http://127.0.0.1:8000";
 
   const [phoneRevealed, setPhoneRevealed] = useState(false);
+   
+  const [showPhone, setShowPhone] = useState(false);
 
-const setShowPhone = () => {
+const [leadData, setLeadData] = useState({
+  name: "",
+  phone: "",
+});
+
+const handleLeadChange = (e) => {
+  setLeadData({
+    ...leadData,
+    [e.target.name]: e.target.value,
+  });
+};
+
+const handleRevealPhone = () => {
+  if (!leadData.name.trim()) {
+    alert("Please enter your name");
+    return;
+  }
+
+  if (!leadData.phone.trim()) {
+    alert("Please enter your phone number");
+    return;
+  }
+
   setPhoneRevealed(true);
+  setShowPhone(false);
 };
 
   const fetchProperty = async () => {
@@ -67,6 +93,22 @@ const setShowPhone = () => {
       [e.target.name]: e.target.value,
     });
   };
+
+const handleShowContact = () => {
+  const token = localStorage.getItem("access_token");
+
+  if (!token) {
+    navigate("/signin", {
+      state: {
+        redirectTo: `/buy-property/${id}`,
+      },
+    });
+
+    return;
+  }
+
+  setShowPhone(true);
+};
 
   const handleVisitSubmit = async () => {
     try {
@@ -217,7 +259,7 @@ const setShowPhone = () => {
 
 
 
-          {property.propertyAge && (
+          {propertyAge && (
                 <tr>
                   <td>Property Age</td>
                   <td>{propertyAge ? `${propertyAge} Years` : "-"}</td>
@@ -365,12 +407,12 @@ const setShowPhone = () => {
 
     <div className="col-6">
       {!phoneRevealed ? (
-        <button
-          className="btn btn-dark w-100"
-          onClick={() => setPhoneRevealed(true)}
-        >
-          📞 Show Contact
-        </button>
+<button
+  className="btn btn-dark w-100"
+  onClick={handleShowContact}
+>
+  📞 Show Contact
+</button>
       ) : (
         <button
           className="btn btn-dark w-100"
@@ -485,6 +527,50 @@ const setShowPhone = () => {
             })}
         </div>
       </div>
+
+      {showPhone && (
+  <div className={styles.modalOverlay}>
+    <div className={styles.modal}>
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h4 className="mb-0">Get Seller Contact Details</h4>
+
+        <button
+          onClick={() => setShowPhone(false)}
+          className="btn p-0 border-0 bg-transparent"
+        >
+          <i className="bi bi-x-lg"></i>
+        </button>
+      </div>
+
+      <p className="text-muted mb-3">
+        Fill your details to view the owner's phone number.
+      </p>
+
+      <input
+        type="text"
+        name="name"
+        placeholder="Your Name"
+        value={leadData.name}
+        onChange={handleLeadChange}
+      />
+
+      <input
+        type="tel"
+        name="phone"
+        placeholder="Your Phone Number"
+        value={leadData.phone}
+        onChange={handleLeadChange}
+      />
+
+      <button
+        className={styles.continueBtn}
+        onClick={handleRevealPhone}
+      >
+        Continue
+      </button>
+    </div>
+  </div>
+)}
       {showModal && (
         <div
           className="modal d-block"

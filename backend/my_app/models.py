@@ -1,10 +1,14 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
 
 
 class Module(models.Model):
     name = models.CharField(max_length=100)
+    allowed_groups = models.ManyToManyField(
+        Group,
+        blank=True
+    )
     url_name = models.CharField(max_length=100, blank=True, null=True)
     icon = models.CharField(max_length=50, blank=True)
 
@@ -15,6 +19,11 @@ class Module(models.Model):
 class Child(models.Model):
     module = models.ForeignKey(
         Module, on_delete=models.CASCADE, related_name="children"
+    )
+
+    allowed_groups = models.ManyToManyField(
+        Group,
+        blank=True
     )
 
     name = models.CharField(max_length=100)
@@ -394,3 +403,23 @@ class RentalApplication(models.Model):
     created_at = models.DateTimeField(
         auto_now_add=True
     ) 
+    
+
+class ContactLead(models.Model):
+
+    property = models.ForeignKey(
+        PropertyListing,
+        on_delete=models.CASCADE,
+        related_name="contact_leads"
+    )
+
+    customer_name = models.CharField(max_length=200)
+
+    customer_phone = models.CharField(max_length=20)
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+        return self.customer_name

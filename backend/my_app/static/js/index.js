@@ -146,46 +146,40 @@ $(function () {
                 },
             });
         });
-        // Browser Usage
-        $(document).ready(function () {
-            var chart = c3.generate({
-                bindto: '#c3chart-Browser-Usage', // id of chart wrapper
-                data: {
-                    columns: [
-                        // each columns data
-                        ['Villa', villa_count],
-                        ['Apartment', apartment_count],
-                        ['House', house_count],
-                        ['Plot', plot_count]
-                    ],
-                    type: 'donut', // default type of chart
-                    colors: {
-                        Villa: '#1E88E5',
-                        Apartment: '#F4A62A',
-                        House: '#62bad9',
-                        Plot: '#011824'
-                    }
-                },
+       
+        // Property Types Chart
+if ($('#c3chart-Browser-Usage').length) {
 
-                donut: {
-                    title: "Property Types"
-                },
+    c3.generate({
+        bindto: '#c3chart-Browser-Usage',
+        data: {
+            columns: [
+                ['Villa', window.villa_count || 0],
+                ['Apartment', window.apartment_count || 0],
+                ['House', window.house_count || 0],
+                ['Plot', window.plot_count || 0]
+            ],
+            type: 'donut',
+            colors: {
+                Villa: '#1E88E5',
+                Apartment: '#F4A62A',
+                House: '#62bad9',
+                Plot: '#011824'
+            }
+        },
+        donut: {
+            title: 'Property Types'
+        },
+        legend: {
+            show: true,
+            position: 'bottom'
+        }
+    });
 
-                axis: {
-                },
-                legend: {
-                    show: true, //hide legend
-                    position: 'bottom'
-                },
-                padding: {
-                    bottom: 0,
-                    top: 0
-                },
-            });
-        });
+}
     }, 100);
 
-   
+
 });
 
 

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import styles from "../../assets/propertydetails.module.css";
 
 function PropertyDetails() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [properties, setProperties] = useState([]);
   const [property, setProperty] = useState(null);
@@ -48,20 +49,7 @@ function PropertyDetails() {
     }
   };
 
-  const handleRevealPhone = () => {
-    if (!leadData.name.trim()) {
-      alert("Please enter your name");
-      return;
-    }
 
-    if (!leadData.phone.trim()) {
-      alert("Please enter your phone number");
-      return;
-    }
-
-    setPhoneRevealed(true);
-    setShowPhone(false);
-  };
 
   const fetchProperties = async () => {
     try {
@@ -88,6 +76,59 @@ function PropertyDetails() {
       [e.target.name]: e.target.value,
     });
   };
+
+  const handleShowContact = () => {
+  const token = localStorage.getItem("access_token");
+
+  if (!token) {
+    navigate("/signin", {
+      state: {
+        redirectTo: `/property/${id}`,
+      },
+    });
+
+    return;
+  }
+
+  setShowPhone(true);
+};
+
+
+
+const handleRevealPhone = async () => {
+
+  if (!leadData.name.trim()) {
+    alert("Please enter your name");
+    return;
+  }
+
+  if (!leadData.phone.trim()) {
+    alert("Please enter your phone");
+    return;
+  }
+
+  try {
+
+    await axios.post(
+      "http://127.0.0.1:8000/api/contact-leads/",
+      {
+        property: property.id,
+        customer_name: leadData.name,
+        customer_phone: leadData.phone,
+      }
+    );
+
+    setPhoneRevealed(true);
+
+    setShowPhone(false);
+
+  } catch (error) {
+
+    console.log(error);
+
+  }
+
+};
 
   const handleVisitSubmit = async () => {
     if (
@@ -244,7 +285,7 @@ function PropertyDetails() {
 
             {/* KEY DETAILS LIST */}
             <div className="d-flex flex-column gap-2.5 mb-4">
-              <div className="d-flex justify-content-between align-items-center py-2 px-3 bg-light rounded-3">
+              <div className="d-flex justify-content-between align-items-center py-2 px-3 ">
                 <span className="text-muted small fw-medium">
                   Property Type
                 </span>
@@ -253,7 +294,7 @@ function PropertyDetails() {
                 </span>
               </div>
 
-              <div className="d-flex justify-content-between align-items-center py-2 px-3 bg-light rounded-3">
+              <div className="d-flex justify-content-between align-items-center py-2 px-3 ">
                 <span className="text-muted small fw-medium">Status</span>
                 <span className="badge bg-success-subtle text-success border border-success-subtle fw-semibold px-2.5 py-1.5">
                   {property.status}
@@ -261,7 +302,7 @@ function PropertyDetails() {
               </div>
 
               {property.property_type !== "plot" && (
-                <div className="d-flex justify-content-between align-items-center py-2 px-3 bg-light rounded-3">
+                <div className="d-flex justify-content-between align-items-center py-2 px-3 ">
                   <span className="text-muted small fw-medium">
                     Beds & Baths
                   </span>
@@ -272,7 +313,7 @@ function PropertyDetails() {
                 </div>
               )}
 
-              <div className="d-flex justify-content-between align-items-center py-2 px-3 bg-light rounded-3">
+              <div className="d-flex justify-content-between align-items-center py-2 px-3 ">
                 <span className="text-muted small fw-medium">
                   {property.property_type === "plot"
                     ? "Plot Area"
@@ -360,7 +401,7 @@ function PropertyDetails() {
                   {!phoneRevealed ? (
                     <button
                       className={styles.phoneBtn}
-                      onClick={() => setShowPhone(true)}
+                      onClick={handleShowContact}
                     >
                       📞 Show Seller Contact
                     </button>
@@ -457,37 +498,53 @@ function PropertyDetails() {
         </div>
       </div>
 
-      {showPhone && (
-        <div className={styles.modalOverlay}>
-          <div className={styles.modal}>
-            <h4>Get Seller Contact Details</h4>
-            <p className="text-muted mb-3">
-              Fill your details to view the owner's phone number.
-            </p>
+     {showPhone && (
+  <div className={styles.modalOverlay}>
+    <div className={styles.modal}>
+      
+      <div
+        className="d-flex justify-content-between align-items-center mb-3"
+      >
+        <h4 className="mb-0">Get Seller Contact Details</h4>
 
-            <input
-              type="text"
-              name="name"
-              placeholder="Your Name"
-              value={leadData.name}
-              onChange={handleLeadChange}
-            />
+        <button
+          onClick={() => setShowPhone(false)}
+          className="btn p-0 border-0 bg-transparent"
+        >
+          <i className="bi bi-x-lg"></i>
+        </button>
+      </div>
 
-            <input
-              type="tel"
-              name="phone"
-              placeholder="Your Phone Number"
-              value={leadData.phone}
-              onChange={handleLeadChange}
-            />
+      <p className="text-muted mb-3">
+        Fill your details to view the owner's phone number.
+      </p>
 
-            <button className={styles.continueBtn} onClick={handleRevealPhone}>
-              Continue
-            </button>
-          </div>
-        </div>
-      )}
+      <input
+        type="text"
+        name="name"
+        placeholder="Your Name"
+        value={leadData.name}
+        onChange={handleLeadChange}
+      />
 
+      <input
+        type="tel"
+        name="phone"
+        placeholder="Your Phone Number"
+        value={leadData.phone}
+        onChange={handleLeadChange}
+      />
+
+      <button
+        className={styles.continueBtn}
+        onClick={handleRevealPhone}
+      >
+        Continue
+      </button>
+
+    </div>
+  </div>
+)}
       {/* MODAL */}
       {showModal && (
         <div

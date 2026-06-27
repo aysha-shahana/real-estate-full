@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from my_app.models import PropertyListing , User , VisitRequest , PropertyOffer , Amenity , NearbyPlace
+from my_app.models import PropertyListing , User , VisitRequest , PropertyOffer , Amenity , NearbyPlace , ContactLead
         
 
 
@@ -30,10 +30,17 @@ class UserSerializer(serializers.ModelSerializer):
         ]
         
 class VisitRequestSerializer(serializers.ModelSerializer):
+    
+    property_title = serializers.CharField(
+    source="property.title",
+    read_only=True
+)
 
     class Meta:
         model = VisitRequest
         fields = "__all__"
+        
+    
         
 
 
@@ -107,3 +114,17 @@ class PropertyDetailSerializer(serializers.ModelSerializer):
             return obj.user.userprofile.phone
         except:
             return ""
+        
+
+class ContactLeadSerializer(
+    serializers.ModelSerializer
+):
+
+    property_title = serializers.CharField(
+        source="property.title",
+        read_only=True
+    )
+
+    class Meta:
+        model = ContactLead
+        fields = "__all__"

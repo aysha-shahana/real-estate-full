@@ -2,8 +2,7 @@
 
 <aside id="leftsidebar" class="sidebar">
     <ul class="nav nav-tabs">
-        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#dashboard"><i class="zmdi zmdi-home m-r-5"></i>Xen Properties</a></li>
-        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#user"><i class="zmdi zmdi-account m-r-5 "></i>Admin</a></li>
+        <li class="nav-item"><a class="nav-link active ml-4" data-toggle="tab" href="#dashboard"><i class="zmdi zmdi-home m-r-5"></i>Xen Properties</a></li>
     </ul>
     <div class="tab-content">
         <div class="tab-pane stretchRight active" id="dashboard">
@@ -42,7 +41,8 @@
                             <span>{{ module.name }}</span>
                         </a>
                         <ul class="ml-menu">
-                            {% for child in module.children.all %}
+                          
+                            {% for child in module.filtered_children %}
                             <li><a href="{% url 'child_view' child.id %}">{{ child.name }}</a></li>
                             {% endfor %}
                         </ul>

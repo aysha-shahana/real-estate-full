@@ -12,6 +12,7 @@ from .views import (
     submit_offer,
     apply_for_rent,
     property_details,
+    update_visit_status,
 )
 from .views import (
     featured_properties,
@@ -24,6 +25,9 @@ from .views import (
     ChangePasswordView,
     update_profile,
     click_property_detail,
+    create_contact_lead, 
+    my_property_visits,
+    my_contact_leads,
 )
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
@@ -52,5 +56,24 @@ urlpatterns = [
     path("submit-offer/",submit_offer,name="submit_offer"),
     path("apply-for-rent/<int:property_id>/",apply_for_rent),
     path("property-details-seller/<int:id>/",property_details,),
+    path(
+    "contact-leads/",
+    create_contact_lead,
+    ),
+    path(
+        "my-property-visits/",
+        my_property_visits,
+    ),
+
+    path(
+        "my-contact-leads/",
+        my_contact_leads,
+    ),
+    path(
+    "visit-request/<int:visit_id>/status/",
+    update_visit_status
+),
+
+
 
 ]

@@ -30,6 +30,8 @@ import MyProperties from "./Components/MyProperties/MyProperties";
 import Editproperties from "./Components/Edit Properties/Editproperties";
 import PropertyDetails from "./Components/PropertyDetails/PropertyDetails";
 import BuyPropertyDetails from "./Components/BuypropertyDetails/BuyPropertyDetails";
+import VisitRequest from "./Components/Visit Request/VisitRequest";
+import ContactLeads from "./Components/Contact Leads/ContactLeads";
 // import ApplyForRent from "./Components/Apply for rent/ApplyForRent";
 
 function App() {
@@ -45,6 +47,8 @@ function App() {
     "/my-properties",
     "/edit-property/:id",
     "/profile",
+    "/visit-requests",
+    "/contact-leads",
   ];
 
   const hideLayout =
@@ -68,10 +72,13 @@ function App() {
   
     <Route path="/dashboard" element={<UserDashboard />} />
     <Route path="/add-property" element={<AddProperty />} />
+    <Route path="/visit-requests" element={<VisitRequest />} />
 
 
   
         <Route path="/my-properties" element={<MyProperties />} />
+
+        <Route path="/contact-leads" element={<ContactLeads />} />
 
         <Route path="/edit-property/:id" element={<Editproperties />} />
 
@@ -86,7 +93,7 @@ function App() {
 
         <Route path="/buy-property/:id" element={<BuyPropertyDetails />} />
 
-        <Route path="/property/:id" element={<PropertyDetails />} />
+        <Route path="/property/:id" element={<PropertyDetails />} /> 
 
         {/* <Route path="/apply-for-rent/:id" element={<ApplyForRent />} /> */}
         

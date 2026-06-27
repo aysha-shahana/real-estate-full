@@ -26,17 +26,17 @@ const AddProperty = () => {
   };
 
   useEffect(() => {
-  const fetchUser = async () => {
-    try {
-      const response = await api.get("/current-user/");
-      setUserData(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    const fetchUser = async () => {
+      try {
+        const response = await api.get("/current-user/");
+        setUserData(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-  fetchUser();
-}, []);
+    fetchUser();
+  }, []);
 
   return (
     <div className={styles.dashboard}>
@@ -77,6 +77,16 @@ const AddProperty = () => {
           <li className={styles.active}>
             <FaPlusCircle />
             Add Property
+          </li>
+
+          <li onClick={() => navigate("/visit-requests")}>
+            <FaBuilding />
+            Visit Requests
+          </li>
+
+          <li onClick={() => navigate("/contact-leads")}>
+            <FaUser />
+            Contact Leads
           </li>
 
           <li onClick={() => navigate("/profile")}>

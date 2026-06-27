@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import { Link } from "react-router-dom";
 import styles from "../../assets/FeaturedProperties.module.css";
 
 
@@ -11,12 +11,22 @@ const FeaturedProperties = () => {
 
   const [properties, setProperties] = useState([]);
 
+
   // FETCH FEATURED PROPERTIES
   useEffect(() => {
 
     fetchFeaturedProperties();
 
   }, []);
+
+  const handlePropertyClick = (property) => {
+    if (property.listing_type === "buy") {
+      navigate(`/buy-property/${property.id}`);
+    } 
+    else {
+      navigate(`/property/${property.id}`);
+    }
+  };
 
   const fetchFeaturedProperties = async () => {
 
@@ -63,7 +73,15 @@ const FeaturedProperties = () => {
                 className="col-12 col-sm-6 col-md-4"
                 key={property.id}
               >
-
+                
+                <Link
+  to={
+    property.listing_type === "buy"
+      ? `/buy-property/${property.id}`
+      : `/property/${property.id}`
+  }
+  style={{ textDecoration: "none", color: "inherit" }}
+>
                 <div className={`${styles.cardBox} animateCard`}>
 
                   {/* IMAGE */}
@@ -144,6 +162,7 @@ const FeaturedProperties = () => {
                   </div>
 
                 </div>
+                </Link>
               </div>
             );
           })}
