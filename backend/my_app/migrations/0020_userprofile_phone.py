@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('my_app', '0019_remove_rentalapplication_owner_and_more'),
+        ('my_app', '0018_alter_propertylisting_status_rentalapplication'),
     ]
 
     operations = [

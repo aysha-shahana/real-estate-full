@@ -1,10 +1,9 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://127.0.0.1:8000/api",
+  baseURL: import.meta.env.VITE_API_BASE_URL,
 });
 
-// REQUEST INTERCEPTOR
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("access_token");
@@ -18,7 +17,6 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// RESPONSE INTERCEPTOR
 api.interceptors.response.use(
   (response) => response,
 
@@ -32,42 +30,43 @@ api.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const refreshToken =
-          localStorage.getItem("refresh_token");
+        const refreshToken = localStorage.getItem("refresh_token");
 
         if (!refreshToken) {
           throw new Error("No refresh token");
         }
 
-        const response = await axios.post(
-          "http://127.0.0.1:8000/api/token/refresh/",
-          {
-            refresh: refreshToken,
-          }
-        );
+       const response = await axios.post(
+  `${import.meta.env.VITE_API_BASE_URL}/token/refresh/`,
+  {
+    refresh: refreshToken,
+  }
+);
 
-        const newAccessToken =
-          response.data.access;
+localStorage.setItem("access_token", response.data.access);
 
-        localStorage.setItem(
-          "access_token",
-          newAccessToken
-        );
+if (response.data.refresh) {
+  localStorage.setItem("refresh_token", response.data.refresh);
+}
 
-        originalRequest.headers.Authorization =
-          `Bearer ${newAccessToken}`;
+        const newAccessToken = response.data.access;
+
+        localStorage.setItem("access_token", newAccessToken);
+
+        if (response.data.refresh) {
+          localStorage.setItem("refresh_token", response.data.refresh);
+        }
+
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 
         return api(originalRequest);
-      } catch (refreshError) {
-        // Refresh token also expired
 
+      } catch (refreshError) {
         localStorage.removeItem("access_token");
         localStorage.removeItem("refresh_token");
         localStorage.removeItem("username");
 
-        alert(
-          "Session expired. Please login again."
-        );
+        alert("Session expired. Please login again.");
 
         window.location.href = "/signin";
 

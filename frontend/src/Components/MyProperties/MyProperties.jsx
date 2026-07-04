@@ -12,7 +12,7 @@ import {
 import styles from "../../assets/UserDashboard.module.css";
 
 const MyProperties = () => {
-  const DJANGO_BASE_URL = "http://127.0.0.1:8000";
+  const DJANGO_BASE_URL = import.meta.env.VITE_DJANGO_BASE_URL;
 
   const [properties, setProperties] = useState([]);
   const navigate = useNavigate();
@@ -55,7 +55,7 @@ const MyProperties = () => {
         const token = localStorage.getItem("access_token");
 
         const response = await api.get(
-          "http://127.0.0.1:8000/api/current-user/",
+          "/current-user/",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -72,7 +72,7 @@ const MyProperties = () => {
     fetchUser();
 
     api
-      .get("http://127.0.0.1:8000/api/user-dashboard/")
+      .get("/user-dashboard/")
       .then((res) => {
         setDashboardData(res.data);
       })

@@ -9,61 +9,66 @@ urlpatterns = [
     path("signup/", views.signup_view, name="signup"),
     path("logout/", views.logout_view, name="logout"),
     path("", views.index, name="index"),
-    path("propertylist/", views.propertylist, name="propertylist"),
-    path("add-group/", views.addgroup, name="addgroup"),
-    path("group-list/", views.grouplist, name="grouplist"),
-    path("delete-group/<int:id>/", views.deletegroup, name="deletegroup"), 
-    path("user/add/", views.adduser_view, name="adduser"),
-    path("userlist/", views.userlist, name="userlist"),
-    path("user/edit/<int:user_id>/", views.edit_user, name="edituser"),
-    path("user/delete/<int:user_id>/", views.delete_user, name="deleteuser"),
-    path("child/<int:child_id>/", views.child_view, name="child_view"),
-    path('userdashboard/', views.user_dashboard, name='user_dashboard'),
-    path("visit-requests/", views.visit_requests, name="visit_requests"),
-    path("accept-visit/<int:pk>/",views.accept_visit,name="accept_visit"),
+    path("propertylist/", views.propertylist, name="property-list"),
+    path("add-group/", views.addgroup, name="add-group"),
+    path("group-list/", views.grouplist, name="group-list"),
+    path("delete-group/<int:id>/", views.deletegroup, name="delete-group"), 
+    path("user/add/", views.adduser_view, name="add-user"),
+    path("userlist/", views.userlist, name="user-list"),
+    path("user/edit/<int:user_id>/", views.edit_user, name="edit-user"),
+    path("user/delete/<int:user_id>/", views.delete_user, name="delete-user"),
+    path("child/<int:child_id>/", views.child_view, name="child-view"),
+    path('userdashboard/', views.user_dashboard, name='user-dashboard'),
+    path("visit-requests/", views.visit_requests, name="visit-requests"),
+    path("accept-visit/<int:pk>/",views.accept_visit,name="accept-visit"),
 
     path(
         "reject-visit/<int:pk>/",
         views.reject_visit,
-        name="reject_visit"
+        name="reject-visit"
     ),
-
-    path(
-        "admin/offers/",
-        views.offer_list,
-        name="offer_list"
-    ),
-
-    path(
-        "offer/accept/<int:offer_id>/",
-        views.accept_offer,
-        name="accept_offer"
-    ),
-
-    path(
-        "offer/reject/<int:offer_id>/",
-        views.reject_offer,
-        name="reject_offer"
-    ),
-    path(
-        "rent-applications/",
-        views.rent_applications,
-        name="rent_applications"
-    ),
+  
     # urls.py
 
     path(
         "admin-profile/",
         views.admin_profile,
-        name="admin_profile"
+        name="admin-profile"
     ),
     path(
         "edit-group/<int:id>/",
         views.edit_group,
-        name="edit_group"
+        name="edit-group"
     ),
-    
+    path(
+        "blog-list/",
+        views.blog_list,
+        name="blog-list"
+    ),
+    path("add-blog/", views.add_blog, name="add-blog"),
+    path(
+    "edit-blog/<int:id>/",
+    views.edit_blog,
+    name="edit-blog"
+),
 
+path(
+    "delete-blog/<int:id>/",
+    views.delete_blog,
+    name="delete-blog"
+),
+path(
+    "blog-categories/",
+    views.blog_category_list,
+    name="blog_category_list",
+),
+path(
+    "add-blog-category/",
+    views.add_blog_category,
+    name="add-blog-category",
+),
+path("blog-categories/edit/<int:id>/", views.edit_blog_category, name="edit-blog-category"),
+path("blog-categories/delete/<int:id>/", views.delete_blog_category, name="delete-blog-category"),
 
 ]
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../assets/axiosConfig";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import styles from "../../assets/propertydetails.module.css";
 
@@ -9,6 +9,7 @@ function PropertyDetails() {
 
   const [properties, setProperties] = useState([]);
   const [property, setProperty] = useState(null);
+  const [phoneRevealed, setPhoneRevealed] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [visitData, setVisitData] = useState({
     name: "",
@@ -24,8 +25,6 @@ function PropertyDetails() {
     phone: "",
   });
 
-  const [phoneRevealed, setPhoneRevealed] = useState(false);
-
   const handleLeadChange = (e) => {
     setLeadData({
       ...leadData,
@@ -33,11 +32,11 @@ function PropertyDetails() {
     });
   };
 
-  const DJANGO_BASE_URL = "http://127.0.0.1:8000";
+  const DJANGO_BASE_URL = import.meta.env.VITE_DJANGO_BASE_URL;
 
   const fetchProperty = async () => {
     try {
-      const res = await axios.get(
+      const res = await api.get(
         `${DJANGO_BASE_URL}/api/property-details-seller/${id}/`,
       );
 
@@ -49,11 +48,9 @@ function PropertyDetails() {
     }
   };
 
-
-
   const fetchProperties = async () => {
     try {
-      const res = await axios.get(`${DJANGO_BASE_URL}/api/rent-properties/`);
+      const res = await api.get(`/rent-properties/`);
       setProperties(res.data);
     } catch (error) {
       console.log(error);
@@ -78,57 +75,52 @@ function PropertyDetails() {
   };
 
   const handleShowContact = () => {
-  const token = localStorage.getItem("access_token");
+    const token = localStorage.getItem("access_token");
 
-  if (!token) {
-    navigate("/signin", {
-      state: {
-        redirectTo: `/property/${id}`,
-      },
-    });
+    if (!token) {
+      navigate("/signin", {
+        state: {
+          redirectTo: `/property/${id}`,
+        },
+      });
+      return;
+    }
 
-    return;
-  }
+    setShowPhone(true);
+  };
 
-  setShowPhone(true);
-};
+  const handleRevealPhone = async () => {
+    if (!leadData.name.trim()) {
+      alert("Please enter your name");
+      return;
+    }
 
+    if (!leadData.phone.trim()) {
+      alert("Please enter your phone");
+      return;
+    }
 
+    const phoneRegex = /^[6-9]\d{9}$/;
 
-const handleRevealPhone = async () => {
+    if (!phoneRegex.test(leadData.phone)) {
+      alert("Please enter a valid 10-digit mobile number.");
+      return;
+    }
 
-  if (!leadData.name.trim()) {
-    alert("Please enter your name");
-    return;
-  }
-
-  if (!leadData.phone.trim()) {
-    alert("Please enter your phone");
-    return;
-  }
-
-  try {
-
-    await axios.post(
-      "http://127.0.0.1:8000/api/contact-leads/",
-      {
+    try {
+      await api.post("/contact-leads/", {
         property: property.id,
         customer_name: leadData.name,
         customer_phone: leadData.phone,
-      }
-    );
+      });
 
-    setPhoneRevealed(true);
+      setPhoneRevealed(true);
 
-    setShowPhone(false);
-
-  } catch (error) {
-
-    console.log(error);
-
-  }
-
-};
+      setShowPhone(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleVisitSubmit = async () => {
     if (
@@ -142,7 +134,7 @@ const handleRevealPhone = async () => {
       return;
     }
     try {
-      await axios.post(`${DJANGO_BASE_URL}/api/schedule-visit/`, {
+      await api.post(`${DJANGO_BASE_URL}/api/schedule-visit/`, {
         property: property.id,
         ...visitData,
       });
@@ -396,7 +388,6 @@ const handleRevealPhone = async () => {
                     💬 Chat on WhatsApp
                   </button>
                 </div>
-
                 <div className="col-6">
                   {!phoneRevealed ? (
                     <button
@@ -498,53 +489,46 @@ const handleRevealPhone = async () => {
         </div>
       </div>
 
-     {showPhone && (
-  <div className={styles.modalOverlay}>
-    <div className={styles.modal}>
-      
-      <div
-        className="d-flex justify-content-between align-items-center mb-3"
-      >
-        <h4 className="mb-0">Get Seller Contact Details</h4>
+      {showPhone && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modal}>
+            <div className="d-flex justify-content-between align-items-center mb-3">
+              <h4 className="mb-0">Get Seller Contact Details</h4>
 
-        <button
-          onClick={() => setShowPhone(false)}
-          className="btn p-0 border-0 bg-transparent"
-        >
-          <i className="bi bi-x-lg"></i>
-        </button>
-      </div>
+              <button
+                onClick={() => setShowPhone(false)}
+                className="btn p-0 border-0 bg-transparent"
+              >
+                <i className="bi bi-x-lg"></i>
+              </button>
+            </div>
 
-      <p className="text-muted mb-3">
-        Fill your details to view the owner's phone number.
-      </p>
+            <p className="text-muted mb-3">
+              Fill your details to view the owner's phone number.
+            </p>
 
-      <input
-        type="text"
-        name="name"
-        placeholder="Your Name"
-        value={leadData.name}
-        onChange={handleLeadChange}
-      />
+            <input
+              type="text"
+              name="name"
+              placeholder="Your Name"
+              value={leadData.name}
+              onChange={handleLeadChange}
+            />
 
-      <input
-        type="tel"
-        name="phone"
-        placeholder="Your Phone Number"
-        value={leadData.phone}
-        onChange={handleLeadChange}
-      />
+            <input
+              type="tel"
+              name="phone"
+              placeholder="Your Phone Number"
+              value={leadData.phone}
+              onChange={handleLeadChange}
+            />
 
-      <button
-        className={styles.continueBtn}
-        onClick={handleRevealPhone}
-      >
-        Continue
-      </button>
-
-    </div>
-  </div>
-)}
+            <button className={styles.continueBtn} onClick={handleRevealPhone}>
+              Continue
+            </button>
+          </div>
+        </div>
+      )}
       {/* MODAL */}
       {showModal && (
         <div

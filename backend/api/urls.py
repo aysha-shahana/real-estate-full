@@ -9,10 +9,10 @@ from .views import (
     CurrentUserView,
     schedule_visit,
     visit_requests,
-    submit_offer,
-    apply_for_rent,
     property_details,
     update_visit_status,
+    ContactMessageView,
+    ContactInfoView,
 )
 from .views import (
     featured_properties,
@@ -28,6 +28,8 @@ from .views import (
     create_contact_lead, 
     my_property_visits,
     my_contact_leads,
+    BlogListView, 
+    BlogDetailView
 )
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
@@ -53,8 +55,6 @@ urlpatterns = [
     path("property-details/<int:id>/", click_property_detail, name="property_detail"),
     path("schedule-visit/", schedule_visit),
     path("visit-requests/", visit_requests),
-    path("submit-offer/",submit_offer,name="submit_offer"),
-    path("apply-for-rent/<int:property_id>/",apply_for_rent),
     path("property-details-seller/<int:id>/",property_details,),
     path(
     "contact-leads/",
@@ -72,6 +72,28 @@ urlpatterns = [
     path(
     "visit-request/<int:visit_id>/status/",
     update_visit_status
+),
+    path(
+        "contact/",
+        ContactMessageView.as_view(),
+        name="contact-message"
+    ),
+
+    path(
+        "contact-info/",
+        ContactInfoView.as_view(),
+        name="contact-info"
+    ),
+    path(
+    "blogs/",
+    BlogListView.as_view(),
+    name="blog-list"
+),
+
+path(
+    "blogs/<slug:slug>/",
+    BlogDetailView.as_view(),
+    name="blog-detail"
 ),
 
 

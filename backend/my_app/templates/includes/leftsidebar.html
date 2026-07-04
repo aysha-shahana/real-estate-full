@@ -10,7 +10,7 @@
                 <ul class="list">
                     <li>
                         <div class="user-info">
-                            <div class="image"><a href="{% url 'admin_profile' %}">
+                            <div class="image"><a href="{% url 'admin-profile' %}">
 {% if request.user.userprofile.profile_image %}
     <img
         src="{{ request.user.userprofile.profile_image.url }}"
@@ -34,20 +34,30 @@
                     <li><a href="{% url 'index' %}"><i class="zmdi zmdi-home"></i><span>Dashboard</span></a></li>    
                     
                     {# --- FIXED LOOP MARKUP START --- #}
-                    {% for module in modules %}              
-                    <li>
-                        <a href="javascript:void(0);" class="menu-toggle">
-                            <i class="zmdi {% if module.icon %}{{ module.icon }}{% else %}zmdi-apps{% endif %}"></i>   
-                            <span>{{ module.name }}</span>
-                        </a>
-                        <ul class="ml-menu">
-                          
-                            {% for child in module.filtered_children %}
-                            <li><a href="{% url 'child_view' child.id %}">{{ child.name }}</a></li>
-                            {% endfor %}
-                        </ul>
-                    </li>
-                    {% endfor %}  
+                 {% for module in modules %}
+<li>
+    <a href="javascript:void(0);" class="menu-toggle">
+        <i class="zmdi {% if module.icon %}{{ module.icon }}{% else %}zmdi-apps{% endif %}"></i>
+        <span>{{ module.name }}</span>
+    </a>
+
+    <ul class="ml-menu">
+        {% for child in module.filtered_children %}
+            <li>
+                {% if child.url_name %}
+<a href="{% url 'child-view' child.id %}">               
+             {{ child.name }}
+                    </a>
+                {% else %}
+                    <a href="{% url 'child-view' child.id %}">
+                        {{ child.name }}
+                    </a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</li>
+{% endfor %}
                     {# --- FIXED LOOP MARKUP END --- #}
             
                     <li>

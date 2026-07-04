@@ -9,10 +9,4 @@ class Migration(migrations.Migration):
         ('my_app', '0016_enquiry'),
     ]
 
-    operations = [
-        migrations.AddField(
-            model_name='propertyoffer',
-            name='status',
-            field=models.CharField(choices=[('pending', 'Pending'), ('accepted', 'Accepted'), ('rejected', 'Rejected')], default='pending', max_length=20),
-        ),
-    ]
+   

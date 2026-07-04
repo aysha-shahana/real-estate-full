@@ -1,0 +1,49 @@
+
+.btn-accept {
+    background-color: #198754;
+    border: 1px solid #198754;
+    color: #fff;
+    border-radius: 3px;
+    padding: 5px 15px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-accept:hover,
+.btn-accept:focus {
+    background-color: #157347;
+    border-color: #157347;
+    color: #fff;
+    box-shadow: none;
+}
+
+.btn-accept:disabled {
+    background-color: #8fc9a9;
+    border-color: #8fc9a9;
+    cursor: not-allowed;
+}
+
+.btn-reject {
+    background-color: #DC3545;
+    border: 1px solid #DC3545;
+    color: #fff;
+    border-radius: 3px;
+    padding: 5px 15px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-reject:hover,
+.btn-reject:focus {
+    background-color: #BB2D3B;
+    border-color: #BB2D3B;
+    color: #fff;
+    box-shadow: none;
+}
+
+.btn-reject:disabled {
+    background-color: #e9a7ae;
+    border-color: #e9a7ae;
+    cursor: not-allowed;
+}
+

@@ -2,13 +2,22 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.models import User
-from my_app.models import PropertyListing , UserProfile , RentalApplication , ContactLead
+from my_app.models import PropertyListing , UserProfile  , ContactLead
 from .serializers import PropertyListingSerializer , VisitRequestSerializer , PropertyDetailSerializer , ContactLeadSerializer
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import AllowAny
 from django.http import JsonResponse
 from my_app.models import VisitRequest , Amenity
+from my_app.models import Blog
+from .serializers import BlogSerializer
+
+
+from django.core.mail import send_mail
+from django.conf import settings
+
+from my_app.models import ContactMessage, ContactInfo
+from .serializers import ContactMessageSerializer, ContactInfoSerializer
 
 
 
@@ -557,76 +566,6 @@ def visit_requests(request):
 
     return Response(serializer.data)
 
-
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework import status
-
-from my_app.models import PropertyOffer
-from .serializers import (
-    PropertyOfferSerializer
-)
-
-@api_view(["POST"])
-def submit_offer(request):
-
-    serializer = (
-        PropertyOfferSerializer(
-            data=request.data
-        )
-    )
-
-    if serializer.is_valid():
-
-        serializer.save()
-
-        return Response(
-            serializer.data,
-            status=status.HTTP_201_CREATED
-        )
-
-    return Response(
-        serializer.errors,
-        status=status.HTTP_400_BAD_REQUEST
-    )
-    
-    
-    
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from django.shortcuts import get_object_or_404
-
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def apply_for_rent(request, property_id):
-
-    property_obj = get_object_or_404(PropertyListing, id=property_id)
-
-    already_applied = RentalApplication.objects.filter(
-        property=property_obj,
-        tenant=request.user
-    ).exists()
-
-    if already_applied:
-        return Response({"message": "Already applied"}, status=400)
-
-    RentalApplication.objects.create(
-        property=property_obj,
-        tenant=request.user,
-        full_name=request.data.get("full_name"),
-        email=request.data.get("email"),
-        phone=request.data.get("phone"),
-        occupation=request.data.get("occupation"),
-        monthly_income=request.data.get("monthly_income"),
-        occupants=request.data.get("occupants"),
-        move_in_date=request.data.get("move_in_date"),
-        message=request.data.get("message"),
-    )
-
-    return Response({"message": "Application submitted"})
-
-
-
 @api_view(["GET"])
 def property_details(request, id):
     property = PropertyListing.objects.get(id=id)
@@ -657,4 +596,128 @@ def create_contact_lead(request):
         status=400
     )
     
+class ContactInfoView(APIView):
+
+    def get(self, request):
+        contact = ContactInfo.objects.first()
+
+        if not contact:
+            return Response(
+                {"message": "Contact information not found"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = ContactInfoSerializer(contact)
+        return Response(serializer.data)
     
+    
+class ContactMessageView(APIView):
+
+    def post(self, request):
+
+        serializer = ContactMessageSerializer(data=request.data)
+
+        if serializer.is_valid():
+
+            message = serializer.save()
+
+            # Mail to Xen Properties
+
+            send_mail(
+                subject=f"New Contact Enquiry from {message.name}",
+
+                message=f"""
+Name: {message.name}
+
+Email: {message.email}
+
+Phone: {message.phone}
+
+Message:
+{message.message}
+""",
+
+                from_email=settings.DEFAULT_FROM_EMAIL,
+
+                recipient_list=[settings.EMAIL_HOST_USER],
+
+                fail_silently=False,
+            )
+
+            # Thank you mail to user
+
+            send_mail(
+                subject="Thank you for contacting Xen Properties",
+
+                message=f"""
+Hi {message.name},
+
+Thank you for contacting Xen Properties.
+
+We have received your enquiry.
+
+Our team will contact you shortly.
+
+Regards,
+
+Xen Properties
+""",
+
+                from_email=settings.DEFAULT_FROM_EMAIL,
+
+                recipient_list=[message.email],
+
+                fail_silently=False,
+            )
+
+            return Response(
+                {
+                    "success": True,
+                    "message": "Message sent successfully."
+                },
+                status=status.HTTP_201_CREATED
+            )
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from django.shortcuts import get_object_or_404
+
+from my_app.models import Blog
+from .serializers import BlogSerializer
+
+
+class BlogListView(APIView):
+
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+
+        blogs = Blog.objects.filter(
+            status="published"
+        ).order_by("-created_at")
+
+        serializer = BlogSerializer(
+            blogs,
+            many=True
+        )
+
+        return Response(serializer.data)
+
+
+class BlogDetailView(APIView):
+
+    permission_classes = [AllowAny]
+
+    def get(self, request, slug):
+
+        blog = get_object_or_404(
+            Blog,
+            slug=slug,
+            status="published"
+        )
+
+        serializer = BlogSerializer(blog)
+
+        return Response(serializer.data)

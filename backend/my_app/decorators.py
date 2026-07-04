@@ -23,7 +23,8 @@ def admin_required(view_func):
     return wrapper
 
 
-from django.shortcuts import redirect
+
+
 from functools import wraps
 
 def child_permission_required(view_func):
@@ -33,29 +34,13 @@ def child_permission_required(view_func):
 
         child = Child.objects.get(id=child_id)
 
-        if request.user.groups.filter(
-            name="Super Admin"
-        ).exists():
-            return view_func(
-                request,
-                child_id,
-                *args,
-                **kwargs
-            )
+        if request.user.groups.filter(name="Super Admin").exists():
+            return view_func(request, child_id, *args, **kwargs)
 
         if child.allowed_groups.filter(
-            id__in=request.user.groups.values_list(
-                "id",
-                flat=True
-            )
+            id__in=request.user.groups.values_list("id", flat=True)
         ).exists():
-
-            return view_func(
-                request,
-                child_id,
-                *args,
-                **kwargs
-            )
+            return view_func(request, child_id, *args, **kwargs)
 
         return redirect("index")
 

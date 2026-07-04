@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../assets/axiosConfig";
 import styles from "../../assets/propertydetails.module.css";
 import { useParams, Link, useNavigate } from "react-router-dom";
 
@@ -11,44 +11,62 @@ function BuyPropertyDetails() {
 
   const [property, setProperty] = useState(null);
 
-  const DJANGO_BASE_URL = "http://127.0.0.1:8000";
+  const DJANGO_BASE_URL = import.meta.env.VITE_DJANGO_BASE_URL;
 
   const [phoneRevealed, setPhoneRevealed] = useState(false);
-   
+
   const [showPhone, setShowPhone] = useState(false);
 
-const [leadData, setLeadData] = useState({
-  name: "",
-  phone: "",
-});
-
-const handleLeadChange = (e) => {
-  setLeadData({
-    ...leadData,
-    [e.target.name]: e.target.value,
+  const [leadData, setLeadData] = useState({
+    name: "",
+    phone: "",
   });
-};
 
-const handleRevealPhone = () => {
-  if (!leadData.name.trim()) {
-    alert("Please enter your name");
-    return;
-  }
+  const handleLeadChange = (e) => {
+    setLeadData({
+      ...leadData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-  if (!leadData.phone.trim()) {
-    alert("Please enter your phone number");
-    return;
-  }
+  const handleRevealPhone = async () => {
+    if (!leadData.name.trim()) {
+      alert("Please enter your name");
+      return;
+    }
 
-  setPhoneRevealed(true);
-  setShowPhone(false);
-};
+    if (!leadData.phone.trim()) {
+      alert("Please enter your phone number");
+      return;
+    }
+
+    const phoneRegex = /^[6-9]\d{9}$/;
+
+    if (!phoneRegex.test(leadData.phone)) {
+      alert("Please enter a valid 10-digit mobile number.");
+      return;
+    }
+
+    try {
+      await api.post("/contact-leads/", {
+        property: property.id,
+        customer_name: leadData.name,
+        customer_phone: leadData.phone,
+      });
+
+      setPhoneRevealed(true);
+      setShowPhone(false);
+    } catch (error) {
+      console.log(error);
+      alert("Something went wrong.");
+    }
+  };
 
   const fetchProperty = async () => {
     try {
       console.log("Loading property:", id);
 
-      const res = await axios.get(
+      const res = await api.get(
         `${DJANGO_BASE_URL}/api/property-details/${id}/`,
       );
 
@@ -62,7 +80,7 @@ const handleRevealPhone = () => {
 
   const fetchProperties = async () => {
     try {
-      const res = await axios.get(`${DJANGO_BASE_URL}/api/buy-properties/`);
+      const res = await api.get(`/buy-properties/`);
 
       setProperties(res.data);
     } catch (error) {
@@ -94,25 +112,25 @@ const handleRevealPhone = () => {
     });
   };
 
-const handleShowContact = () => {
-  const token = localStorage.getItem("access_token");
+  const handleShowContact = () => {
+    const token = localStorage.getItem("access_token");
 
-  if (!token) {
-    navigate("/signin", {
-      state: {
-        redirectTo: `/buy-property/${id}`,
-      },
-    });
+    if (!token) {
+      navigate("/signin", {
+        state: {
+          redirectTo: `/buy-property/${id}`,
+        },
+      });
 
-    return;
-  }
+      return;
+    }
 
-  setShowPhone(true);
-};
+    setShowPhone(true);
+  };
 
   const handleVisitSubmit = async () => {
     try {
-      await axios.post(`${DJANGO_BASE_URL}/api/schedule-visit/`, {
+      await api.post(`${DJANGO_BASE_URL}/api/schedule-visit/`, {
         property: property.id,
         ...visitData,
       });
@@ -198,88 +216,82 @@ const handleShowContact = () => {
               )}
             </div>
           </div>
-        <div className="row mt-5 g-4">
-        {/* LEFT */}
-        <div className="col-lg-12">
-          {/* DESCRIPTION */}
+          <div className="row mt-5 g-4">
+            {/* LEFT */}
+            <div className="col-lg-12">
+              {/* DESCRIPTION */}
 
-          {/* PROPERTY DETAILS */}
-          <div className="card border-0 shadow-sm p-4">
-            <h4 className="fw-bold mb-3">Property Details</h4>
+              {/* PROPERTY DETAILS */}
+              <div className="card border-0 shadow-sm p-4">
+                <h4 className="fw-bold mb-3">Property Details</h4>
 
-            <table className="table">
-              <tbody>
-               
+                <table className="table">
+                  <tbody>
+                    <tr>
+                      <td>Property Type</td>
+                      <td>{property.property_type}</td>
+                    </tr>
+                    {property.property_type !== "plot" && (
+                      <>
+                        <tr>
+                          <td>Bedrooms</td>
+                          <td>{property.beds}</td>
+                        </tr>
 
-                <tr>
-                  <td>Property Type</td>
-                  <td>{property.property_type}</td>
-                </tr>
-                {property.property_type !== "plot" && (
-                  <>
-                <tr>
-                  <td>Bedrooms</td>
-                  <td>{property.beds}</td>
-                </tr>
+                        <tr>
+                          <td>Bathrooms</td>
+                          <td>{property.baths}</td>
+                        </tr>
+                        <tr>
+                          <td>Furnishing</td>
+                          <td>{property.furnishing?.replaceAll("_", " ")}</td>
+                        </tr>
+                      </>
+                    )}
 
-                <tr>
-                  <td>Bathrooms</td>
-                  <td>{property.baths}</td>
-                </tr>
-                <tr>
-                  <td>Furnishing</td>
-                  <td>{property.furnishing?.replaceAll("_", " ")}</td>
-                </tr>
+                    <tr>
+                      <td>Area</td>
+                      <td>{property.sqft} Sqft</td>
+                    </tr>
 
-              </>
-)}
+                    <tr>
+                      <td>Parking</td>
+                      <td>{property.parking ? "Available" : "No"}</td>
+                    </tr>
+                    {property.ownership && (
+                      <tr>
+                        <td>Ownership</td>
+                        <td>{property.ownership}</td>
+                      </tr>
+                    )}
 
-                 <tr>
-                  <td>Area</td>
-                  <td>{property.sqft} Sqft</td>
-                </tr>
+                    {property.year_built && (
+                      <tr>
+                        <td>Year Built</td>
+                        <td>{property.year_built}</td>
+                      </tr>
+                    )}
 
-                <tr>
-                  <td>Parking</td>
-                  <td>{property.parking ? "Available" : "No"}</td>
-                </tr>
-{property.ownership && (
-  <tr>
-    <td>Ownership</td>
-    <td>{property.ownership}</td>
-  </tr>
-)}
+                    {propertyAge && (
+                      <tr>
+                        <td>Property Age</td>
+                        <td>{propertyAge ? `${propertyAge} Years` : "-"}</td>
+                      </tr>
+                    )}
 
-              {property.year_built && (
-  <tr>
-    <td>Year Built</td>
-    <td>{property.year_built}</td>
-  </tr>
-)}
-
-
-
-          {propertyAge && (
-                <tr>
-                  <td>Property Age</td>
-                  <td>{propertyAge ? `${propertyAge} Years` : "-"}</td>
-                </tr>
-
-                )}
-
-                <tr>
-                  <td>Status</td>
-                  <td>
-                    <span className="badge bg-success">{property.status}</span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                    <tr>
+                      <td>Status</td>
+                      <td>
+                        <span className="badge bg-success">
+                          {property.status}
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-
-         
         </div>
 
         {/* RIGHT SIDE */}
@@ -304,136 +316,132 @@ const handleShowContact = () => {
               <strong>Status:</strong> {property.status}
             </div>
 
-           {!isPlot && property.beds > 0 && (
-  <div className="mb-3">
-    <strong>Bedrooms:</strong> {property.beds}
-  </div>
-)}
+            {!isPlot && property.beds > 0 && (
+              <div className="mb-3">
+                <strong>Bedrooms:</strong> {property.beds}
+              </div>
+            )}
 
-{!isPlot && property.baths > 0 && (
-  <div className="mb-3">
-    <strong>Bathrooms:</strong> {property.baths}
-  </div>
-)}
+            {!isPlot && property.baths > 0 && (
+              <div className="mb-3">
+                <strong>Bathrooms:</strong> {property.baths}
+              </div>
+            )}
 
-{!isPlot && property.furnishing && (
-  <div className="mb-3">
-    <strong>Furnishing:</strong>{" "}
-    {property.furnishing.replaceAll("_", " ")}
-  </div>
-)}
+            {!isPlot && property.furnishing && (
+              <div className="mb-3">
+                <strong>Furnishing:</strong>{" "}
+                {property.furnishing.replaceAll("_", " ")}
+              </div>
+            )}
 
-{property.ownership && (
-  <div className="mb-3">
-    <strong>Ownership:</strong>{" "}
-    {property.ownership.replaceAll("_", " ")}
-  </div>
-)}
+            {property.ownership && (
+              <div className="mb-3">
+                <strong>Ownership:</strong>{" "}
+                {property.ownership.replaceAll("_", " ")}
+              </div>
+            )}
 
-{!isPlot && property.year_built && (
-  <div className="mb-3">
-    <strong>Year Built:</strong> {property.year_built}
-  </div>
-)}
+            {!isPlot && property.year_built && (
+              <div className="mb-3">
+                <strong>Year Built:</strong> {property.year_built}
+              </div>
+            )}
             <hr />
 
-{/* OWNER INFO */}
-<div className="card border-0 shadow-sm p-3 mt-3">
-  <div className="d-flex align-items-center gap-3">
-    <img
-      src={
-        property.owner_image
-          ? `${DJANGO_BASE_URL}${property.owner_image}`
-          : "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-      }
-      alt="seller"
-      style={{
-        width: "60px",
-        height: "60px",
-        objectFit: "cover",
-        borderRadius: "50%",
-      }}
-    />
+            {/* OWNER INFO */}
+            <div className="card border-0 shadow-sm p-3 mt-3">
+              <div className="d-flex align-items-center gap-3">
+                <img
+                  src={
+                    property.owner_image
+                      ? `${DJANGO_BASE_URL}${property.owner_image}`
+                      : "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                  }
+                  alt="seller"
+                  style={{
+                    width: "60px",
+                    height: "60px",
+                    objectFit: "cover",
+                    borderRadius: "50%",
+                  }}
+                />
 
-    <div>
-      <span
-        className="text-muted text-uppercase fw-bold"
-        style={{
-          fontSize: "11px",
-          letterSpacing: "0.5px",
-        }}
-      >
-        LISTED BY OWNER
-      </span>
+                <div>
+                  <span
+                    className="text-muted text-uppercase fw-bold"
+                    style={{
+                      fontSize: "11px",
+                      letterSpacing: "0.5px",
+                    }}
+                  >
+                    LISTED BY OWNER
+                  </span>
 
-      <h6 className="fw-bold mb-0 mt-1">
-        {property.owner_name || "Unknown Owner"}
-      </h6>
+                  <h6 className="fw-bold mb-0 mt-1">
+                    {property.owner_name || "Unknown Owner"}
+                  </h6>
 
-      <small className="text-muted">
-        Member since {property.member_since || "N/A"}
-      </small>
-    </div>
-  </div>
+                  <small className="text-muted">
+                    Member since {property.member_since || "N/A"}
+                  </small>
+                </div>
+              </div>
 
-  <hr />
+              <hr />
 
-  <div className="d-flex justify-content-between align-items-center">
-    <span className="text-muted small">
-      Total Properties
-    </span>
+              <div className="d-flex justify-content-between align-items-center">
+                <span className="text-muted small">Total Properties</span>
 
-    <span className="badge bg-dark rounded-pill">
-      {property.total_properties || 0} Listed
-    </span>
-  </div>
+                <span className="badge bg-dark rounded-pill">
+                  {property.total_properties || 0} Listed
+                </span>
+              </div>
 
-  <div className="row g-2 mt-3">
-    <div className="col-6">
-      <button
-        className="btn btn-success w-100"
-        onClick={() => {
-          if (property.phone) {
-            window.open(
-              `https://wa.me/91${property.phone}?text=Hi, I am interested in ${property.title}`,
-              "_blank"
-            );
-          }
-        }}
-      >
-        💬 WhatsApp
-      </button>
-    </div>
+              <div className="row g-2 mt-3">
+                <div className="col-6">
+                  <button
+                    className="btn btn-success w-100"
+                    onClick={() => {
+                      if (property.phone) {
+                        window.open(
+                          `https://wa.me/91${property.phone}?text=Hi, I am interested in ${property.title}`,
+                          "_blank",
+                        );
+                      }
+                    }}
+                  >
+                    💬 WhatsApp
+                  </button>
+                </div>
 
-    <div className="col-6">
-      {!phoneRevealed ? (
-<button
-  className="btn btn-dark w-100"
-  onClick={handleShowContact}
->
-  📞 Show Contact
-</button>
-      ) : (
-        <button
-          className="btn btn-dark w-100"
-          onClick={() =>
-            (window.location.href = `tel:${property.phone}`)
-          }
-        >
-          📞 {property.phone}
-        </button>
-      )}
-    </div>
-  </div>
+                <div className="col-6">
+                  {!phoneRevealed ? (
+                    <button
+                      className="btn btn-dark w-100"
+                      onClick={handleShowContact}
+                    >
+                      📞 Show Contact
+                    </button>
+                  ) : (
+                    <button
+                      className="btn btn-dark w-100"
+                      onClick={() =>
+                        (window.location.href = `tel:${property.phone}`)
+                      }
+                    >
+                      📞 {property.phone}
+                    </button>
+                  )}
+                </div>
+              </div>
 
-  <div className="border-top pt-3 mt-3">
-    <small className="text-success">
-      ● Usually responds within 30 minutes
-    </small>
-  </div>
-</div>
-
-            
+              <div className="border-top pt-3 mt-3">
+                <small className="text-success">
+                  ● Usually responds within 30 minutes
+                </small>
+              </div>
+            </div>
 
             {/* SCHEDULE VISIT */}
             <button
@@ -443,7 +451,7 @@ const handleShowContact = () => {
               📅 Schedule Visit
             </button>
           </div>
-           {/* NEARBY PLACES */}
+          {/* NEARBY PLACES */}
           <div className="card border-0 shadow-sm p-4 mt-4">
             <h4 className="fw-bold mb-3">Nearby Places</h4>
 
@@ -463,11 +471,8 @@ const handleShowContact = () => {
             )}
           </div>
         </div>
-        
       </div>
 
-    
-      
       <div className="mt-5">
         <h3 className="fw-bold mb-4">Related Properties</h3>
         <div className="row g-4">
@@ -529,48 +534,45 @@ const handleShowContact = () => {
       </div>
 
       {showPhone && (
-  <div className={styles.modalOverlay}>
-    <div className={styles.modal}>
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <h4 className="mb-0">Get Seller Contact Details</h4>
+        <div className={styles.modalOverlay}>
+          <div className={styles.modal}>
+            <div className="d-flex justify-content-between align-items-center mb-3">
+              <h4 className="mb-0">Get Seller Contact Details</h4>
 
-        <button
-          onClick={() => setShowPhone(false)}
-          className="btn p-0 border-0 bg-transparent"
-        >
-          <i className="bi bi-x-lg"></i>
-        </button>
-      </div>
+              <button
+                onClick={() => setShowPhone(false)}
+                className="btn p-0 border-0 bg-transparent"
+              >
+                <i className="bi bi-x-lg"></i>
+              </button>
+            </div>
 
-      <p className="text-muted mb-3">
-        Fill your details to view the owner's phone number.
-      </p>
+            <p className="text-muted mb-3">
+              Fill your details to view the owner's phone number.
+            </p>
 
-      <input
-        type="text"
-        name="name"
-        placeholder="Your Name"
-        value={leadData.name}
-        onChange={handleLeadChange}
-      />
+            <input
+              type="text"
+              name="name"
+              placeholder="Your Name"
+              value={leadData.name}
+              onChange={handleLeadChange}
+            />
 
-      <input
-        type="tel"
-        name="phone"
-        placeholder="Your Phone Number"
-        value={leadData.phone}
-        onChange={handleLeadChange}
-      />
+            <input
+              type="tel"
+              name="phone"
+              placeholder="Your Phone Number"
+              value={leadData.phone}
+              onChange={handleLeadChange}
+            />
 
-      <button
-        className={styles.continueBtn}
-        onClick={handleRevealPhone}
-      >
-        Continue
-      </button>
-    </div>
-  </div>
-)}
+            <button className={styles.continueBtn} onClick={handleRevealPhone}>
+              Continue
+            </button>
+          </div>
+        </div>
+      )}
       {showModal && (
         <div
           className="modal d-block"

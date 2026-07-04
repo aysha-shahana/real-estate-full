@@ -20,11 +20,14 @@ const transparentPages = [
   "/rent",
   "/buy",
   "/agency",
+  "/blog",
+  "/blog/:slug",
   "/contact"
 ];
 
 const isTransparentPage =
-  transparentPages.includes(location.pathname);
+  transparentPages.includes(location.pathname) ||
+  location.pathname.startsWith("/blog");
 
 
   const navigate = useNavigate();
@@ -210,6 +213,12 @@ const isTransparentPage =
             <li className={styles.navlink}>
               <Link to="/agency">Agency</Link>
             </li>
+
+             <li className={styles.navlink}>
+              <Link to="/blog">Blog</Link>
+            </li>
+
+
 
             <li className={styles.navlink}>
               <Link to="/contact">Contact</Link>

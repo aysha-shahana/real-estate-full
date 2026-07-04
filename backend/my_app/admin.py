@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Module, Child, PropertyListing , PropertyOffer ,PropertyBooking , Amenity
+from .models import Module, Child, PropertyListing ,PropertyBooking , Amenity
 
 
 @admin.register(Module)
@@ -78,16 +78,6 @@ class AmenityAdmin(admin.ModelAdmin):
     list_display = ["name"]
     
     
-@admin.register(PropertyOffer)
-class PropertyOfferAdmin(admin.ModelAdmin):
-    list_display = (
-        "property",
-        "name",
-        "phone",
-        "offer_amount",
-        "created_at"
-    )
-    
     
 @admin.register(PropertyBooking)
 class PropertyBookingAdmin(admin.ModelAdmin):
@@ -98,3 +88,34 @@ class PropertyBookingAdmin(admin.ModelAdmin):
         "booking_amount",
         "payment_status"
     )
+    
+from .models import ContactInfo, ContactMessage
+
+admin.site.register(ContactInfo)
+admin.site.register(ContactMessage)
+    
+
+from .models import Blog
+@admin.register(Blog)
+class BlogAdmin(admin.ModelAdmin):
+    list_display = (
+        'title',
+        'category',
+        'status',
+        'created_at',
+    )
+
+    list_filter = (
+        'status',
+        'category',
+    )
+
+    search_fields = (
+        'title',
+        'meta_title',
+        'meta_keywords',
+    )
+
+    prepopulated_fields = {
+        'slug': ('title',)
+    }

@@ -32,7 +32,11 @@ import PropertyDetails from "./Components/PropertyDetails/PropertyDetails";
 import BuyPropertyDetails from "./Components/BuypropertyDetails/BuyPropertyDetails";
 import VisitRequest from "./Components/Visit Request/VisitRequest";
 import ContactLeads from "./Components/Contact Leads/ContactLeads";
+import Bloghome from "./Components/Blog Page/Bloghome";
+import BlogDetails from "./Components/Blog Details/BlogDetails";
 // import ApplyForRent from "./Components/Apply for rent/ApplyForRent";
+
+
 
 function App() {
   const location = useLocation();
@@ -94,6 +98,19 @@ function App() {
         <Route path="/buy-property/:id" element={<BuyPropertyDetails />} />
 
         <Route path="/property/:id" element={<PropertyDetails />} /> 
+
+<Route
+  path="/blog"
+  element={<Bloghome />}
+/>
+
+<Route
+  path="/blog/:slug"
+  element={<BlogDetails />}
+/>
+
+
+
 
         {/* <Route path="/apply-for-rent/:id" element={<ApplyForRent />} /> */}
         

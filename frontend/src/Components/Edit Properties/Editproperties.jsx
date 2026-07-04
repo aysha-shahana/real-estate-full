@@ -11,11 +11,11 @@ import {
 } from "react-icons/fa";
 
 const Editproperties = () => {
-  const DJANGO_BASE_URL = "http://127.0.0.1:8000";
+  const DJANGO_BASE_URL = import.meta.env.VITE_DJANGO_BASE_URL;
 
   const { id } = useParams();
   const navigate = useNavigate();
-
+ 
   const [image, setImage] = useState(null);
 
   const [userData, setUserData] = useState(null);

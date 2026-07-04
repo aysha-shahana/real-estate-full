@@ -78,6 +78,27 @@ url("../assets/Imges/contact\ us.jpg");
 }
 
 
+.blogbg{
+
+   min-height: 70vh;
+  background:
+  linear-gradient(
+  rgba(0,0,0,.55),
+  rgba(0,0,0,.55)
+  ),
+  url("../assets/Imges/blog\ banner.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    position:relative;
+}
+
+
 
 @media(max-width:768px){
 

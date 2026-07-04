@@ -6,29 +6,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
+    
     dependencies = [
         ('my_app', '0017_propertyoffer_status'),
-        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
-
+    
     operations = [
         migrations.AlterField(
             model_name='propertylisting',
             name='status',
             field=models.CharField(choices=[('available', 'Available'), ('sold', 'Sold'), ('rented', 'Rented')], default='available', max_length=100),
         ),
-        migrations.CreateModel(
-            name='RentalApplication',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('move_in_date', models.DateField()),
-                ('message', models.TextField(blank=True, null=True)),
-                ('status', models.CharField(choices=[('pending', 'Pending'), ('accepted', 'Accepted'), ('rejected', 'Rejected')], default='pending', max_length=20)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('owner', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='received_rent_requests', to=settings.AUTH_USER_MODEL)),
-                ('property', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='rental_applications', to='my_app.propertylisting')),
-                ('tenant', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='rent_requests', to=settings.AUTH_USER_MODEL)),
-            ],
-        ),
+       
     ]

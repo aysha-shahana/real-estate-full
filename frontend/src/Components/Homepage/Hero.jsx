@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../../assets/axiosConfig";
 
 import styles from "../../assets/Hero.module.css";
 
@@ -9,7 +9,7 @@ import secondcom from "../../assets/Pagethreecss/Second.module.css";
 import banner from "../../assets/Imges/bbanner.jpeg";
 
 const Hero = () => {
-  const DJANGO_BASE_URL = "http://127.0.0.1:8000";
+  const DJANGO_BASE_URL = import.meta.env.VITE_DJANGO_BASE_URL;
 
   const [searchData, setSearchData] = useState({
     keyword: "",
@@ -30,16 +30,13 @@ const Hero = () => {
   // SEARCH FUNCTION
   const handleSearch = async () => {
     try {
-      const response = await axios.get(
-        "http://127.0.0.1:8000/api/property-search/",
-        {
-          params: {
-            keyword: searchData.keyword,
-            status: searchData.status,
-            property_type: searchData.type,
-          },
+      const response = await api.get("/property-search/", {
+        params: {
+          keyword: searchData.keyword,
+          status: searchData.status,
+          property_type: searchData.type,
         },
-      );
+      });
 
       setProperties(response.data);
     } catch (error) {

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3>Delete Category</h3>
+
+<p>Are you sure you want to delete:</p>
+
+<strong>{{ category.name }}</strong>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <button type="submit" class="btn btn-danger">
+        Yes, Delete
+    </button>
+
+    <a href="{% url 'blog_category_list' %}" class="btn btn-secondary">
+        Cancel
+    </a>
+</form>
+
+{% endblock %}

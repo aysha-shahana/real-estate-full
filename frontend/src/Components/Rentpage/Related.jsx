@@ -1,141 +1,146 @@
-import React from 'react'
-import styles from '../../assets/Related.module.css'  
-import homecard from "../../assets/Imges/homeimagecard.jpg";
-import sideimage from "../../assets/Imges/home.jpg";
-import sideimag from "../../assets/Imges/Apartment.jpg";
-
-
-const cards = [
-  {
-    id: 1,
-    image: homecard,
-    head: "Luxury Family Home",
-    price: "450000",
-    location: "245/12 MG Road Kochi Ernakulam Kerala 682016",
-    beds: 3,
-    baths: 2,
-    sqft: 1500,
-  },
-  {
-    id: 2,
-    image: homecard,
-    head: "Luxury Family Home",
-    price: "450000",
-    location: "245/12 MG Road Kochi Ernakulam Kerala 682016",
-    beds: 3,
-    baths: 2,
-    sqft: 1500,
-  },
-  {
-    id: 3,
-    image: homecard,
-    head: "Luxury Family Home",
-    price: "450000",
-    location: "245/12 MG Road Kochi Ernakulam Kerala 682016",
-    beds: 3,
-    baths: 2,
-    sqft: 1500,
-  },
-  {
-    id: 4,
-    image: homecard,
-    head: "Luxury Family Home",
-    price: "450000",
-    location: "245/12 MG Road Kochi Ernakulam Kerala 682016",
-    beds: 3,
-    baths: 2,
-    sqft: 1500,
-  },
-];
+import React, { useEffect, useState } from "react";
+import api from "../../assets/axiosConfig";
+import { Link } from "react-router-dom";
+import styles from "../../assets/Related.module.css";
 
 const Related = () => {
+  const DJANGO_BASE_URL = import.meta.env.VITE_DJANGO_BASE_URL;
+
+  const [properties, setProperties] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchRecentProperties = async () => {
+    try {
+const res = await api.get("/rent-properties/");
+      // Latest 4 Properties
+      const latest = [...res.data].sort((a, b) => b.id - a.id).slice(0, 4);
+
+      setProperties(latest);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchRecentProperties();
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="container py-5">
+        <h3 className="text-center">Loading Properties...</h3>
+      </section>
+    );
+  }
+
   return (
-    <div className="container py-5">
+    <section className={`container py-5 ${styles.section}`}>
+      {/* Heading */}
 
-      <h3 className={`mb-4 text-center ${styles.heading}`}>
-        Related Properties
-      </h3>
+      <div className={styles.topSection}>
+        <div>
+          <h2 className={styles.heading}>Recently Added Rental Properties</h2>
 
-      <div className="row g-4">
+          <p className={styles.subHeading}>
+            Discover the latest verified rental properties listed by owners and
+            agents.
+          </p>
+        </div>
 
-        {/* LEFT CARDS */}
-        <div className="col-lg-7">
-          <div className="row g-4">
-            {cards.map((item) => (
-              <div className="col-12 col-md-6" key={item.id}>
-                <div className={`card shadow-sm rounded-4 ${styles.card}`}>
+        <button
+          className={styles.viewAll}
+          onClick={() => {
+            document.getElementById("rentals-section")?.scrollIntoView({
+              behavior: "smooth",
+            });
+          }}
+        >
+          View All Rentals →
+        </button>
+      </div>
+
+      {/* Empty */}
+
+      {properties.length === 0 ? (
+        <div className={styles.empty}>
+          <h5>No Rental Properties Available</h5>
+
+          <p>New rental properties will appear here once added.</p>
+        </div>
+      ) : (
+        <div className="row g-4">
+          {properties.map((item) => {
+            const imageUrl = item.image
+              ? `${DJANGO_BASE_URL}${item.image}`
+              : "https://via.placeholder.com/600x400";
+
+            return (
+              <div className="col-lg-3 col-md-6" key={item.id}>
+                <div className={styles.card}>
+                  {/* IMAGE */}
 
                   <div className={styles.imageWrapper}>
                     <img
-                      src={item.image}
-                      className="card-img-top rounded-top-4"
-                      alt={item.head}
+                      src={imageUrl}
+                      alt={item.title}
+                      className={styles.image}
                     />
+
+                    <span className={styles.badge}>✔ Verified</span>
                   </div>
 
-                  <div className="card-body">
-                    <h6 className={styles.title}>{item.head}</h6>
-                    <h5 className={styles.price}>₹{item.price}</h5>
-                    <p className="small text-muted">{item.location}</p>
+                  {/* BODY */}
 
-                    <div className="d-flex justify-content-between small">
-                      <span>🛏 {item.beds} Beds</span>
-                      <span>🛁 {item.baths} Baths</span>
+                  <div className={styles.body}>
+                    <span className={styles.propertyType}>
+                      {item.property_type}
+                    </span>
+
+                    <h5 className={styles.title}>{item.title}</h5>
+
+                    <h4 className={styles.price}>
+                      ₹{Number(item.price).toLocaleString("en-IN")}
+                      <span>/month</span>
+                    </h4>
+
+                    <p className={styles.location}>📍 {item.address}</p>
+
+                    <div className={styles.details}>
+                      {item.property_type !== "plot" && (
+                        <>
+                          <span>🛏 {item.beds}</span>
+
+                          <span>🛁 {item.baths}</span>
+                        </>
+                      )}
+
                       <span>📐 {item.sqft} sqft</span>
                     </div>
-                  </div>
 
+                    <div className={styles.footer}>
+                      <span className={styles.owner}>
+                        {item.user_type
+                          ? `Listed by ${item.user_type}`
+                          : "Listed by Owner"}
+                      </span>
+
+                      <Link
+                        to={`/property/${item.id}`}
+                        className={styles.detailsBtn}
+                      >
+                        View Details →
+                      </Link>
+                    </div>
+                  </div>
                 </div>
               </div>
-            ))}
-          </div>
+            );
+          })}
         </div>
-
-        {/* RIGHT SIDE */}
-        <div className="col-lg-5">
-          <img src={sideimage} className={`img-fluid rounded-4 mb-3 ${styles.bigImg}`} />
-
-          <div className="row g-3 mb-3">
-            {[1, 2, 3].map((a) => (
-              <div className="col-4" key={a}>
-                <img src={sideimag} className={`img-fluid rounded-3 ${styles.smallImg}`} />
-              </div>
-            ))}
-          </div>
-
-          <div>
-            <h6 className={styles.titleRight}>Apartment</h6>
-
-            <div className="d-flex gap-3 small mb-2">
-              <span>🛏 4 Beds</span>
-              <span>🛁 1 Bath</span>
-              <span>📐 400 sqft</span>
-            </div>
-
-            <p className="text-muted">
-              This well-designed apartment offers a compact yet stylish living space,
-              perfect for modern lifestyles.
-            </p>
-
-            <button className="btn btn-success px-4 rounded-pill">Buy Now</button>
-          </div>
-        </div>
-      </div>
-
-      {/* Pagination */}
-      <div className="d-flex justify-content-center mt-5">
-        <nav>
-          <ul className="pagination">
-            <li className="page-item"><a className={`page-link ${styles.page}`}>1</a></li>
-            <li className="page-item"><a className={`page-link ${styles.page}`}>2</a></li>
-            <li className="page-item"><a className={`page-link ${styles.page}`}>3</a></li>
-            <li className="page-item"><a className={`page-link ${styles.page}`}>4</a></li>
-            <li className="page-item"><a className={`page-link ${styles.page}`}>Next</a></li>
-          </ul>
-        </nav>
-      </div>
-
-    </div>
+      )}
+    </section>
   );
 };
 

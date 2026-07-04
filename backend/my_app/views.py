@@ -9,8 +9,6 @@ from django.contrib.admin.views.decorators import staff_member_required
 # Model Imports
 from .models import Module, Child
 from my_app.models import PropertyListing
-from my_app.models import PropertyOffer
-from my_app.models import RentalApplication
 
 from .decorators import admin_required , child_permission_required
 
@@ -133,10 +131,6 @@ def index(request):
         status="rejected"
     ).count()
 
-    # Offers
-    pending_offers = PropertyOffer.objects.filter(
-        status="pending"
-    ).count()
 
     # Recent properties
     recent_properties = PropertyListing.objects.order_by(
@@ -165,7 +159,6 @@ def index(request):
         "pending_visits": pending_visits,
         "accepted_visits": accepted_visits,
         "rejected_visits": rejected_visits,
-        "pending_offers": pending_offers,
 
         # Recent properties
         "recent_properties": recent_properties,
@@ -275,9 +268,6 @@ def admin_profile(request):
         "pending_visits": VisitRequest.objects.filter(
             status="pending"
         ).count(),
-        "pending_offers": PropertyOffer.objects.filter(
-            status="pending"
-        ).count(),
         "recent_properties": PropertyListing.objects.order_by(
             "-created_at"
         )[:5],
@@ -313,89 +303,22 @@ def module_view(request, module_id):
         
 #     return render(request, template_path, context)
 
-
 @child_permission_required
-@login_required(login_url='login')
+@login_required(login_url="login")
 def child_view(request, child_id):
 
     child = get_object_or_404(Child, id=child_id)
 
     if child.url_name:
-        template_path = child.url_name if child.url_name.endswith('.html') else f"{child.url_name}.html"
-    else:
-        template_path = "index.html"
+        return redirect(child.url_name)
 
-    context = {
-        'child': child,
-        
-    }
-
-    # USER LIST
-    if "userlist" in template_path or "user_list" in template_path:
-        context['users'] = User.objects.all()
-
-    # PROPERTY LIST
-    if "property_list" in template_path or "propertylist" in template_path:
-        context['listings'] = PropertyListing.objects.all()
-
-    # GROUP LIST
-    if "grouplist" in template_path or "group_list" in template_path:
-        context['groups'] = Group.objects.all()
-        
-    # VISIT REQUEST LIST
-
-    if "visit_requests" in template_path:
-        context["visits"] = VisitRequest.objects.all().order_by(
-        "-created_at"
-    )
-    
-    # PROPERTY OFFERS
-    if "property_offer" in template_path or "offers" in template_path:
-        context["offers"] = PropertyOffer.objects.all().order_by(
-        "-created_at"
-    )
-        
-        
-    # PROPERTY OFFERS
-
-    if "offers" in template_path:
-
-        offers = PropertyOffer.objects.all().order_by("-created_at")
-
-        context["offers"] = offers
-
-        context["total_offers"] = offers.count()
-
-        context["highest_offer"] = (
-        PropertyOffer.objects.aggregate(
-            Max("offer_amount")
-        )["offer_amount__max"]
-    )
-        
-    if "rent_applications" in template_path:
-
-        applications = RentalApplication.objects.all().order_by(
-        "-created_at"
-    )
-
-        context["applications"] = applications
-
-        context["total_applications"] = applications.count()
-
-        context["total_properties"] = (
-        PropertyListing.objects.count()
-        )
-
-    context["total_visits"] = (
-        VisitRequest.objects.count()
-    )
-
-    return render(request, template_path, context)
+    return redirect("index")
 
 
 # =========================================================================
 # 3. EXTRA SUB-PAGES HANDLERS
 # =========================================================================
+
 @admin_required
 @login_required(login_url='login')
 def propertylist(request):
@@ -449,7 +372,7 @@ def addgroup(request):
         if group_name:
             Group.objects.create(name=group_name)
             messages.success(request, "User Group Added Successfully")
-            return redirect("grouplist")
+            return redirect("group-list")
 
     return render(request, "addgroup.html", {
         'modules': Module.objects.all()
@@ -475,7 +398,7 @@ def deletegroup(request, id):
 
     messages.success(request, "Group Deleted Successfully")
 
-    return redirect('grouplist')
+    return redirect('group-list')
 
 
 @admin_required
@@ -559,7 +482,7 @@ def edit_user(request, user_id):
         target_user.email = request.POST.get('email')
         target_user.save()
         messages.success(request, f"Account settings for '{target_user.username}' updated successfully.")
-        return redirect('userlist')
+        return redirect('user-list')
         
     return render(request, 'edit_user.html', {'target_user': target_user, 'modules': all_modules})
 
@@ -593,7 +516,7 @@ def accept_visit(request, pk):
     visit.status = "accepted"
     visit.save()
 
-    return redirect("visit_requests")
+    return redirect("visit-requests")
 
 
 def reject_visit(request, pk):
@@ -606,84 +529,183 @@ def reject_visit(request, pk):
     visit.status = "rejected"
     visit.save()
 
-    return redirect("visit_requests")
+    return redirect("visit-requests")
 
-from django.db.models import Max
 
-@staff_member_required
+    
+from .models import Blog
 
-@login_required
 @admin_required
-def offer_list(request):
-
-    offers = PropertyOffer.objects.all().order_by("-created_at")
+@login_required(login_url="login")
+def blog_list(request):
+   
+    blogs = Blog.objects.all().order_by("-created_at")
+    all_modules = Module.objects.all()
 
     context = {
-        "offers": offers,
+        "blogs": blogs,
+        "modules": all_modules,
+    }
 
-        "total_offers": PropertyOffer.objects.count(),
+    return render(request, "blog_list.html", context)
 
-        "highest_offer": PropertyOffer.objects.aggregate(
-            Max("offer_amount")
-        )["offer_amount__max"],
 
-        "total_properties": PropertyListing.objects.count(),
+from .forms import BlogForm
 
-        "total_visits": VisitRequest.objects.count(),
+@admin_required
+@login_required(login_url="login")
+def add_blog(request):
+
+
+    all_modules = Module.objects.all()
+
+    if request.method == "POST":
+        form = BlogForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Blog added successfully.")
+            return redirect("blog-list")
+
+    else:
+        form = BlogForm()
+
+    context = {
+        "form": form,
+        "modules": all_modules,
+    }
+
+    return render(request, "add_blog.html", context)
+
+
+@admin_required
+@login_required(login_url="login")
+def edit_blog(request, id):
+
+    blog = get_object_or_404(Blog, id=id)
+
+    all_modules = Module.objects.all()
+
+    if request.method == "POST":
+
+        form = BlogForm(
+            request.POST,
+            request.FILES,
+            instance=blog
+        )
+
+        if form.is_valid():
+
+            form.save()
+
+            messages.success(
+                request,
+                "Blog updated successfully."
+            )
+
+            return redirect("blog-list")
+
+    else:
+
+        form = BlogForm(instance=blog)
+
+    context = {
+        "form": form,
+        "modules": all_modules,
+        "blog": blog,
     }
 
     return render(
         request,
-        "admin/offers.html",
+        "edit_blog.html",
         context
     )
     
     
-    
-def accept_offer(request, offer_id):
+@admin_required
+@login_required(login_url="login")
+def delete_blog(request, id):
 
-    offer = get_object_or_404(
-        PropertyOffer,
-        id=offer_id
+    blog = get_object_or_404(
+        Blog,
+        id=id
     )
 
-    offer.status = "accepted"
-    offer.save()
+    if request.method == "POST":
 
-    messages.success(
-        request,
-        "Offer accepted successfully."
-    )
+        blog.delete()
 
-    return redirect(request.META.get("HTTP_REFERER"))
+        messages.success(
+            request,
+            "Blog deleted successfully."
+        )
 
+        return redirect("blog-list")
 
-
-def reject_offer(request, offer_id):
-
-    offer = get_object_or_404(
-        PropertyOffer,
-        id=offer_id
-    )
-
-    offer.status = "rejected"
-    offer.save()
-
-    messages.warning(
-        request,
-        "Offer rejected."
-    )
-
-    return redirect(request.META.get("HTTP_REFERER"))
-
-def rent_applications(request):
-
-    applications = RentalApplication.objects.all().order_by('-created_at')
+    context = {
+        "blog": blog,
+        "modules": Module.objects.all(),
+    }
 
     return render(
         request,
-        "rent_applications.html",
-        {
-            "applications": applications
-        }
+        "delete_blog.html",
+        context
     )
+    
+from .models import BlogCategory
+from .forms import BlogCategoryForm
+
+
+@login_required(login_url="login")
+def add_blog_category(request):
+    if request.method == "POST":
+        form = BlogCategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Category added successfully.")
+            return redirect("blog_category_list")   # list page later create cheyyam
+    else:
+        form = BlogCategoryForm()
+
+    return render(request, "add_blog_category.html", {
+        "form": form
+    })
+    
+@login_required(login_url="login")
+def blog_category_list(request):
+    categories = BlogCategory.objects.all()
+
+    return render(
+        request,
+        "blog_category_list.html",
+        {"categories": categories},
+    )
+    
+
+def edit_blog_category(request, id):
+    category = get_object_or_404(BlogCategory, id=id)
+
+    if request.method == "POST":
+        category.name = request.POST.get("name")
+        category.slug = request.POST.get("slug")
+        category.save()
+        return redirect("blog_category_list")
+
+    return render(request, "edit_blog_category.html", {"category": category})
+
+
+from django.http import HttpResponse
+
+def delete_blog_category(request, id):
+    category = get_object_or_404(BlogCategory, id=id)
+
+    if request.method == "POST":
+        
+        if category.blogs.exists():
+            return HttpResponse("Cannot delete category with blogs")
+
+        category.delete()
+        return redirect("blog_category_list")
+
+    return render(request, "delete_blog_category.html", {"category": category})

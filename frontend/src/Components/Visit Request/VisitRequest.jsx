@@ -30,7 +30,7 @@ function VisitRequest() {
         const token = localStorage.getItem("access_token");
 
         const response = await api.get(
-          "http://127.0.0.1:8000/api/current-user/",
+          "/current-user/",
           {
             headers: {
               Authorization: `Bearer ${token}`,

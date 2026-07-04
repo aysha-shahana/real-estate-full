@@ -48,6 +48,7 @@ urlpatterns = [
         ),
         name="password_change_done"
     ),
+    path("ckeditor/", include("ckeditor_uploader.urls")),
 
 ]
 

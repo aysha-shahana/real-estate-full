@@ -93,3 +93,15 @@
   }
 }
 
+.top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:40px;
+}
+
+.viewAll{
+    text-decoration:none;
+    color:#0b5ed7;
+    font-weight:600;
+}

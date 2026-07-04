@@ -1,7 +1,14 @@
 {% extends "base.html" %}
 {% load static %}
 
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/custom.css' %}">
+{% endblock %}
+
 {% block content %}
+
+
 
 <!-- PAGE HEADER -->
 
@@ -14,40 +21,31 @@
             </h2>
         </div>
 
-```
+
     <div class="col-lg-7 col-md-7 col-sm-12 text-md-right">
         <ul class="breadcrumb float-md-right">
-            <li class="breadcrumb-item">
-                <a href="{% url 'index' %}">
-                    <i class="zmdi zmdi-home"></i>
-                    Xen Properties
-                </a>
-            </li>
+    <li class="breadcrumb-item">
+        <a href="{% url 'index' %}">
+            <i class="zmdi zmdi-home"></i> Xen Properties
+        </a>
+    </li>
 
-            <li class="breadcrumb-item active">
-                Visit Requests
-            </li>
-        </ul>
+    <li class="breadcrumb-item active">
+        Visit Requests
+    </li>
+</ul>
     </div>
 </div>
-```
-
 </div>
 
 <div class="container-fluid">
 
-```
 <div class="row clearfix">
 
     <div class="col-lg-12">
 
         <div class="card">
 
-            <div class="header">
-                <h2>
-                    <strong>Scheduled</strong> Property Visits
-                </h2>
-            </div>
 
             <div class="body">
 
@@ -93,7 +91,7 @@
                                 </td>
 
                                 <td>
-                                    {{ visit.visit_date }}
+                                    {{ visit.visit_date|date:"d M Y" }}
                                 </td>
 
                                 <td>
@@ -101,18 +99,23 @@
                                     {% if visit.status == "pending" %}
 
                                     <span class="badge badge-warning">
-                                        Pending
+                                    <i class="zmdi zmdi-check-circle"></i>
+                                    Pending
                                     </span>
 
                                     {% elif visit.status == "accepted" %}
 
                                     <span class="badge badge-success">
+                                            <i class="zmdi zmdi-check-circle"></i>
+
                                         Accepted
                                     </span>
 
                                     {% elif visit.status == "rejected" %}
 
                                     <span class="badge badge-danger">
+                                            <i class="zmdi zmdi-check-circle"></i>
+
                                         Rejected
                                     </span>
 
@@ -124,20 +127,22 @@
 
                                     {% if visit.status == "pending" %}
 
-                                    <a href="{% url 'accept_visit' visit.id %}"
-   class="btn btn-success btn-sm">
-   Accept
+<a href="{% url 'accept-visit' visit.id %}"
+   class="btn btn-accept mr-2">
+    <i class="zmdi zmdi-check"></i>
+    Accept
 </a>
 
-<a href="{% url 'reject_visit' visit.id %}"
-   class="btn btn-danger btn-sm">
-   Reject
+<a href="{% url 'reject-visit' visit.id %}"
+   class="btn btn-reject">
+    <i class="zmdi zmdi-close"></i>
+    Reject
 </a>
 
                                     {% else %}
 
                                     <span class="text-muted">
-                                        Action Completed
+                                       Completed
                                     </span>
 
                                     {% endif %}

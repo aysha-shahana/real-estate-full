@@ -1,5 +1,5 @@
 // import React, { useState, useEffect } from "react";
-// import axios from "axios";
+// import api from "../../assets/axiosConfig";
 // import secondcom from "../../assets/Pagethreecss/Second.module.css";
 
 // const Secondcom = () => {
@@ -50,7 +50,7 @@
 //         </div>
 
 //         <div className="row g-4 mt-3">
-          
+
 //           {secondcard.map((item) => {
 //             const imageUrl = `${DJANGO_BASE_URL}${item.image}`;
 //             return (

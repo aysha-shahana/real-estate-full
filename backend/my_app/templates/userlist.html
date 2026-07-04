@@ -21,7 +21,7 @@
       <div class="card">
         <div class="body">
           <div class="mb-3 text-right">
-            <a href="{% url 'adduser' %}" class="btn btn-primary btn-round">
+            <a href="{% url 'add-user' %}" class="btn btn-primary btn-round">
               <i class="zmdi zmdi-account-add m-r-5"></i> Add New User
             </a>
           </div>
@@ -50,7 +50,7 @@
                   <td class="text-center">
                     <!-- EDIT ACTION -->
                     <a
-                      href="{% url 'edituser' registered_user.id %}"
+                      href="{% url 'edit-user' registered_user.id %}"
                       class="btn btn-sm btn-default"
                       title="Edit User"
                     >
@@ -59,7 +59,7 @@
 
                     <!-- SECURE POST LOGOUT/DELETE FOR USER -->
                     <form
-                      action="{% url 'deleteuser' registered_user.id %}"
+                      action="{% url 'delete-user' registered_user.id %}"
                       method="POST"
                       style="display: inline"
                       onsubmit="

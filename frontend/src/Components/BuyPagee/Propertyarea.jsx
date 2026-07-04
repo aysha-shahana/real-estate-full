@@ -15,7 +15,7 @@
 //   // Fetch Buy Properties
 //   useEffect(() => {
 
-//    axios.get(`${DJANGO_BASE_URL}/api/buy-properties/`)
+//    api.get(`${DJANGO_BASE_URL}/api/buy-properties/`)
 //       .then((response) => {
 //         setProperties(response.data);
 //         setLoading(false);

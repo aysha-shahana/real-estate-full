@@ -30,7 +30,7 @@
         </div>
         <div class="body">
           <!-- SECURE FORM UPDATE POST HANDLER -->
-          <form method="POST" action="{% url 'edituser' target_user.id %}">
+          <form method="POST" action="{% url 'edit-user' target_user.id %}">
             {% csrf_token %}
 
             <!-- USERNAME CONTROL BOX -->

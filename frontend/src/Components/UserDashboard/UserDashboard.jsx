@@ -10,7 +10,7 @@ import {
 
 import React, { useEffect, useState } from "react";
 
-import axios from "axios";
+import api from "../../assets/axiosConfig";
 import { Link, useNavigate } from "react-router-dom";
 
 import styles from "../../assets/UserDashboard.module.css";
@@ -21,8 +21,8 @@ const UserDashboard = () => {
   const navigate = useNavigate();
   const [dashboardData, setDashboardData] = useState(null);
   useEffect(() => {
-    axios
-      .get("http://127.0.0.1:8000/api/user-dashboard/")
+    api
+      .get("/user-dashboard/")
       .then((res) => {
         setDashboardData(res.data);
       })
@@ -36,14 +36,11 @@ const UserDashboard = () => {
       try {
         const token = localStorage.getItem("access_token");
 
-        const response = await axios.get(
-          "http://127.0.0.1:8000/api/current-user/",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+        const response = await api.get("/current-user/", {
+          headers: {
+            Authorization: `Bearer ${token}`,
           },
-        );
+        });
 
         setUserData(response.data);
       } catch (error) {
@@ -53,8 +50,8 @@ const UserDashboard = () => {
 
     fetchUser();
 
-    axios
-      .get("http://127.0.0.1:8000/api/user-dashboard/")
+    api
+      .get("/user-dashboard/")
       .then((res) => {
         setDashboardData(res.data);
       })
@@ -72,7 +69,7 @@ const UserDashboard = () => {
 
     localStorage.removeItem("username");
 
-    navigate("/signin");
+    navigate("/");
   };
 
   return (
@@ -149,18 +146,16 @@ const UserDashboard = () => {
         {/* TOPBAR */}
 
         <div className={styles.topbar}>
-          <div><p><Link
-    to="/"
-    className={styles.homeLink}
-  >
-    <FaHome /> Home
-  </Link> / Dashboard</p>
+          <div>
+            <p>
+              <Link to="/" className={styles.homeLink}>
+                <FaHome /> Home
+              </Link>{" "}
+              / Dashboard
+            </p>
             <h2>Dashboard</h2>
 
-            <p>Welcome back, {userData?.username || "User"}
-              
-
-            </p>
+            <p>Welcome back, {userData?.username || "User"}</p>
           </div>
 
           <div className={styles.topActions}>

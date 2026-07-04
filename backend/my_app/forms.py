@@ -1,19 +1,66 @@
 from django import forms
-from .models import RentalApplication
+from my_app.models import Blog ,  BlogCategory
 
 
-class RentalApplicationForm(forms.ModelForm):
+class BlogForm(forms.ModelForm):
 
     class Meta:
-        model = RentalApplication
-        fields = ['move_in_date', 'message']
+        model = Blog
+        fields = [
+            'title',
+            'slug',
+            'category',
+            'featured_image',
+            'excerpt',
+            'content',
+            'status',
+            'meta_title',
+            'meta_description',
+            'meta_keywords',
+        ]
 
         widgets = {
-            'move_in_date': forms.DateInput(
-                attrs={'type': 'date'}
+            "title": forms.TextInput(attrs={"class": "form-control"}),
+
+            "slug": forms.TextInput(attrs={"class": "form-control"}),
+
+            "category": forms.Select(attrs={"class": "form-select"}),
+
+            "featured_image": forms.ClearableFileInput(
+                attrs={"class": "form-control"}
             ),
 
-            'message': forms.Textarea(
-                attrs={'rows': 4}
-            )
+            "excerpt": forms.Textarea(
+                attrs={
+                    "class": "form-control",
+                    "rows": 4,
+                }
+            ),
+
+            "status": forms.Select(attrs={"class": "form-select"}),
+
+            "meta_title": forms.TextInput(
+                attrs={"class": "form-control"}
+            ),
+
+            "meta_description": forms.Textarea(
+                attrs={
+                    "class": "form-control",
+                    "rows": 3,
+                }
+            ),
+
+            "meta_keywords": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "villa, apartment, real estate, kerala",
+                }
+            ),
         }
+        
+
+
+class BlogCategoryForm(forms.ModelForm):
+    class Meta:
+        model = BlogCategory
+        fields = ["name"]

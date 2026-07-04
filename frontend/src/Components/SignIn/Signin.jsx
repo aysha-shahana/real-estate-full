@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../../assets/axiosConfig";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import styles from "../../assets/Signin.module.css";
 
@@ -33,10 +33,7 @@ function Signin() {
       console.log("FORM DATA:", form);
 
       // LOGIN
-      const response = await axios.post(
-        "http://127.0.0.1:8000/api/token/",
-        form
-      );
+      const response = await api.post("/token/", form);
 
       console.log("TOKEN RESPONSE:", response.data);
 
@@ -53,14 +50,11 @@ function Signin() {
       );
 
       // CURRENT USER
-      const userResponse = await axios.get(
-        "http://127.0.0.1:8000/api/current-user/",
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
+    const userResponse = await api.get("/current-user/", {
+  headers: {
+    Authorization: `Bearer ${accessToken}`,
+  },
+});
 
       console.log(
         "CURRENT USER:",

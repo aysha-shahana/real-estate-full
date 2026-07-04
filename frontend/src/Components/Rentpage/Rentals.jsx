@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../assets/axiosConfig";
 import { useNavigate } from "react-router-dom";
 
 import sell from "../../assets/Mainhead.module.css";
 import secondcom from "../../assets/Pagethreecss/Second.module.css";
 
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet"></link>
+<link
+  href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&display=swap"
+  rel="stylesheet"
+></link>;
 
 const Rentals = () => {
-  const DJANGO_BASE_URL = "http://127.0.0.1:8000";
+  const DJANGO_BASE_URL = import.meta.env.VITE_DJANGO_BASE_URL;
 
   // SEARCH BAR FORM STATE
   const [searchData, setSearchData] = useState({
@@ -31,9 +34,7 @@ const Rentals = () => {
   const fetchRentProperties = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(
-        `${DJANGO_BASE_URL}/api/rent-properties/`,
-      );
+      const response = await api.get(`/rent-properties/`);
       setProperties(response.data);
       setError(null);
     } catch (err) {
@@ -65,7 +66,7 @@ const Rentals = () => {
         params.budget = searchData.budget;
       }
 
-      const response = await axios.get(
+      const response = await api.get(
         `${DJANGO_BASE_URL}/api/rent-property-search/`,
         { params },
       );
@@ -143,7 +144,7 @@ const Rentals = () => {
       </section>
 
       {/* ================= DYNAMIC CARDS SECTION (YOUR SECONDCOM DATA) ================= */}
-      <section className="mt-4">
+      <section id="rentals-section" className="mt-4">
         <div className="container py-5">
           <div className={secondcom.headoo}>
             <h2 className="mb-4 text-center fw-bold">

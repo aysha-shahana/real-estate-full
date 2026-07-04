@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from my_app.models import PropertyListing , User , VisitRequest , PropertyOffer , Amenity , NearbyPlace , ContactLead
+from my_app.models import PropertyListing , User , VisitRequest , Amenity , NearbyPlace , ContactLead , ContactInfo , ContactMessage , Blog
         
 
 
@@ -40,19 +40,7 @@ class VisitRequestSerializer(serializers.ModelSerializer):
         model = VisitRequest
         fields = "__all__"
         
-    
-        
 
-
-class PropertyOfferSerializer(
-    serializers.ModelSerializer
-):
-
-    class Meta:
-        model = PropertyOffer
-
-        fields = "__all__"
-        
         
 class AmenitySerializer(serializers.ModelSerializer):
 
@@ -117,8 +105,7 @@ class PropertyDetailSerializer(serializers.ModelSerializer):
         
 
 class ContactLeadSerializer(
-    serializers.ModelSerializer
-):
+    serializers.ModelSerializer):
 
     property_title = serializers.CharField(
         source="property.title",
@@ -127,4 +114,36 @@ class ContactLeadSerializer(
 
     class Meta:
         model = ContactLead
+        fields = "__all__"
+        
+    def validate_phone(self, value):
+        import re
+
+        if not re.match(r'^[6-9]\d{9}$', value):
+            raise serializers.ValidationError(
+                "Enter a valid 10-digit phone number."
+            )
+
+        return value
+    
+    
+
+
+class ContactMessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ContactMessage
+        fields = "__all__"
+
+
+class ContactInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ContactInfo
+        fields = "__all__"
+        
+        
+class BlogSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Blog
+
         fields = "__all__"
