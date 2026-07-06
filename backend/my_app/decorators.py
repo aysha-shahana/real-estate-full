@@ -1,29 +1,23 @@
 from django.shortcuts import redirect
 from .models import Child
-
+from functools import wraps
+from django.shortcuts import redirect
 
 def admin_required(view_func):
-
+    @wraps(view_func)
     def wrapper(request, *args, **kwargs):
+
+        if request.user.is_superuser:
+            return view_func(request, *args, **kwargs)
 
         if request.user.groups.filter(
             name__in=["Super Admin", "Admin"]
         ).exists():
+            return view_func(request, *args, **kwargs)
 
-            return view_func(
-                request,
-                *args,
-                **kwargs
-            )
-
-        return redirect(
-            "home"
-        ) # frontend home page
+        return redirect("login")   # allenkil frontend URL
 
     return wrapper
-
-
-
 
 from functools import wraps
 
