@@ -1,8 +1,11 @@
 from pathlib import Path
 from datetime import timedelta
-import os
 from dotenv import load_dotenv
 from corsheaders.defaults import default_headers
+import os
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -27,6 +30,7 @@ INSTALLED_APPS = [
     'my_app',
     'api',
     "ckeditor", 
+    "cloudinary",
 ]
 
 STATIC_URL = "/static/"
@@ -49,6 +53,13 @@ STORAGES = {
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+cloudinary.config(
+    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.getenv("CLOUDINARY_API_KEY"),
+    api_secret=os.getenv("CLOUDINARY_API_SECRET"),
+    secure=True,
+)
 
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
