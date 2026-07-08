@@ -358,7 +358,7 @@ def add_property(request):
 
     return render(
         request,
-        "property/add-property.html",
+        "add-property.html",
         {
             "form": form,
         },
