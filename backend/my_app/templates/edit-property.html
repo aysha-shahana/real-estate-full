@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/edit_property.css' %}">
+{% endblock %}
+
 {% block content %}
 
 <div class="block-header">
@@ -104,30 +108,46 @@
 
                     <div class="col-md-6 mb-3">
                         <label>Featured Image</label>
+
+                        {% if property.image %}
+<div class="mb-3">
+    <img src="{{ property.image.url }}"
+         class="current-image">
+</div>
+{% endif %}
+
                         {{ form.image }}
                     </div>
-                    {% if property.image %}
-    <div class="mt-2">
-        <img src="{{ property.image.url }}"
-             width="180"
-             class="img-thumbnail">
-    </div>
-{% endif %}
+
 
                     <div class="col-md-12 mb-3">
                         <label>Nearby Places</label>
                         {{ form.nearby_places }}
                     </div>
 
-                    <div class="col-md-12 mb-3">
-                        <label>Amenities</label>
-                        {{ form.amenities }}
-                    </div>
+<div class="col-md-12 mb-3">
 
-                    <div class="col-md-6 mb-3">
-                        <label>Featured Property</label><br>
-                        {{ form.is_featured }}
-                    </div>
+    <label>Amenities</label>
+
+    <div class="amenities-box">
+
+        {{ form.amenities }}
+
+    </div>
+
+</div>
+
+                   <div class="form-check mt-2">
+
+    {{ form.is_featured }}
+
+    <label class="form-check-label">
+
+        Featured Property
+
+    </label>
+
+</div>
 
                     <div class="col-md-6 mb-3">
                         <label>Approval Status</label>

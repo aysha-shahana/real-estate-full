@@ -1,0 +1,201 @@
+/*=========================================
+    EDIT PROPERTY
+=========================================*/
+
+.card{
+    border:0;
+    border-radius:14px;
+    overflow:hidden;
+    box-shadow:0 8px 18px rgba(0,0,0,.08);
+}
+
+.card-header{
+    background:#011824;
+    color:#fff;
+    padding:18px 25px;
+    border:none;
+}
+
+.card-header h4{
+    margin:0;
+    font-size:22px;
+    font-weight:600;
+}
+
+.card-body{
+    padding:30px;
+}
+
+
+/* Labels */
+
+label{
+
+    font-weight:600;
+
+    margin-bottom:8px;
+
+    color:#333;
+
+}
+
+
+/* Text Inputs */
+.form-control,
+.form-select{
+
+
+    width:100%;
+
+    height:46px;
+
+    border:1px solid #dcdcdc;
+
+    border-radius:10px;
+
+    padding:0 14px;
+
+    transition:.25s;
+
+    background:#fff;
+
+}
+
+
+/* Textarea */
+
+textarea{
+
+    min-height:130px;
+
+    padding-top:12px;
+
+}
+
+
+/* Focus */
+
+.form-control,
+.form-select:focus{
+
+    outline:none;
+
+    border-color:#011824;
+
+    box-shadow:0 0 0 .15rem rgba(1,24,36,.1);
+
+}
+
+
+/* Image */
+
+.current-image{
+
+    width:180px;
+
+    border-radius:10px;
+
+    margin-bottom:12px;
+
+    border:1px solid #ddd;
+
+}
+
+
+/* Checkbox */
+
+input[type=checkbox]{
+
+    margin-right:8px;
+
+}
+
+
+/* Amenities */
+
+.amenities-box{
+
+    border:1px solid #ddd;
+
+    border-radius:10px;
+
+    padding:18px;
+
+    background:#fafafa;
+
+    max-height:230px;
+
+    overflow-y:auto;
+
+}
+
+
+/* Buttons */
+
+.btn-primary{
+
+    background:#011824;
+
+    border:none;
+
+    border-radius:8px;
+
+    padding:11px 25px;
+
+}
+
+.btn-primary:hover{
+
+    background:#03314a;
+
+}
+
+
+.btn-secondary{
+
+    border-radius:8px;
+
+    padding:11px 25px;
+
+}
+
+
+/* Breadcrumb */
+
+.breadcrumb{
+
+    background:transparent;
+
+    padding:0;
+
+}
+
+.breadcrumb-item a{
+
+    color:#0d6efd;
+
+    text-decoration:none;
+
+}
+
+
+/* Form spacing */
+
+.mb-3{
+
+    margin-bottom:20px !important;
+
+}
+
+
+/* Responsive */
+
+@media(max-width:768px){
+
+.card-body{
+
+    padding:20px;
+
+}
+
+}
