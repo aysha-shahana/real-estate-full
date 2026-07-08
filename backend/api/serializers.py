@@ -16,10 +16,7 @@ class PropertyListingSerializer(serializers.ModelSerializer):
         return None
         
 class UserSerializer(serializers.ModelSerializer):
-    profile_image = serializers.ImageField(
-        source="userprofile.profile_image",
-        read_only=True
-    )
+    profile_image = serializers.SerializerMethodField()
 
     phone = serializers.CharField(
         source="userprofile.phone",
@@ -35,6 +32,11 @@ class UserSerializer(serializers.ModelSerializer):
             "profile_image",
             "phone",
         ]
+
+    def get_profile_image(self, obj):
+        if hasattr(obj, "userprofile") and obj.userprofile.profile_image:
+            return obj.userprofile.profile_image.url
+        return None
         
 class VisitRequestSerializer(serializers.ModelSerializer):
     
@@ -149,8 +151,13 @@ class ContactInfoSerializer(serializers.ModelSerializer):
         
         
 class BlogSerializer(serializers.ModelSerializer):
+    featured_image = serializers.SerializerMethodField()
 
     class Meta:
         model = Blog
-
         fields = "__all__"
+
+    def get_featured_image(self, obj):
+        if obj.featured_image:
+            return obj.featured_image.url
+        return None
