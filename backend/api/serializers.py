@@ -4,9 +4,16 @@ from my_app.models import PropertyListing , User , VisitRequest , Amenity , Near
 
 
 class PropertyListingSerializer(serializers.ModelSerializer):
+    image = serializers.SerializerMethodField()
+
     class Meta:
         model = PropertyListing
-        fields = '__all__'
+        fields = "__all__"
+
+    def get_image(self, obj):
+        if obj.image:
+            return obj.image.url
+        return None
         
 class UserSerializer(serializers.ModelSerializer):
     profile_image = serializers.ImageField(
