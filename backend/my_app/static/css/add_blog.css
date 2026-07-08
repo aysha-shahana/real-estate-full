@@ -151,30 +151,18 @@ img {
     background-color: #b00020 ;
 }
 
+/*======================================================
+    PROPERTY LIST - XEN PROPERTIES
+======================================================*/
 
-
-
-
-/* ======================================================
-   PROPERTY LIST PAGE
-   Xen Properties Admin Dashboard
-====================================================== */
-
-
-/* ===========================
-   Card
-=========================== */
+/* ---------- Card ---------- */
 
 .card{
-    border-radius:12px;
-    border:none;
-    box-shadow:0 4px 15px rgba(0,0,0,.08);
+    border:0;
+    border-radius:14px;
+    overflow:hidden;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
 }
-
-
-/* ===========================
-   Card Header
-=========================== */
 
 .card-header{
     background:#fff;
@@ -182,296 +170,258 @@ img {
 }
 
 
-/* ===========================
-   Property Thumbnail
-=========================== */
-
-.property-thumb{
-
-    width:85px;
-
-    height:65px;
-
-    object-fit:cover;
-
-    border-radius:8px;
-
-    transition:.3s;
-
-}
-
-.property-thumb:hover{
-
-    transform:scale(1.08);
-
-}
-
-
-/* ===========================
-   Table
-=========================== */
+/* ---------- Table ---------- */
 
 .table{
-
-    margin-bottom:0;
-
+    margin:0;
 }
 
 .table thead{
-
     background:#011824;
-
-    color:#fff;
-
 }
 
 .table thead th{
-
-    border:none;
-
+    color:#fff;
+    font-size:14px;
     font-weight:600;
-
-    vertical-align:middle;
-
+    padding:16px 12px;
+    border:none;
     white-space:nowrap;
-
 }
 
-.table td{
-
+.table tbody td{
     vertical-align:middle;
-
+    padding:18px 12px;
 }
 
-
-/* ===========================
-   Row Hover
-=========================== */
-
-.table-hover tbody tr{
-
+.table tbody tr{
     transition:.25s;
-
 }
 
-.table-hover tbody tr:hover{
-
-    background:#f6fbff;
-
+.table tbody tr:hover{
+    background:#f8fbff;
 }
 
 
-/* ===========================
-   Badges
-=========================== */
+/* ---------- Property Image ---------- */
+
+.property-thumb{
+    width:90px;
+    height:70px;
+    object-fit:cover;
+    border-radius:10px;
+    border:1px solid #ddd;
+    transition:.3s;
+}
+
+.property-thumb:hover{
+    transform:scale(1.05);
+}
+
+
+/* ---------- Property Title ---------- */
+
+.property-title{
+    font-size:17px;
+    font-weight:600;
+    color:#222;
+}
+
+.property-address{
+    color:#7b7b7b;
+    font-size:13px;
+}
+
+
+/* ---------- Common Badge ---------- */
 
 .badge{
-
-    padding:6px 10px;
-
-    font-size:12px;
-
-    border-radius:20px;
-
-    font-weight:500;
-
+    border-radius:30px;
+    padding:7px 14px;
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:.3px;
 }
 
 
 /* Featured */
 
-.badge-warning{
+.badge-featured{
+    background:#FEF3C7;
+    color:#92400E;
+}
 
-    background:#ffc107;
 
-    color:#222;
+/* Type */
 
+.badge-type{
+    background:#E0F2FE;
+    color:#0369A1;
 }
 
 
 /* Buy */
 
-.badge-primary{
-
-    background:#0d6efd;
-
+.badge-buy{
+    background:#DBEAFE;
+    color:#1D4ED8;
 }
 
 
 /* Rent */
 
-.badge-success{
+.badge-rent{
+    background:#DCFCE7;
+    color:#15803D;
+}
 
-    background:#198754;
 
+/* Available */
+
+.badge-available{
+    background:#DCFCE7;
+    color:#15803D;
+}
+
+
+/* Sold */
+
+.badge-sold{
+    background:#FEE2E2;
+    color:#B91C1C;
+}
+
+
+/* Rented */
+
+.badge-rented{
+    background:#FEF3C7;
+    color:#B45309;
 }
 
 
 /* Pending */
 
-.badge-warning{
+.badge-pending{
+    background:#FFF7ED;
+    color:#EA580C;
+}
 
-    background:#ffc107;
 
+/* Accepted */
+
+.badge-accepted{
+    background:#DCFCE7;
+    color:#15803D;
 }
 
 
 /* Rejected */
 
-.badge-danger{
-
-    background:#dc3545;
-
+.badge-rejected{
+    background:#FEE2E2;
+    color:#B91C1C;
 }
 
 
-/* Property Type */
+/* ---------- Price ---------- */
 
-.badge-info{
-
-    background:#17a2b8;
-
+.property-price{
+    color:#011824;
+    font-size:18px;
+    font-weight:700;
 }
 
 
-/* ===========================
-   Action Buttons
-=========================== */
-
-.btn-sm{
-
-    border-radius:8px;
-
-    margin-right:5px;
-
-}
-
-.btn-info{
-
-    background:#0dcaf0;
-
-    border:none;
-
-}
-
-.btn-danger{
-
-    border:none;
-
-}
-
-.btn-info:hover{
-
-    transform:translateY(-2px);
-
-}
-
-.btn-danger:hover{
-
-    transform:translateY(-2px);
-
-}
-
-
-/* ===========================
-   Add Property Button
-=========================== */
-
-.btn-primary{
-
-    border-radius:8px;
-
-    padding:9px 18px;
-
-}
-
-
-/* ===========================
-   Search Box
-=========================== */
+/* ---------- Search ---------- */
 
 #propertySearch{
-
-    border-radius:8px;
-
-    border:1px solid #ddd;
-
+    border-radius:10px;
+    border:1px solid #d9d9d9;
+    height:45px;
 }
 
 #propertySearch:focus{
-
+    border-color:#011824;
     box-shadow:none;
-
-    border-color:#0d6efd;
-
 }
 
 
-/* ===========================
-   Price
-=========================== */
+/* ---------- Buttons ---------- */
 
-.text-primary{
+.btn{
+    border-radius:8px;
+}
 
-    font-size:16px;
+.btn-primary{
+    background:#011824;
+    border:none;
+}
 
-    font-weight:bold;
+.btn-primary:hover{
+    background:#03314a;
+}
 
+.btn-info{
+    background:#0EA5E9;
+    border:none;
+    color:#fff;
+}
+
+.btn-info:hover{
+    background:#0284C7;
+    transform:translateY(-2px);
+}
+
+.btn-danger{
+    background:#DC2626;
+    border:none;
+}
+
+.btn-danger:hover{
+    background:#B91C1C;
+    transform:translateY(-2px);
 }
 
 
-/* ===========================
-   Modal
-=========================== */
+/* ---------- Modal ---------- */
 
 .modal-content{
-
-    border-radius:12px;
-
     border:none;
-
+    border-radius:12px;
 }
 
 .modal-header{
-
-    border-bottom:none;
-
+    border-bottom:1px solid #eee;
 }
 
 .modal-footer{
-
-    border-top:none;
-
+    border-top:1px solid #eee;
 }
 
 
-/* ===========================
-   Empty State
-=========================== */
+/* ---------- Empty ---------- */
 
 .empty-state{
-
-    padding:60px;
-
+    text-align:center;
+    padding:60px 20px;
 }
 
-.empty-state img{
-
-    width:140px;
-
+.empty-state h4{
+    margin-top:15px;
 }
 
 
-/* ===========================
-   Responsive
-=========================== */
+/* ---------- Responsive ---------- */
 
 @media(max-width:992px){
 
+.table-responsive{
+    overflow-x:auto;
+}
+
 .table{
-
-    min-width:1100px;
-
+    min-width:1200px;
 }
 
 }

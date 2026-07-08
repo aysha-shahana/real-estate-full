@@ -256,7 +256,7 @@
 
         {% if item.is_featured %}
 
-        <span class="badge badge-warning">
+        <span class="badge badge-featured">
 
             ⭐ Featured
 
@@ -272,7 +272,7 @@
 
     <td>
 
-        <span class="badge badge-info">
+        <span class="badge badge-type">
 
             {{ item.property_type|title }}
 
@@ -282,7 +282,7 @@
 
         {% if item.listing_type == "buy" %}
 
-        <span class="badge badge-primary">
+        <span class="badge badge-buy">
 
             Buy
 
@@ -290,7 +290,7 @@
 
         {% else %}
 
-        <span class="badge badge-success">
+        <span class="badge badge-rent">
 
             Rent
 
@@ -308,7 +308,7 @@
 
         {% if item.status == "available" %}
 
-        <span class="badge badge-success">
+        <span class="badge badge-available">
 
             Available
 
@@ -316,7 +316,7 @@
 
         {% elif item.status == "sold" %}
 
-        <span class="badge badge-danger">
+        <span class="badge badge-sold">
 
             Sold
 
@@ -324,7 +324,7 @@
 
         {% else %}
 
-        <span class="badge badge-warning">
+        <span class="badge badge-rented">
 
             Rented
 
@@ -342,7 +342,7 @@
 
         {% if item.approval_status == "Accepted" %}
 
-        <span class="badge badge-success">
+        <span class="badge badge-accepted">
 
             Accepted
 
@@ -350,7 +350,7 @@
 
         {% elif item.approval_status == "rejected" %}
 
-        <span class="badge badge-danger">
+        <span class="badge badge-rejected">
 
             Rejected
 
@@ -398,7 +398,7 @@
 
     <td>
 
-        <strong class="text-primary">
+        <strong class="property-price">
 
             ₹ {{ item.price|floatformat:0 }}
 

@@ -399,7 +399,7 @@ def edit_property(request, id):
 
     return render(
         request,
-        "property/edit-property.html",
+        "edit-property.html",
         {
             "form": form,
             "property": property_obj,
