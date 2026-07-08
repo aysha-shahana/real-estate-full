@@ -223,7 +223,7 @@ def admin_profile(request):
                     "Password updated successfully."
                 )
 
-            return redirect("admin_profile")
+            return redirect("admin-profile")
 
         # PROFILE UPDATE
         else:
@@ -257,7 +257,7 @@ def admin_profile(request):
                 "Profile updated successfully."
             )
 
-            return redirect("admin_profile")
+            return redirect("admin-profile")
 
     context = {
         "profile": profile,
@@ -333,6 +333,34 @@ def propertylist(request):
         'modules': all_modules
     }
     return render(request, 'property_list.html', context)
+
+
+@login_required
+def add_property(request):
+    if request.method == "POST":
+        form = PropertyForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            property_obj = form.save(commit=False)
+            property_obj.user = request.user
+            property_obj.save()
+
+            # Save ManyToMany fields (Amenities)
+            form.save_m2m()
+
+            messages.success(request, "Property added successfully.")
+            return redirect("property-list")
+
+    else:
+        form = PropertyForm()
+
+    return render(
+        request,
+        "property/add-property.html",
+        {
+            "form": form,
+        },
+    )
 
 
 

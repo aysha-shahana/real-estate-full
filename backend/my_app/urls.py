@@ -69,6 +69,11 @@ path(
 ),
 path("blog-categories/edit/<int:id>/", views.edit_blog_category, name="edit-blog-category"),
 path("blog-categories/delete/<int:id>/", views.delete_blog_category, name="delete-blog-category"),
+path(
+    "add-property/",
+    views.add_property,
+    name="add-property",
+),
 
 ]
 
