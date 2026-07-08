@@ -150,3 +150,328 @@ img {
 .blog-DltBtn{
     background-color: #b00020 ;
 }
+
+
+
+
+
+/* ======================================================
+   PROPERTY LIST PAGE
+   Xen Properties Admin Dashboard
+====================================================== */
+
+
+/* ===========================
+   Card
+=========================== */
+
+.card{
+    border-radius:12px;
+    border:none;
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+}
+
+
+/* ===========================
+   Card Header
+=========================== */
+
+.card-header{
+    background:#fff;
+    border-bottom:1px solid #ececec;
+}
+
+
+/* ===========================
+   Property Thumbnail
+=========================== */
+
+.property-thumb{
+
+    width:85px;
+
+    height:65px;
+
+    object-fit:cover;
+
+    border-radius:8px;
+
+    transition:.3s;
+
+}
+
+.property-thumb:hover{
+
+    transform:scale(1.08);
+
+}
+
+
+/* ===========================
+   Table
+=========================== */
+
+.table{
+
+    margin-bottom:0;
+
+}
+
+.table thead{
+
+    background:#011824;
+
+    color:#fff;
+
+}
+
+.table thead th{
+
+    border:none;
+
+    font-weight:600;
+
+    vertical-align:middle;
+
+    white-space:nowrap;
+
+}
+
+.table td{
+
+    vertical-align:middle;
+
+}
+
+
+/* ===========================
+   Row Hover
+=========================== */
+
+.table-hover tbody tr{
+
+    transition:.25s;
+
+}
+
+.table-hover tbody tr:hover{
+
+    background:#f6fbff;
+
+}
+
+
+/* ===========================
+   Badges
+=========================== */
+
+.badge{
+
+    padding:6px 10px;
+
+    font-size:12px;
+
+    border-radius:20px;
+
+    font-weight:500;
+
+}
+
+
+/* Featured */
+
+.badge-warning{
+
+    background:#ffc107;
+
+    color:#222;
+
+}
+
+
+/* Buy */
+
+.badge-primary{
+
+    background:#0d6efd;
+
+}
+
+
+/* Rent */
+
+.badge-success{
+
+    background:#198754;
+
+}
+
+
+/* Pending */
+
+.badge-warning{
+
+    background:#ffc107;
+
+}
+
+
+/* Rejected */
+
+.badge-danger{
+
+    background:#dc3545;
+
+}
+
+
+/* Property Type */
+
+.badge-info{
+
+    background:#17a2b8;
+
+}
+
+
+/* ===========================
+   Action Buttons
+=========================== */
+
+.btn-sm{
+
+    border-radius:8px;
+
+    margin-right:5px;
+
+}
+
+.btn-info{
+
+    background:#0dcaf0;
+
+    border:none;
+
+}
+
+.btn-danger{
+
+    border:none;
+
+}
+
+.btn-info:hover{
+
+    transform:translateY(-2px);
+
+}
+
+.btn-danger:hover{
+
+    transform:translateY(-2px);
+
+}
+
+
+/* ===========================
+   Add Property Button
+=========================== */
+
+.btn-primary{
+
+    border-radius:8px;
+
+    padding:9px 18px;
+
+}
+
+
+/* ===========================
+   Search Box
+=========================== */
+
+#propertySearch{
+
+    border-radius:8px;
+
+    border:1px solid #ddd;
+
+}
+
+#propertySearch:focus{
+
+    box-shadow:none;
+
+    border-color:#0d6efd;
+
+}
+
+
+/* ===========================
+   Price
+=========================== */
+
+.text-primary{
+
+    font-size:16px;
+
+    font-weight:bold;
+
+}
+
+
+/* ===========================
+   Modal
+=========================== */
+
+.modal-content{
+
+    border-radius:12px;
+
+    border:none;
+
+}
+
+.modal-header{
+
+    border-bottom:none;
+
+}
+
+.modal-footer{
+
+    border-top:none;
+
+}
+
+
+/* ===========================
+   Empty State
+=========================== */
+
+.empty-state{
+
+    padding:60px;
+
+}
+
+.empty-state img{
+
+    width:140px;
+
+}
+
+
+/* ===========================
+   Responsive
+=========================== */
+
+@media(max-width:992px){
+
+.table{
+
+    min-width:1100px;
+
+}
+
+}

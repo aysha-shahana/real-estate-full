@@ -74,6 +74,17 @@ path(
     views.add_property,
     name="add-property",
 ),
+path(
+    "edit-property/<int:id>/",
+    views.edit_property,
+    name="edit-property",
+),
+
+path(
+    "delete-property/<int:id>/",
+    views.delete_property,
+    name="delete-property",
+),
 
 ]
 

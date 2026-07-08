@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="block-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h2 class="page-title">Delete Property</h2>
+
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{% url 'property-list' %}">
+                        Property List
+                    </a>
+                </li>
+
+                <li class="breadcrumb-item active">
+                    Delete Property
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+
+    <div class="card">
+
+        <div class="card-body text-center">
+
+            <h4>
+                Are you sure you want to delete
+                <br><br>
+
+                <strong>{{ property.title }}</strong> ?
+            </h4>
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <button
+                    type="submit"
+                    class="btn btn-danger">
+
+                    Yes, Delete
+
+                </button>
+
+                <a
+                    href="{% url 'property-list' %}"
+                    class="btn btn-secondary">
+
+                    Cancel
+
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

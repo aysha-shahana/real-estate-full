@@ -335,6 +335,8 @@ def propertylist(request):
     return render(request, 'property_list.html', context)
 
 
+from .forms import PropertyForm
+
 @login_required
 def add_property(request):
     if request.method == "POST":
@@ -361,10 +363,68 @@ def add_property(request):
             "form": form,
         },
     )
+    
+
+@login_required
+def edit_property(request, id):
+
+    property_obj = get_object_or_404(
+        PropertyListing,
+        id=id
+    )
+
+    if request.method == "POST":
+
+        form = PropertyForm(
+            request.POST,
+            request.FILES,
+            instance=property_obj
+        )
+
+        if form.is_valid():
+            form.save()
+
+            messages.success(
+                request,
+                "Property updated successfully."
+            )
+
+            return redirect("property-list")
+
+    else:
+
+        form = PropertyForm(
+            instance=property_obj
+        )
+
+    return render(
+        request,
+        "property/edit-property.html",
+        {
+            "form": form,
+            "property": property_obj,
+        },
+    )
 
 
 
-from django.contrib.auth.models import Group
+@login_required
+def delete_property(request, id):
+
+    property_obj = get_object_or_404(
+        PropertyListing,
+        id=id
+    )
+
+    property_obj.delete()
+
+    messages.success(
+        request,
+        "Property deleted successfully."
+    )
+
+    return redirect("property-list")
+
 
 @login_required
 @admin_required
