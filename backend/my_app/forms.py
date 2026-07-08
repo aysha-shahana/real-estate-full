@@ -94,45 +94,45 @@ class PropertyForm(forms.ModelForm):
             "approval_status",
         ]
 
-       widgets = {
+        widgets = {
 
-    "title": forms.TextInput(attrs={"class":"form-control"}),
+            "title": forms.TextInput(attrs={"class":"form-control"}),
 
-    "price": forms.NumberInput(attrs={"class":"form-control"}),
+            "price": forms.NumberInput(attrs={"class":"form-control"}),
 
-    "address": forms.TextInput(attrs={"class":"form-control"}),
+            "address": forms.TextInput(attrs={"class":"form-control"}),
 
-    "description": forms.Textarea(attrs={
-        "class":"form-control",
-        "rows":5
-    }),
+            "description": forms.Textarea(attrs={
+                "class":"form-control",
+                "rows":5
+            }),
 
-    "beds": forms.NumberInput(attrs={"class":"form-control"}),
+            "beds": forms.NumberInput(attrs={"class":"form-control"}),
 
-    "baths": forms.NumberInput(attrs={"class":"form-control"}),
+            "baths": forms.NumberInput(attrs={"class":"form-control"}),
 
-    "sqft": forms.NumberInput(attrs={"class":"form-control"}),
+            "sqft": forms.NumberInput(attrs={"class":"form-control"}),
 
-    "listing_type": forms.Select(attrs={"class":"form-select"}),
+            "listing_type": forms.Select(attrs={"class":"form-select"}),
 
-    "property_type": forms.Select(attrs={"class":"form-select"}),
+            "property_type": forms.Select(attrs={"class":"form-select"}),
 
-    "status": forms.Select(attrs={"class":"form-select"}),
+            "status": forms.Select(attrs={"class":"form-select"}),
 
-    "furnishing": forms.Select(attrs={"class":"form-select"}),
+            "furnishing": forms.Select(attrs={"class":"form-select"}),
 
-    "ownership": forms.Select(attrs={"class":"form-select"}),
+            "ownership": forms.Select(attrs={"class":"form-select"}),
 
-    "year_built": forms.NumberInput(attrs={"class":"form-control"}),
+            "year_built": forms.NumberInput(attrs={"class":"form-control"}),
 
-    "image": forms.ClearableFileInput(attrs={"class":"form-control"}),
+            "image": forms.ClearableFileInput(attrs={"class":"form-control"}),
 
-    "nearby_places": forms.Textarea(attrs={
-        "class":"form-control",
-        "rows":3
-    }),
+            "nearby_places": forms.Textarea(attrs={
+                "class":"form-control",
+                "rows":3
+            }),
 
-    "amenities": forms.CheckboxSelectMultiple(),
+            "amenities": forms.CheckboxSelectMultiple(),
 
-    "approval_status": forms.Select(attrs={"class":"form-select"}),
-}
+            "approval_status": forms.Select(attrs={"class":"form-select"}),
+        }
