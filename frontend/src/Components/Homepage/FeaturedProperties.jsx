@@ -25,7 +25,9 @@ const FeaturedProperties = () => {
     try {
      const response = await api.get("/featured-properties/");
 
-console.log("Featured Response:", response.data);
+console.log(response.data);
+console.log(response.data[0]);
+console.log(response.data[0].image);
 
 setProperties(response.data);
     } catch (error) {
@@ -46,8 +48,7 @@ setProperties(response.data);
 
         <div className="row g-4">
           {properties.map((property) => {
-            const imageUrl = `${DJANGO_BASE_URL}${property.image}`;
-
+            const imageUrl = property.image;
             return (
               <div className="col-12 col-sm-6 col-md-4" key={property.id}>
                 <Link

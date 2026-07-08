@@ -166,8 +166,8 @@ function PropertyDetails() {
   const phone = property.phone?.replace(/\D/g, "");
 
   const imageUrl = property.image
-    ? `${DJANGO_BASE_URL}${property.image}`
-    : "https://via.placeholder.com/900x600";
+  ? property.image
+  : "https://via.placeholder.com/900x600";
 
   return (
     <div
@@ -327,10 +327,10 @@ function PropertyDetails() {
               <div className="d-flex align-items-center gap-3 mb-3">
                 <img
                   src={
-                    property.owner_image
-                      ? `${DJANGO_BASE_URL}${property.owner_image}`
-                      : "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-                  }
+  property.owner_image
+    ? property.owner_image
+    : "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+}
                   alt="seller"
                   style={{
                     width: "48px",

@@ -73,8 +73,8 @@ const res = await api.get("/rent-properties/");
         <div className="row g-4">
           {properties.map((item) => {
             const imageUrl = item.image
-              ? `${DJANGO_BASE_URL}${item.image}`
-              : "https://via.placeholder.com/600x400";
+  ? item.image
+  : "https://via.placeholder.com/600x400";
 
             return (
               <div className="col-lg-3 col-md-6" key={item.id}>

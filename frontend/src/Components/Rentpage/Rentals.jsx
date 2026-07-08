@@ -165,9 +165,7 @@ const Rentals = () => {
             <div className="row g-4 mt-3">
               {properties.length > 0 ? (
                 properties.map((item) => {
-                  const imageUrl = item.image?.startsWith("http")
-                    ? item.image
-                    : `${DJANGO_BASE_URL}${item.image}`;
+                 const imageUrl = item.image || "https://via.placeholder.com/600x400";
                   return (
                     <div className="col-md-4" key={item.id}>
                       <div

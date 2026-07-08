@@ -148,7 +148,7 @@ const Hero = () => {
       <div className="container my-5">
         <div className="row g-4 mt-3">
           {properties.map((property) => {
-            const imageUrl = `${DJANGO_BASE_URL}${property.image}`;
+            const imageUrl = property.image;
 
             return (
               <div className="col-md-4" key={property.id}>

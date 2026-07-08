@@ -100,7 +100,7 @@ const BlogDetails = () => {
 
         {blog.featured_image && (
           <img
-            src={`${DJANGO_BASE_URL}${blog.featured_image}`}
+            src={blog.featured_image}
             alt={blog.title}
             className={styles.image}
           />
@@ -175,10 +175,10 @@ const BlogDetails = () => {
                 <div className={styles.relatedCard}>
 
                   {item.featured_image && (
-                    <img
-                      src={`${DJANGO_BASE_URL}${item.featured_image}`}
-                      alt={item.title}
-                    />
+                   <img
+  src={item.featured_image}
+  alt={item.title}
+/>
                   )}
 
                   <div className={styles.relatedBody}>
