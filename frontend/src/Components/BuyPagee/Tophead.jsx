@@ -152,7 +152,7 @@ const Tophead = () => {
             <div className="row g-4 mt-3">
               {properties.length > 0 ? (
                 properties.map((item) => {
-                  const imageUrl = `${DJANGO_BASE_URL}${item.image}`;
+                 const imageUrl = item.image || "https://via.placeholder.com/600x400";
                   return (
                     <div className="col-md-4" key={item.id}>
                       <div
@@ -167,7 +167,7 @@ const Tophead = () => {
                         <div style={{ position: "relative" }}>
                           <img
                             src={
-                              item.image ? imageUrl : "https://placeholder.com"
+                              item.image ? imageUrl : "https://via.placeholder.com/400x300"
                             }
                             alt={item.head || item.title}
                             className="img-fluid rounded mb-3"
