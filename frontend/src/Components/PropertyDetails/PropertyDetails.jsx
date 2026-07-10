@@ -165,8 +165,10 @@ function PropertyDetails() {
 
   const phone = property.phone?.replace(/\D/g, "");
 
-  const imageUrl = property.image
-  ? property.image
+const imageUrl = property.image
+  ? property.image.startsWith("http")
+    ? property.image
+    : `https://res.cloudinary.com/gpjky5pp/${property.image}`
   : "https://via.placeholder.com/900x600";
 
   return (
@@ -443,19 +445,21 @@ function PropertyDetails() {
             )
             .slice(0, 3)
             .map((item) => {
-              const imageUrl = item.image
-                ? `${DJANGO_BASE_URL}${item.image}`
-                : "https://via.placeholder.com/400x300";
+const imageUrl = item.image
+  ? item.image.startsWith("http")
+    ? item.image
+    : `https://res.cloudinary.com/gpjky5pp/${item.image}`
+  : "https://via.placeholder.com/400x300";
 
               return (
                 <div className="col-md-4" key={item.id}>
                   <div className="card shadow-sm h-100 border-0">
-                    <img
-                      src={imageUrl}
-                      alt={item.title}
-                      className="card-img-top"
-                      style={{ height: "220px", objectFit: "cover" }}
-                    />
+                      <img
+      src={imageUrl}
+      alt={item.title}
+      className="card-img-top"
+      style={{ height: "220px", objectFit: "cover" }}
+    />
                     <div className="card-body">
                       <h5 className="fw-bold">{item.title}</h5>
                       <h6 className="text-primary fw-bold">
