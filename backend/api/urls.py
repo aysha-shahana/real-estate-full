@@ -55,7 +55,7 @@ urlpatterns = [
     path("property-details/<int:id>/", click_property_detail, name="property_detail"),
     path("schedule-visit/", schedule_visit),
     path("visit-requests/", visit_requests),
-    path("property-details-seller/<int:id>/",property_details,),
+    path("property-details-seller/<int:id>/",property_details),
     path(
     "contact-leads/",
     create_contact_lead,

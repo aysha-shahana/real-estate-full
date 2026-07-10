@@ -449,7 +449,7 @@ const imageUrl = item.image
   ? item.image.startsWith("http")
     ? item.image
     : `https://res.cloudinary.com/gpjky5pp/${item.image}`
-  : "https://via.placeholder.com/400x300";
+    : "https://via.placeholder.com/400x300";
 
               return (
                 <div className="col-md-4" key={item.id}>

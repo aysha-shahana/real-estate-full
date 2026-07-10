@@ -26,12 +26,11 @@ from rest_framework_simplejwt.views import (
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('django-admin/', admin.site.urls),
     path('api/token/', TokenObtainPairView.as_view()),
     path('api/token/refresh/', TokenRefreshView.as_view()),
     path('api/', include('api.urls')),
     path('', include('my_app.urls')), 
-
 
     path(
         "password-change/",

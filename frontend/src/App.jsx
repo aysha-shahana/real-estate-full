@@ -34,7 +34,6 @@ import VisitRequest from "./Components/Visit Request/VisitRequest";
 import ContactLeads from "./Components/Contact Leads/ContactLeads";
 import Bloghome from "./Components/Blog Page/Bloghome";
 import BlogDetails from "./Components/Blog Details/BlogDetails";
-// import ApplyForRent from "./Components/Apply for rent/ApplyForRent";
 
 
 
