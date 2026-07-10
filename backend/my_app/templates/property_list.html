@@ -215,8 +215,14 @@
             {% endfor %}
           </tbody>
         </table>
+      </div>
+    </div>
+  </div>
+</div>
 
-            {% for item in listings %}
+           {% endblock%}
+           {% block modals %}
+           {% for item in listings %}
             <div class="modal fade" id="deleteModal{{ item.id }}" tabindex="-1">
               <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -268,15 +274,10 @@
               </div>
             </div>
             {% endfor %}
-
-
-      
-      </div>
-    </div>
-  </div>
-</div>
-
-<script>
+         {% endblock modals %}
+        {% block extra_js %}
+         
+         <script>
   document
     .getElementById("propertySearch")
     .addEventListener("keyup", function () {
@@ -292,4 +293,13 @@
     });
 </script>
 
-{% endblock %}
+
+         {% endblock extra_js %}
+
+
+
+      
+
+
+
+

@@ -15,7 +15,7 @@ def admin_required(view_func):
         ).exists():
             return view_func(request, *args, **kwargs)
 
-        return redirect("login")   # allenkil frontend URL
+        return redirect("https://xen-properties-frontend.vercel.app/")   # allenkil frontend URL
 
     return wrapper
 
