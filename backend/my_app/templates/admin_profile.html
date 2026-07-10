@@ -1,6 +1,11 @@
-{% extends 'base.html' %} {% load static %} {% block content %} {% if messages
-%} {% for message in messages %}
-<div class="alert alert-{{ message.tags }}">{{ message }}</div>
+{% extends 'base.html' %} 
+{% load static %} 
+{% block content %}
+{% if messages%}
+  {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+  {% endfor %} 
+{% endif %}
 
 <div class="block-header">
   <div class="row">
@@ -194,7 +199,8 @@
   </div>
 </div>
 
-{% endblock %} {% block modals %}
+{% endblock %} 
+{% block modals %}
 
 <div
   class="modal fade"
@@ -350,4 +356,6 @@
   </div>
 </div>
 
-{% endblock modals %} {% block extra_js %} {% endblock extra_js %}
+{% endblock modals %} 
+{% block extra_js %}
+{% endblock extra_js %}
