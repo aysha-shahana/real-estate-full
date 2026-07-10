@@ -10,17 +10,17 @@
                 <ul class="list">
                     <li>
                         <div class="user-info">
-                            <div class="image"><a href="{% url 'admin-profile' %}">
-{% if request.user.userprofile.profile_image %}
-    <img
-        src="{{ request.user.userprofile.profile_image.url }}"
-    >
-{% else %}
-    <img
-        src="{% static 'assets/images/default-user.png' %}"
-    >
-{% endif %}
-</a></div>
+                            <div class="image"><a href="{% url 'admin/admin-profile' %}">
+                                {% if request.user.userprofile.profile_image %}
+                                    <img
+                                        src="{{ request.user.userprofile.profile_image.url }}"
+                                    >
+                                {% else %}
+                                    <img
+                                        src="{% static 'assets/images/default-user.png' %}"
+                                    >
+                                {% endif %}
+                                </a></div>
                             <div class="detail">
                                 <h4>{{ request.user.username}}</h4>
                                 

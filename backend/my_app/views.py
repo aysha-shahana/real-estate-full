@@ -62,7 +62,7 @@ def signup_view(request):
 
 def logout_view(request):
     auth_logout(request)
-    messages.success(request, "Logged out successfully 👍")
+    messages.success(request, "Logged out successfully ")
     return redirect('login')
 
 
