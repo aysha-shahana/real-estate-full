@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 function QuickPropertyForm() {
   const DJANGO_BASE_URL = import.meta.env.VITE_DJANGO_BASE_URL;
 
-  // FORM STATE
   const [formData, setFormData] = useState({
     title: "",
     price: "",
@@ -28,16 +27,13 @@ function QuickPropertyForm() {
 
   const navigate = useNavigate();
 
-  // IMAGE STATE
   const [image, setImage] = useState(null);
 
-  // HANDLE INPUT CHANGE
   const handleChange = (e) => {
     const { name, value } = e.target;
 
     let updatedValue = value;
 
-    // convert boolean string to real boolean
     if (name === "is_featured") {
       updatedValue = value === "true";
     }
@@ -48,71 +44,63 @@ function QuickPropertyForm() {
     });
   };
 
-  // HANDLE IMAGE
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
   };
 
   const amenitiesList = [
-  "CCTV",
-  "Garden",
-  "Gym",
-  "Lift",
-  "Parking",
-  "Security",
-  "Swimming Pool",
-  "Water Supply",
-  "WiFi",
-];
+    "CCTV",
+    "Garden",
+    "Gym",
+    "Lift",
+    "Parking",
+    "Security",
+    "Swimming Pool",
+    "Water Supply",
+    "WiFi",
+  ];
 
   const isPlot = formData.property_type === "plot";
 
-  // HANDLE SUBMIT
- const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const data = new FormData();
+    const data = new FormData();
 
-  Object.keys(formData).forEach((key) => {
-    if (key !== "amenities") {
-      data.append(key, formData[key]);
+    Object.keys(formData).forEach((key) => {
+      if (key !== "amenities") {
+        data.append(key, formData[key]);
+      }
+    });
+
+    formData.amenities.forEach((amenity) => {
+      data.append("amenities", amenity);
+    });
+
+    if (image) {
+      data.append("image", image);
     }
-  });
 
-  formData.amenities.forEach((amenity) => {
-    data.append("amenities", amenity);
-  });
-
-  if (image) {
-    data.append("image", image);
-  }
-
-  try {
-    const response = await api.post(
-      "/add-property/",
-      data,
-      {
+    try {
+      const response = await api.post("/add-property/", data, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-      }
-    );
+      });
 
-    console.log(response.data);
+      console.log(response.data);
 
-    alert("Property Added Successfully!");
+      alert("Property Added Successfully!");
 
-    navigate("/my-properties");
-
-  } catch (error) {
-    console.log(error);
-    alert("Failed to add property");
-  }
-};
+      navigate("/my-properties");
+    } catch (error) {
+      console.log(error);
+      alert("Failed to add property");
+    }
+  };
 
   return (
     <>
-      {/* FORM */}
       <div className={styles.formCard}>
         <form
           className={styles.formCard}
@@ -123,7 +111,6 @@ function QuickPropertyForm() {
 
           <p>Please fill the below form. Our expert will contact you soon</p>
 
-          {/* PROPERTY TITLE */}
           <div className={styles.formGroup}>
             <label>Property Title *</label>
 
@@ -136,7 +123,6 @@ function QuickPropertyForm() {
             />
           </div>
 
-          {/* PRICE */}
           <div className={styles.formGroup}>
             <label>Price *</label>
 
@@ -149,7 +135,6 @@ function QuickPropertyForm() {
             />
           </div>
 
-          {/* ADDRESS */}
           <div className={styles.formGroup}>
             <label>Address *</label>
 
@@ -162,32 +147,30 @@ function QuickPropertyForm() {
             />
           </div>
 
-          {/* BEDS */}
           {!isPlot && (
-  <div className={styles.formGroup}>
-    <label>Beds *</label>
-    <input
-      type="number"
-      name="beds"
-      value={formData.beds}
-      onChange={handleChange}
-    />
-  </div>
-)}
+            <div className={styles.formGroup}>
+              <label>Beds *</label>
+              <input
+                type="number"
+                name="beds"
+                value={formData.beds}
+                onChange={handleChange}
+              />
+            </div>
+          )}
 
-{!isPlot && (
-  <div className={styles.formGroup}>
-    <label>Baths *</label>
-    <input
-      type="number"
-      name="baths"
-      value={formData.baths}
-      onChange={handleChange}
-    />
-  </div>
-)}
+          {!isPlot && (
+            <div className={styles.formGroup}>
+              <label>Baths *</label>
+              <input
+                type="number"
+                name="baths"
+                value={formData.baths}
+                onChange={handleChange}
+              />
+            </div>
+          )}
 
-          {/* SQFT */}
           <div className={styles.formGroup}>
             <label>Sqft *</label>
 
@@ -203,122 +186,110 @@ function QuickPropertyForm() {
           <div className={styles.formGroup}>
             <label>Description</label>
 
-              <textarea
-                name="description"
-                value={formData.description}
-                onChange={handleChange}
-                rows="4"
-                className={styles.formInput}
-                placeholder="Enter property description"
-              />
+            <textarea
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              rows="4"
+              className={styles.formInput}
+              placeholder="Enter property description"
+            />
           </div>
 
-          
-{!isPlot && (
+          {!isPlot && (
+            <div className={styles.formGroup}>
+              <label>Furnishing</label>
+              <select
+                name="furnishing"
+                value={formData.furnishing}
+                onChange={handleChange}
+                className={styles.formInput}
+              >
+                <option value="">Select Furnishing</option>
+                <option value="unfurnished">Unfurnished</option>
+                <option value="semi_furnished">Semi Furnished</option>
+                <option value="fully_furnished">Fully Furnished</option>
+              </select>
+            </div>
+          )}
+
           <div className={styles.formGroup}>
-  <label>Furnishing</label>
-  <select
-    name="furnishing"
-    value={formData.furnishing}
-    onChange={handleChange}
-    className={styles.formInput}
-  >
-    <option value="">Select Furnishing</option>
-    <option value="unfurnished">Unfurnished</option>
-    <option value="semi_furnished">Semi Furnished</option>
-    <option value="fully_furnished">Fully Furnished</option>
-  </select>
-</div>
-)}
+            <label>Ownership</label>
 
+            <select
+              name="ownership"
+              value={formData.ownership}
+              onChange={handleChange}
+              className={styles.formInput}
+            >
+              <option value="">Select Ownership</option>
+              <option value="freehold">Freehold</option>
+              <option value="leasehold">Leasehold</option>
+            </select>
+          </div>
 
-<div className={styles.formGroup}>
-  <label>Ownership</label>
+          {!isPlot && (
+            <div className={styles.formGroup}>
+              <label>Year Built</label>
 
-  <select
-    name="ownership"
-    value={formData.ownership}
-    onChange={handleChange}
-    className={styles.formInput}
-  >
-    <option value="">Select Ownership</option>
-    <option value="freehold">Freehold</option>
-    <option value="leasehold">Leasehold</option>
-  </select>
-</div>
+              <input
+                type="number"
+                name="year_built"
+                value={formData.year_built}
+                onChange={handleChange}
+                className={styles.formInput}
+              />
+            </div>
+          )}
 
-{!isPlot && (
-<div className={styles.formGroup}>
-  <label>Year Built</label>
+          <div className={styles.formGroup}>
+            <label>Nearby Places</label>
 
-  <input
-    type="number"
-    name="year_built"
-    value={formData.year_built}
-    onChange={handleChange}
-    className={styles.formInput}
-  />
-</div>
-
-)}
-
-
-<div className={styles.formGroup}>
-  <label>Nearby Places</label>
-
-  <textarea
-    name="nearby_places"
-    value={formData.nearby_places}
-    onChange={handleChange}
-    rows="4"
-    className={styles.formInput}
-    placeholder={`Enter one nearby place per line
+            <textarea
+              name="nearby_places"
+              value={formData.nearby_places}
+              onChange={handleChange}
+              rows="4"
+              className={styles.formInput}
+              placeholder={`Enter one nearby place per line
 Example:
 School - 500m
 `}
-  />
-</div>
+            />
+          </div>
 
-<div className={styles.formGroup}>
-  <label>Amenities</label>
+          <div className={styles.formGroup}>
+            <label>Amenities</label>
 
-  <div className={styles.amenitiesGrid}>
-    {amenitiesList.map((item) => (
-      <label
-        key={item}
-        className={styles.amenityItem}
-      >
-        <input
-          type="checkbox"
-          value={item}
-          checked={formData.amenities.includes(item)}
-          onChange={(e) => {
-            if (e.target.checked) {
-              setFormData({
-                ...formData,
-                amenities: [
-                  ...formData.amenities,
-                  item,
-                ],
-              });
-            } else {
-              setFormData({
-                ...formData,
-                amenities:
-                  formData.amenities.filter(
-                    (a) => a !== item
-                  ),
-              });
-            }
-          }}
-        />
+            <div className={styles.amenitiesGrid}>
+              {amenitiesList.map((item) => (
+                <label key={item} className={styles.amenityItem}>
+                  <input
+                    type="checkbox"
+                    value={item}
+                    checked={formData.amenities.includes(item)}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setFormData({
+                          ...formData,
+                          amenities: [...formData.amenities, item],
+                        });
+                      } else {
+                        setFormData({
+                          ...formData,
+                          amenities: formData.amenities.filter(
+                            (a) => a !== item,
+                          ),
+                        });
+                      }
+                    }}
+                  />
 
-        <span>{item}</span>
-      </label>
-    ))}
-  </div>
-</div>
-
+                  <span>{item}</span>
+                </label>
+              ))}
+            </div>
+          </div>
 
           <div className={styles.formGroup}>
             <label>Listing Type *</label>
@@ -336,7 +307,6 @@ School - 500m
             </select>
           </div>
 
-          {/* PROPERTY TYPE */}
           <div className={styles.formGroup}>
             <label>Property Type *</label>
 
@@ -359,7 +329,6 @@ School - 500m
             </select>
           </div>
 
-          {/* STATUS */}
           <div className={styles.formGroup}>
             <label>Status *</label>
 
@@ -394,10 +363,8 @@ School - 500m
             </select>
           </div>
 
-          {/* IMAGE */}
           <div className={styles.formGroup}>
             <label>Property Image *</label>
-
             <input
               type="file"
               accept="image/*"
@@ -407,15 +374,12 @@ School - 500m
             />
           </div>
 
-          {/* BUTTONS */}
           <div className={styles.actionButtons}>
             <button type="reset" className={styles.cancelBtn}>
-              {" "}
               Cancel
             </button>
 
             <button type="submit" className={styles.submitBtn}>
-              {" "}
               Submit
             </button>
           </div>

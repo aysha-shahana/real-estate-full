@@ -1,7 +1,4 @@
 {% extends "base.html" %} {% load static %} {% block content %}
-
-<!-- Main Content -->
-
 <div class="block-header">
   <div class="row">
     <div class="col-lg-5 col-md-5 col-sm-12">
@@ -71,10 +68,6 @@
               <thead>
                 <tr>
                   <th>Group Name</th>
-
-                  {% comment %}
-                  <th>Permission</th>
-                  {% endcomment %}
                   <th>Edit</th>
                   <th>Delete</th>
                 </tr>
@@ -83,16 +76,6 @@
                 {% for group in groups %}
                 <tr>
                   <td>{{ group.name }}</td>
-                  
-
-                  {% comment %}
-                  <td>
-                    {% for permission in group.permissions.all %} {{
-                    permission.name }} <br />
-                    {% empty %} No Permission {% endfor %}
-                  </td>
-                  {% endcomment %}
-
                   <td>
                     <button
                       class="btn btn-primary btn-sm"

@@ -13,7 +13,6 @@ import secondcom from "../../assets/Pagethreecss/Second.module.css";
 const Rentals = () => {
   const DJANGO_BASE_URL = import.meta.env.VITE_DJANGO_BASE_URL;
 
-  // SEARCH BAR FORM STATE
   const [searchData, setSearchData] = useState({
     property_type: "",
     budget: "",
@@ -21,12 +20,10 @@ const Rentals = () => {
 
   const navigate = useNavigate();
 
-  // SHARED STATE FOR RENTAL CARDS
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // FETCH ALL RENT PROPERTIES ON INITIAL MOUNT
   useEffect(() => {
     fetchRentProperties();
   }, []);
@@ -45,7 +42,6 @@ const Rentals = () => {
     }
   };
 
-  // HANDLE DROPDOWN AND INPUT CHANGES
   const handleChange = (e) => {
     setSearchData({
       ...searchData,
@@ -53,7 +49,6 @@ const Rentals = () => {
     });
   };
 
-  // RUN SEARCH ON BACKEND WITH FILTER PARAMS
   const handleSearch = async () => {
     try {
       setLoading(true);
@@ -83,7 +78,6 @@ const Rentals = () => {
 
   return (
     <>
-      {/* ================= HERO & SEARCH SECTION ================= */}
       <section className={sell.rSection}>
         <div className="container">
           <div className="row align-items-center">
@@ -143,7 +137,6 @@ const Rentals = () => {
         </div>
       </section>
 
-      {/* ================= DYNAMIC CARDS SECTION (YOUR SECONDCOM DATA) ================= */}
       <section id="rentals-section" className="mt-4">
         <div className="container py-5">
           <div className={secondcom.headoo}>

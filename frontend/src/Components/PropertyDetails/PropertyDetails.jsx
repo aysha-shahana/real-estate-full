@@ -176,7 +176,6 @@ function PropertyDetails() {
     >
       {/* MAIN HERO SECTION */}
       <div className="row g-4 align-items-start">
-        {/* LEFT COLUMN: IMAGE + DESCRIPTION */}
         <div className="col-lg-8">
           {/* IMAGE */}
           <img
@@ -318,8 +317,6 @@ function PropertyDetails() {
               </div>
             </div>
 
-            {/* PROFESSIONAL SELLER CARD */}
-            {/* PROFESSIONAL SELLER CARD (DYNAMIC) */}
             <div
               className="p-3 border rounded-3 mb-3 bg-white"
               style={{ borderColor: "#eaecf0" }}

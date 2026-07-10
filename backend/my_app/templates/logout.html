@@ -9,9 +9,7 @@
     <meta name="description" content="Responsive Bootstrap 4 and web Application ui kit.">
 
     <title>:: Xen Properties RealEstate :: Sign Up</title>
-    <!-- Favicon-->
     <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
-    <!-- Custom Css -->
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
     <link rel="stylesheet" href="{% static "css/authentication.css" %}">
@@ -19,7 +17,6 @@
 </head>
 
 <body class="theme-purple authentication sidebar-collapse">
-<!-- Navbar -->
 <nav class="navbar navbar-expand-lg fixed-top navbar-transparent">
     <div class="container">        
         <div class="navbar-translate n_logo">
@@ -61,7 +58,6 @@
         </div>
     </div>
 </nav>
-<!-- End Navbar -->
 <div class="page-header">
     <div class="page-header-image" style="background-image:url(images/login.jpg)"></div>
     <div class="container">
@@ -76,7 +72,6 @@
         <h5>Sign Up</h5>
         <span>Register a new membership</span>
 
-        <!-- ERRORS DISPLAY -->
         {% if messages %}
             {% for message in messages %}
                 <div class="alert alert-info text-center p-2 small">{{ message }}</div>
@@ -85,21 +80,18 @@
     </div>
     <div class="content">                                                
         <div class="input-group">
-            <!-- ADDED: name="username" -->
             <input type="text" name="username" class="form-control" placeholder="Enter User Name" required>
             <span class="input-group-addon">
                 <i class="zmdi zmdi-account-circle"></i>
             </span>
         </div>
         <div class="input-group">
-            <!-- ADDED: name="email" -->
             <input type="email" name="email" class="form-control" placeholder="Enter Email" required>
             <span class="input-group-addon">
                 <i class="zmdi zmdi-email"></i>
             </span>
         </div>
         <div class="input-group">
-            <!-- ADDED: name="password" -->
             <input type="password" name="password" placeholder="Password" class="form-control" required>
             <span class="input-group-addon">
                 <i class="zmdi zmdi-lock"></i>
@@ -113,7 +105,6 @@
         </label>
     </div>
     <div class="footer text-center">
-        <!-- CHANGED: <a> tag matti submit <button> aakki -->
         <button type="submit" class="btn btn-primary btn-round btn-lg btn-block waves-effect waves-light">SIGN UP</button>                        
     </div>
 </form>
@@ -141,10 +132,8 @@
     </footer>
 </div>
 
-<!-- Jquery Core Js -->
 <script src="{% static 'js/libscripts.bundle.js' %}"></script>
 <script src="{% static 'js/vendorscripts.bundle.js' %}"></script>
-<!-- Lib Scripts Plugin Js --> 
 <script>
    $(".navbar-toggler").on('click',function() {
     $("html").toggleClass("nav-open");

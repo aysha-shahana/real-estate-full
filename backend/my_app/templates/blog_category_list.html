@@ -1,91 +1,75 @@
-{% extends "base.html" %}
-{% load static %}
-
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/add_blog.css' %}">
-{% endblock %}
-
-
-{% block content %}
+{% extends "base.html" %} {% load static %} {% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/add_blog.css' %}" />
+{% endblock %} {% block content %}
 
 <div class="block-header">
-    <div class="row">
-        <div class="col-lg-6">
-            <h2>
-                Blog Categories
-                <small>Manage blog categories</small>
-            </h2>
-        </div>
-
-        <div class="col-lg-6 text-right">
-            <a href="{% url 'add-blog-category' %}" class="btn btn-white">
-                + Add Category
-            </a>
-        </div>
+  <div class="row">
+    <div class="col-lg-6">
+      <h2>
+        Blog Categories
+        <small>Manage blog categories</small>
+      </h2>
     </div>
+
+    <div class="col-lg-6 text-right">
+      <a href="{% url 'add-blog-category' %}" class="btn btn-white">
+        + Add Category
+      </a>
+    </div>
+  </div>
 </div>
 
 <div class="container-fluid">
+  <div class="card">
+    <div class="body">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Category Name</th>
+            <th>Slug</th>
+            <th width="180">Actions</th>
+          </tr>
+        </thead>
 
-    <div class="card">
+        <tbody>
+          {% for category in categories %}
 
-        <div class="body">
+          <tr>
+            <td>{{ forloop.counter }}</td>
 
-            <table class="table table-bordered">
+            <td>{{ category.name }}</td>
 
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Category Name</th>
-                        <th>Slug</th>
-                        <th width="180">Actions</th>
-                    </tr>
-                </thead>
+            <td>{{ category.slug }}</td>
 
-                <tbody>
+            <td>
+              <a
+                href="{% url 'edit-blog-category' category.id %}"
+                class="saveBtn"
+              >
+                Edit
+              </a>
 
-                {% for category in categories %}
+              <a
+                href="{% url 'delete-blog-category' category.id %}"
+                class="btn btn-sm blog-DltBtn"
+              >
+                Delete
+              </a>
+            </td>
+          </tr>
 
-                    <tr>
+          {% empty %}
 
-                        <td>{{ forloop.counter }}</td>
+          <tr>
+            <td colspan="4" class="text-center">No categories found.</td>
+          </tr>
 
-                        <td>{{ category.name }}</td>
-
-                        <td>{{ category.slug }}</td>
-
-                        <td>
-
-                           <a href="{% url 'edit-blog-category' category.id %}" class=" saveBtn">
-    Edit
-</a>
-
-<a href="{% url 'delete-blog-category' category.id %}" class="btn btn-sm blog-DltBtn">
-    Delete
-</a>
-
-                        </td>
-
-                    </tr>
-
-                {% empty %}
-
-                    <tr>
-                        <td colspan="4" class="text-center">
-                            No categories found.
-                        </td>
-                    </tr>
-
-                {% endfor %}
-
-                </tbody>
-
-            </table>
-
-        </div>
-
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
-
+  </div>
 </div>
 
 {% endblock %}

@@ -1,5 +1,4 @@
 {% extends "base.html" %} {% load static %} {% block content %}
-<!-- Main Content -->
 <div class="block-header">
   <div class="row">
     <div class="col-lg-5 col-md-5 col-sm-12">
@@ -48,7 +47,6 @@
                   </td>
                   <td>{{ registered_user.date_joined|date:"d M Y" }}</td>
                   <td class="text-center">
-                    <!-- EDIT ACTION -->
                     <a
                       href="{% url 'edit-user' registered_user.id %}"
                       class="btn btn-sm btn-default"
@@ -57,7 +55,6 @@
                       <i class="zmdi zmdi-edit text-primary"></i>
                     </a>
 
-                    <!-- SECURE POST LOGOUT/DELETE FOR USER -->
                     <form
                       action="{% url 'delete-user' registered_user.id %}"
                       method="POST"

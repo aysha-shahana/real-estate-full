@@ -1,145 +1,131 @@
-{% extends "base.html" %}
-{% load static %}
-
-{% block content %}
+{% extends "base.html" %} {% load static %} {% block content %}
 
 <div class="block-header">
-    <div class="row align-items-center">
-        <div class="col">
-            <h2 class="page-title">Add Property</h2>
-            <ul class="breadcrumb">
-                <li class="breadcrumb-item">
-                    <a href="{% url 'property-list' %}">Property List</a>
-                </li>
-                <li class="breadcrumb-item active">Add Property</li>
-            </ul>
-        </div>
+  <div class="row align-items-center">
+    <div class="col">
+      <h2 class="page-title">Add Property</h2>
+      <ul class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="{% url 'property-list' %}">Property List</a>
+        </li>
+        <li class="breadcrumb-item active">Add Property</li>
+      </ul>
     </div>
+  </div>
 </div>
 
 <div class="container-fluid">
-
-    <div class="card">
-        <div class="card-header">
-            <h4>Add New Property</h4>
-        </div>
-
-        <div class="card-body">
-
-            <form method="POST" enctype="multipart/form-data">
-
-                {% csrf_token %}
-
-                <div class="row">
-
-                    <div class="col-md-6 mb-3">
-                        <label>Title</label>
-                        {{ form.title }}
-                    </div>
-
-                    <div class="col-md-6 mb-3">
-                        <label>Price</label>
-                        {{ form.price }}
-                    </div>
-
-                    <div class="col-md-12 mb-3">
-                        <label>Address</label>
-                        {{ form.address }}
-                    </div>
-
-                    <div class="col-md-12 mb-3">
-                        <label>Description</label>
-                        {{ form.description }}
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-                        <label>Beds</label>
-                        {{ form.beds }}
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-                        <label>Baths</label>
-                        {{ form.baths }}
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-                        <label>Sqft</label>
-                        {{ form.sqft }}
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-                        <label>Listing Type</label>
-                        {{ form.listing_type }}
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-                        <label>Property Type</label>
-                        {{ form.property_type }}
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-                        <label>Status</label>
-                        {{ form.status }}
-                    </div>
-
-                    <div class="col-md-6 mb-3">
-                        <label>Furnishing</label>
-                        {{ form.furnishing }}
-                    </div>
-
-                    <div class="col-md-6 mb-3">
-                        <label>Ownership</label>
-                        {{ form.ownership }}
-                    </div>
-
-                    <div class="col-md-6 mb-3">
-                        <label>Year Built</label>
-                        {{ form.year_built }}
-                    </div>
-
-                    <div class="col-md-6 mb-3">
-                        <label>Featured Image</label>
-                        {{ form.image }}
-                    </div>
-
-                    <div class="col-md-12 mb-3">
-                        <label>Nearby Places</label>
-                        {{ form.nearby_places }}
-                    </div>
-
-                    <div class="col-md-12 mb-3">
-                        <label>Amenities</label>
-                        {{ form.amenities }}
-                    </div>
-
-                    <div class="col-md-6 mb-3">
-                        <label>Featured Property</label><br>
-                        {{ form.is_featured }}
-                    </div>
-
-                    <div class="col-md-6 mb-3">
-                        <label>Approval Status</label>
-                        {{ form.approval_status }}
-                    </div>
-
-                </div>
-
-                <hr>
-
-                <button type="submit" class="btn btn-primary">
-                    Save Property
-                </button>
-
-                <a href="{% url 'property-list' %}" class="btn btn-secondary">
-                    Cancel
-                </a>
-
-            </form>
-
-        </div>
-
+  <div class="card">
+    <div class="card-header">
+      <h4>Add New Property</h4>
     </div>
 
+    <div class="card-body">
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label>Title</label>
+            {{ form.title }}
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Price</label>
+            {{ form.price }}
+          </div>
+
+          <div class="col-md-12 mb-3">
+            <label>Address</label>
+            {{ form.address }}
+          </div>
+
+          <div class="col-md-12 mb-3">
+            <label>Description</label>
+            {{ form.description }}
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Beds</label>
+            {{ form.beds }}
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Baths</label>
+            {{ form.baths }}
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Sqft</label>
+            {{ form.sqft }}
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Listing Type</label>
+            {{ form.listing_type }}
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Property Type</label>
+            {{ form.property_type }}
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Status</label>
+            {{ form.status }}
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Furnishing</label>
+            {{ form.furnishing }}
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Ownership</label>
+            {{ form.ownership }}
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Year Built</label>
+            {{ form.year_built }}
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Featured Image</label>
+            {{ form.image }}
+          </div>
+
+          <div class="col-md-12 mb-3">
+            <label>Nearby Places</label>
+            {{ form.nearby_places }}
+          </div>
+
+          <div class="col-md-12 mb-3">
+            <label>Amenities</label>
+            {{ form.amenities }}
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Featured Property</label><br />
+            {{ form.is_featured }}
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Approval Status</label>
+            {{ form.approval_status }}
+          </div>
+        </div>
+
+        <hr />
+
+        <button type="submit" class="btn btn-primary">Save Property</button>
+
+        <a href="{% url 'property-list' %}" class="btn btn-secondary">
+          Cancel
+        </a>
+      </form>
+    </div>
+  </div>
 </div>
 
 {% endblock %}

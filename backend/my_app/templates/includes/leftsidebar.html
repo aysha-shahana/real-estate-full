@@ -33,7 +33,6 @@
                     <li class="header">MAIN</li>
                     <li><a href="{% url 'index' %}"><i class="zmdi zmdi-home"></i><span>Dashboard</span></a></li>    
                     
-                    {# --- FIXED LOOP MARKUP START --- #}
                  {% for module in modules %}
 <li>
     <a href="javascript:void(0);" class="menu-toggle">
@@ -58,7 +57,6 @@
     </ul>
 </li>
 {% endfor %}
-                    {# --- FIXED LOOP MARKUP END --- #}
             
                     <li>
                         <form action="{% url 'logout' %}" method="POST" id="logoutForm" style="display: none;">

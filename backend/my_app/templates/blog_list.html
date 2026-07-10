@@ -1,188 +1,143 @@
-{% extends "base.html" %}
-{% load static %}
-
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/add_blog.css' %}">
-{% endblock %}
-
-{% block content %}
+{% extends "base.html" %} {% load static %} {% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/add_blog.css' %}" />
+{% endblock %} {% block content %}
 
 <div class="block-header">
-    <div class="row">
-
-        <div class="col-lg-5 col-md-5 col-sm-12">
-            <h2>
-                Blog Management
-                <small>Manage your blog articles</small>
-            </h2>
-        </div>
-
-        <div class="col-lg-7 col-md-7 col-sm-12 text-md-right">
-
-            <a href="{% url 'add-blog' %}"
-               class="btn btn-white float-right ml-3">
-                <i class="zmdi zmdi-plus"></i>
-                Add Blog
-            </a>
-
-            <ul class="breadcrumb float-md-right">
-                <li class="breadcrumb-item">
-                    <a href="{% url 'index' %}">
-                        <i class="zmdi zmdi-home"></i>
-                        Xen Properties
-                    </a>
-                </li>
-
-                <li class="breadcrumb-item active">
-                    Blog
-                </li>
-            </ul>
-
-        </div>
-
+  <div class="row">
+    <div class="col-lg-5 col-md-5 col-sm-12">
+      <h2>
+        Blog Management
+        <small>Manage your blog articles</small>
+      </h2>
     </div>
+
+    <div class="col-lg-7 col-md-7 col-sm-12 text-md-right">
+      <a href="{% url 'add-blog' %}" class="btn btn-white float-right ml-3">
+        <i class="zmdi zmdi-plus"></i>
+        Add Blog
+      </a>
+
+      <ul class="breadcrumb float-md-right">
+        <li class="breadcrumb-item">
+          <a href="{% url 'index' %}">
+            <i class="zmdi zmdi-home"></i>
+            Xen Properties
+          </a>
+        </li>
+
+        <li class="breadcrumb-item active">Blog</li>
+      </ul>
+    </div>
+  </div>
 </div>
 
-
 <div class="container-fluid">
+  <div class="row clearfix">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="body">
+          <div class="table-responsive">
+            <table
+              class="table td_2 table-striped table-hover js-basic-example dataTable"
+            >
+              <thead>
+                <tr>
+                  <th>#</th>
 
-    <div class="row clearfix">
+                  <th>Image</th>
 
-        <div class="col-lg-12">
+                  <th>Title</th>
 
-            <div class="card">
+                  <th>Category</th>
 
-                <div class="body">
+                  <th>Status</th>
 
-                    <div class="table-responsive">
+                  <th>Created</th>
 
-                        <table class="table td_2 table-striped table-hover js-basic-example dataTable">     
-                            <thead>
+                  <th width="180">Actions</th>
+                </tr>
+              </thead>
 
-                                <tr>
+              <tbody>
+                {% for blog in blogs %}
 
-                                    <th>#</th>
+                <tr>
+                  <td>{{ forloop.counter }}</td>
 
-                                    <th>Image</th>
+                  <td>
+                    {% if blog.featured_image %}
+                    <img
+                      src="{{ blog.featured_image.url }}"
+                      class="blog-thumbnail"
+                    />
+                    {% else %}
+                    <img
+                      src="{% static 'images/no-image.png' %}"
+                      style="
+                        width: 80px;
+                        height: 60px;
+                        object-fit: cover;
+                        border-radius: 8px;
+                      "
+                    />
+                    {% endif %}
+                  </td>
 
-                                    <th>Title</th>
+                  <td>
+                    <strong>{{ blog.title }}</strong>
 
-                                    <th>Category</th>
+                    <br />
 
-                                    <th>Status</th>
+                    <small class="text-muted"> {{ blog.slug }} </small>
+                  </td>
 
-                                    <th>Created</th>
+                  <td>
+                    <span class="blog-category"> {{ blog.category }} </span>
+                  </td>
 
-                                    <th width="180">Actions</th>
+                  <td>
+                    {% if blog.status == "published" %}
+                    <span class="blog-status-published"> Published </span>
+                    {% else %}
+                    <span class="blog-status-draft"> Draft </span>
+                    {% endif %}
+                  </td>
 
-                                </tr>
+                  <td>{{ blog.created_at|date:"d M Y" }}</td>
 
-                            </thead>
+                  <td>
+                    <a
+                      href="{% url 'edit-blog' blog.id %}"
+                      class="btn btn-sm mr-2"
+                    >
+                      Edit
+                    </a>
 
-                            <tbody>
+                    <a
+                      href="{% url 'delete-blog' blog.id %}"
+                      class="btn btn-sm blog-DltBtn"
+                    >
+                      Delete
+                    </a>
+                  </td>
+                </tr>
 
-                                {% for blog in blogs %}
+                {% empty %}
 
-                                <tr>
+                <tr>
+                  <td colspan="7" class="text-center text-muted py-5">
+                    No blogs available.
+                  </td>
+                </tr>
 
-                                    <td>{{ forloop.counter }}</td>
-
-                                    <td>
-
-                                      {% if blog.featured_image %}
-    <img
-        src="{{ blog.featured_image.url }}"
-class="blog-thumbnail"    >
-{% else %}
-    <img
-        src="{% static 'images/no-image.png' %}"
-        style="width:80px;height:60px;object-fit:cover;border-radius:8px;"
-    >
-{% endif %}
-
-                                    </td>
-
-                                    <td>
-
-    <strong>{{ blog.title }}</strong>
-
-    <br>
-
-    <small class="text-muted">
-        {{ blog.slug }}
-    </small>
-
-</td>
-
-    
-                                   <td>
-    <span class="blog-category">
-        {{ blog.category }}
-    </span>
-</td>
-                                    
-
-<td>
-    {% if blog.status == "published" %}
-        <span class="blog-status-published">
-            Published
-        </span>
-    {% else %}
-        <span class="blog-status-draft">
-            Draft
-        </span>
-    {% endif %}
-</td>
-
-                                    <td>
-
-                                        {{ blog.created_at|date:"d M Y" }}
-
-                                    </td>
-
-                                   <td>
-
-    <a href="{% url 'edit-blog' blog.id %}"
-       class="btn btn-sm mr-2">
-        Edit
-    </a>
-
-    <a href="{% url 'delete-blog' blog.id %}"
-       class="btn btn-sm blog-DltBtn">
-        Delete
-    </a>
-
-</td>
-                                </tr>
-
-                                {% empty %}
-
-                                <tr>
-
-                                    <td colspan="7" class="text-center text-muted py-5">
-
-                                        No blogs available.
-
-                                    </td>
-
-                                </tr>
-
-                                {% endfor %}
-
-                            </tbody>
-
-                        </table>
-
-                    </div>
-
-                </div>
-
-            </div>
-
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
         </div>
-
+      </div>
     </div>
-
+  </div>
 </div>
 
 {% endblock %}

@@ -1,54 +1,37 @@
-{% extends "base.html" %}
-{% load static %}
-
-{% block content %}
-
-
+{% extends "base.html" %} {% load static %} {% block content %}
 
 <div class="block-header">
-    <div class="row">
-
-        <div class="col-lg-6">
-            <h2>
-                Add Blog Category
-                <small>Create a new blog category</small>
-            </h2>
-        </div>
-
-        <div class="col-lg-6 text-right">
-            <a href="{% url 'blog_category_list' %}" class="btn btn-white">
-                Back to Categories
-            </a>
-        </div>
-
+  <div class="row">
+    <div class="col-lg-6">
+      <h2>
+        Add Blog Category
+        <small>Create a new blog category</small>
+      </h2>
     </div>
+
+    <div class="col-lg-6 text-right">
+      <a href="{% url 'blog_category_list' %}" class="btn btn-white">
+        Back to Categories
+      </a>
+    </div>
+  </div>
 </div>
 
 <div class="container-fluid">
+  <div class="card">
+    <div class="body">
+      <form method="POST">
+        {% csrf_token %}
 
-    <div class="card">
-
-        <div class="body">
-
-            <form method="POST">
-
-                {% csrf_token %}
-
-                <div class="form-group">
-                    <label>Category Name</label>
-                    {{ form.name }}
-                </div>
-
-                <button type="submit" class="btn" >
-                    Save Category
-                </button>
-
-            </form>
-
+        <div class="form-group">
+          <label>Category Name</label>
+          {{ form.name }}
         </div>
 
+        <button type="submit" class="btn">Save Category</button>
+      </form>
     </div>
-
+  </div>
 </div>
 
 {% endblock %}

@@ -1,185 +1,137 @@
-{% extends "base.html" %}
-{% load static %}
+{% extends "base.html" %} {% load static %} {% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/custom.css' %}" />
+{% endblock %} {% block content %}
 
-
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/custom.css' %}">
-{% endblock %}
-
-{% block content %}
-
-
-
-<!-- PAGE HEADER -->
 
 <div class="block-header">
-    <div class="row">
-        <div class="col-lg-5 col-md-5 col-sm-12">
-            <h2>
-                Visit Requests
-                <small>Manage all scheduled property visits</small>
-            </h2>
-        </div>
-
+  <div class="row">
+    <div class="col-lg-5 col-md-5 col-sm-12">
+      <h2>
+        Visit Requests
+        <small>Manage all scheduled property visits</small>
+      </h2>
+    </div>
 
     <div class="col-lg-7 col-md-7 col-sm-12 text-md-right">
-        <ul class="breadcrumb float-md-right">
-    <li class="breadcrumb-item">
-        <a href="{% url 'index' %}">
+      <ul class="breadcrumb float-md-right">
+        <li class="breadcrumb-item">
+          <a href="{% url 'index' %}">
             <i class="zmdi zmdi-home"></i> Xen Properties
-        </a>
-    </li>
+          </a>
+        </li>
 
-    <li class="breadcrumb-item active">
-        Visit Requests
-    </li>
-</ul>
+        <li class="breadcrumb-item active">Visit Requests</li>
+      </ul>
     </div>
-</div>
+  </div>
 </div>
 
 <div class="container-fluid">
-
-<div class="row clearfix">
-
+  <div class="row clearfix">
     <div class="col-lg-12">
+      <div class="card">
+        <div class="body">
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Property</th>
+                  <th>Visitor</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Visit Date</th>
+                  <th>Status</th>
+                  <th width="180">Action</th>
+                </tr>
+              </thead>
 
-        <div class="card">
+              <tbody>
+                {% for visit in visits %}
 
+                <tr>
+                  <td>{{ forloop.counter }}</td>
 
-            <div class="body">
+                  <td>{{ visit.property.title }}</td>
 
-                <div class="table-responsive">
+                  <td>{{ visit.name }}</td>
 
-                    <table class="table table-hover table-bordered">
+                  <td>{{ visit.email }}</td>
 
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Property</th>
-                                <th>Visitor</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Visit Date</th>
-                                <th>Status</th>
-                                <th width="180">Action</th>
-                            </tr>
-                        </thead>
+                  <td>{{ visit.phone }}</td>
 
-                        <tbody>
+                  <td>{{ visit.visit_date|date:"d M Y" }}</td>
 
-                            {% for visit in visits %}
+                  <td>
+                    {% if visit.status == "pending" %}
 
-                            <tr>
+                    <span class="badge badge-warning">
+                      <i class="zmdi zmdi-check-circle"></i>
+                      Pending
+                    </span>
 
-                                <td>{{ forloop.counter }}</td>
+                    {% elif visit.status == "accepted" %}
 
-                                <td>
-                                    {{ visit.property.title }}
-                                </td>
+                    <span class="badge badge-success">
+                      <i class="zmdi zmdi-check-circle"></i>
 
-                                <td>
-                                    {{ visit.name }}
-                                </td>
+                      Accepted
+                    </span>
 
-                                <td>
-                                    {{ visit.email }}
-                                </td>
+                    {% elif visit.status == "rejected" %}
 
-                                <td>
-                                    {{ visit.phone }}
-                                </td>
+                    <span class="badge badge-danger">
+                      <i class="zmdi zmdi-check-circle"></i>
 
-                                <td>
-                                    {{ visit.visit_date|date:"d M Y" }}
-                                </td>
+                      Rejected
+                    </span>
 
-                                <td>
+                    {% endif %}
+                  </td>
 
-                                    {% if visit.status == "pending" %}
+                  <td>
+                    {% if visit.status == "pending" %}
 
-                                    <span class="badge badge-warning">
-                                    <i class="zmdi zmdi-check-circle"></i>
-                                    Pending
-                                    </span>
+                    <a
+                      href="{% url 'accept-visit' visit.id %}"
+                      class="btn btn-accept mr-2"
+                    >
+                      <i class="zmdi zmdi-check"></i>
+                      Accept
+                    </a>
 
-                                    {% elif visit.status == "accepted" %}
+                    <a
+                      href="{% url 'reject-visit' visit.id %}"
+                      class="btn btn-reject"
+                    >
+                      <i class="zmdi zmdi-close"></i>
+                      Reject
+                    </a>
 
-                                    <span class="badge badge-success">
-                                            <i class="zmdi zmdi-check-circle"></i>
+                    {% else %}
 
-                                        Accepted
-                                    </span>
+                    <span class="text-muted"> Completed </span>
 
-                                    {% elif visit.status == "rejected" %}
+                    {% endif %}
+                  </td>
+                </tr>
 
-                                    <span class="badge badge-danger">
-                                            <i class="zmdi zmdi-check-circle"></i>
+                {% empty %}
 
-                                        Rejected
-                                    </span>
+                <tr>
+                  <td colspan="8" class="text-center">
+                    No Visit Requests Found
+                  </td>
+                </tr>
 
-                                    {% endif %}
-
-                                </td>
-
-                                <td>
-
-                                    {% if visit.status == "pending" %}
-
-<a href="{% url 'accept-visit' visit.id %}"
-   class="btn btn-accept mr-2">
-    <i class="zmdi zmdi-check"></i>
-    Accept
-</a>
-
-<a href="{% url 'reject-visit' visit.id %}"
-   class="btn btn-reject">
-    <i class="zmdi zmdi-close"></i>
-    Reject
-</a>
-
-                                    {% else %}
-
-                                    <span class="text-muted">
-                                       Completed
-                                    </span>
-
-                                    {% endif %}
-
-                                </td>
-
-                            </tr>
-
-                            {% empty %}
-
-                            <tr>
-
-                                <td colspan="8" class="text-center">
-
-                                    No Visit Requests Found
-
-                                </td>
-
-                            </tr>
-
-                            {% endfor %}
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-            </div>
-
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
         </div>
-
+      </div>
     </div>
-
-</div>
-
-
+  </div>
 </div>
 
 {% endblock content %}
