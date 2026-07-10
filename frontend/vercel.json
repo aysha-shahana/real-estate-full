@@ -1,12 +1,7 @@
 {
   "rewrites": [
-    {
-      "source": "/admin/:path*",
-      "destination": "https://xen-properties.onrender.com/admin/:path*"
-    },
-    {
-      "source": "/api/:path*",
-      "destination": "https://xen-properties.onrender.com/api/:path*"
-    }
+    { "source": "/admin/:path*", "destination": "https://xen-properties.onrender.com/admin/:path*" },
+    { "source": "/api/:path*", "destination": "https://xen-properties.onrender.com/api/:path*" },
+    { "source": "/static/:path*", "destination": "https://xen-properties.onrender.com/static/:path*" }
   ]
 }
