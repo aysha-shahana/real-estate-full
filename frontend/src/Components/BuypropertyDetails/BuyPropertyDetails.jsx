@@ -157,9 +157,11 @@ function BuyPropertyDetails() {
     ? new Date().getFullYear() - property.year_built
     : null;
 
-  const imageUrl = property.image
-    ? `${DJANGO_BASE_URL}${property.image}`
-    : "https://via.placeholder.com/900x600";
+const imageUrl = property.image
+  ? property.image.startsWith("http")
+    ? property.image
+    : `https://res.cloudinary.com/gpjky5pp/${property.image}`
+  : "https://via.placeholder.com/900x600";
 
   return (
     <div
@@ -485,9 +487,11 @@ function BuyPropertyDetails() {
             )
             .slice(0, 3)
             .map((item) => {
-              const imageUrl = item.image
-                ? `${DJANGO_BASE_URL}${item.image}`
-                : "https://via.placeholder.com/400x300";
+             const imageUrl = item.image
+  ? item.image.startsWith("http")
+    ? item.image
+    : `https://res.cloudinary.com/gpjky5pp/${item.image}`
+  : "https://via.placeholder.com/400x300";
 
               return (
                 <div className="col-md-4" key={item.id}>
